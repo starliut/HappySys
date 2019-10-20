@@ -52,7 +52,7 @@ public class IndexController {
             ph.setProductFeatureList(happysysProductClientService.productFeature(ph.getProductId()));
         }
         String json=JSON.toJSONString(productByMap);
-        System.out.println("json:"+json);
+        System.out.println("你好json:"+json);
         return json;
     }
 
