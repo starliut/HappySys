@@ -1,0 +1,89 @@
+
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+
+        <div class="member-order-nav">
+            <h2 class="title"><span></span>我的购物车</h2>
+        </div>
+        <!-- 我的购物车列表 -->
+        <div class="member-collect-con" id="collectPage">
+            <div id="collect-box">
+
+                <ul id="biuuu_city_list"></ul>
+
+            </div>
+
+            <!-- 分页组件 -->
+            <div id="page_btn" align="center"></div>
+            <!-- 分页组件 -->
+
+        </div>
+        <!-- /我的购物车列表 -->
+
+
+<script type="text/javascript" th:inline="javascript">
+
+    /*删除购物车中的商品*/
+    function delShoppingCartByShoppingCartId(shoppingCartId,currentObj) {
+        $.post("/HappysysShoppingCart/delShoppingCartByShoppingCartId/"+shoppingCartId,
+            function(result){
+                if(result == true){
+                    layer.msg('删除成功！');
+                    $(".product"+shoppingCartId).remove();
+                }else {
+                    layer.msg('删除失败，请联系管理员！');
+                }
+            }
+        );
+    };
+
+
+    //ajax 查询用户的所有购物车商品
+    $.get("/HappysysShoppingCart/getCurrentUserShoppingCartProduct",function (result) {
+        if(result.length == 0){
+            $("#collectPage").append('<div class="no-message">'
+                +'<img src="https://mresource.kaixinbao.com/member/pc/r02/images/member/no-message.png" alt=""/>'
+                +'<p>您的购物车空空如也！</p><a target="view_window" href="/" class="no-goto-shop">去逛逛</a>'
+                +'</div></div>');
+        }else {
+            layui.use(['laypage', 'layer'], function(){
+                var laypage = layui.laypage
+                    ,layer = layui.layer;
+
+                //自定义首页、尾页、上一页、下一页文本
+                laypage.render({
+                    elem: 'page_btn'
+                    ,first: '首页'
+                    ,last: '尾页'
+                    ,prev: '<em>上一页</em>'
+                    ,next: '<em>下一页</em>'
+                    ,theme: '#FFB800'
+                    ,limit : 6
+                    ,count: result.length
+                    ,jump: function(obj){
+                        document.getElementById('biuuu_city_list').innerHTML = function(){
+                            var arr = []
+                                ,thisData = result.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                            layui.each(thisData, function(index, item){
+                                //item:当前json对象
+                                arr.push('<dl class="product'+item.productShoppingCartId+'">'
+                                    +'<dt><a href="/HappysysProduct/getById/'+item.productId+'" target="_blank">'
+                                    +'<img src="'+item.productImage+'" alt=""/></a></dt><dd class="des">'
+                                    +'<a class="title" href="/HappysysProduct/getById/'+item.productId+'" target="_blank" >'+item.productTitle+'</a></dd>'
+                                    +'<dd class="active">'
+                                    +'<a href="/HappysysProduct/getById/'+item.productId+'" target="_blank" class="gotoshop">立即购买</a>'
+                                    +'<a href="javascript:delShoppingCartByShoppingCartId('+item.productShoppingCartId+',this);" class="encollect" >取消加入购物车</a>'
+                                    +'</dd>'
+                                    +'</dl>');
+                            });
+                            return arr.join('');
+                        }();
+                    }
+                });
+            });
+        }
+
+
+    },"json");
+
+</script>
+<script type="text/javascript" th:src="@{/layui/layui.all.js}" src="/layui/layui.all.js" charset="utf-8"></script>

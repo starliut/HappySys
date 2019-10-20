@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="css/mod_common.css">
+    <link rel="stylesheet" href="css/mod_login.css">
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        function dianji2(btn) {
+            //删除本身
+            btn.remove();
+        }
+        $(function () {
+
+            $("#account").blur(function () {
+                var value2=$("#account").val();
+                if(value2.length==0){
+                    $("#te01").after('<div class="error" onclick="dianji2(this)" style="width: 298px; height: 40px; line-height: 39px; left: 1px;"><em class="iconfont i-th"></em><strong>账号不能为空</strong></div>');
+                }else if(value2.length<11 || value2.length>11){
+                    $("#te01").after('<div class="error" onclick="dianji2(this)" style="width: 298px; height: 40px; line-height: 39px; left: 1px;"><em class="iconfont i-th"></em><strong>输入账号格式不正确</strong></div>');
+                }
+            })
+            $("#password").blur(function () {
+               var pass= $("#password").val();
+               if(pass.length==0){
+                   $("#te02").after('<div class="error" onclick="dianji2(this)" style="width: 298px; height: 40px; line-height: 39px; left: 1px;"><em class="iconfont i-th"></em><strong>密码不能为空</strong></div>');
+               }
+            })
+        })
+
+        function queding(){
+            $("#layui-layer7").hide();
+        }
+
+
+
+    </script>
+
+
+  
+</head>
+<body id="login">
+<!-- 公共头部 -->
+
+<div id="login-header">
+    <div class="login-header">
+        <div class="login-header-logo">
+            <a href = "http://www.kaixinbao.com"><img src="picture/logo.png" alt="欢迎登陆开心保"> </a>
+        </div>
+        <div class="login-header-service">
+            <span><em class="icons"><img src="picture/kefu_03.png" alt="开心保客服电话"></em>客服: 4009-789-789 </span>
+        </div>
+    </div>
+</div>
+<div id="login-box">
+    <div class="mod-login">
+        <div class="mod-login-box">
+            <ul class="nav">
+                <li class="sel"><em>账户登录</em><i></i></li>
+                <li><em>扫码登录</em></li>
+            </ul>
+
+            <div class="loginbox" style="display: none">
+                <div class="wechart">
+                    <img id="imgQrUrl" src="picture/2784f93c613443f6be9716799411976b.gif" alt="开心保临时登陆二维码">
+                    <p class="tip">微信扫码<em>关注公众号</em>快捷登录</p>
+                </div>
+            </div>
+
+            <div class="loginbox" style="display: block">
+                <form method="post" action="doLogin"  id="loginForm">
+                    <div class="switchBox account">
+                        <ul class="validate">
+                            <li>
+                                <div class="text" id="te01">
+                                    <input type="text" id="account" name="account" placeholder="请输入正确的邮箱或手机号" data-verify="NOTNULL|账号不为空&&EMAILANDTEL|输入账号格式不正确" />
+                                </div>
+                            </li>
+                            <li>
+                                <div class="text" id="te02">
+                                    <input type="password" id="password" name="password" placeholder="请输入密码" data-verify="NOTNULL|密码不为空" />
+                                </div>
+                            </li>
+                            <li class="short" style="display: none">
+                                <div class="text">
+                                    <input type="text" id="accountImgValidateCode" class="checkcode"  data-verify="NOTNULL|验证码不为空" placeholder="请输入验证码" />
+                                    <div class="imgcode">
+                                        <img src="picture/vercode.shtml" alt=""/>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <a href="javascript:void(0);" onclick="document:loginForm.submit()" class="accountloginbtn">登录</a>
+                    </div>
+                </form>
+                <div class="switchBox tel" style="display: none">
+                    <ul class="validate">
+                        <li>
+                            <div class="text">
+                                <input type="text" id="mobileNo" class="phoneInput" placeholder="请输入正确的手机号" data-verify="NOTNULL|账号不为空&&TELPHONE|输入账号格式不正确" />
+                            </div>
+                        </li>
+                        <li class="short">
+                            <div class="text">
+                                <input type="text" id="imgValidateCode" class="input-img"  data-verify="NOTNULL|验证码不为空" placeholder="请输入验证码" />
+                                <div class="imgcode">
+                                    <img src="picture/vercode.shtml" alt=""/>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="short">
+                            <div class="text">
+                                <input type="text" id="validateCode" placeholder="请输入验证码" data-verify="NOTNULL|验证码不为空" />
+                                <span class="btn-send send">获取短信验证码</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="javascript:void(0);" class="telloginbtn">登录</a>
+                    <span id="aMess" th:text="${mess}" hidden></span>
+
+                </div>
+
+                <div class="link">
+                    <span class="switchBtn" data-value="0">手机快捷登录</span>
+                    <span class="more">
+							<a href="register.html">立即注册&gt;</a>
+							<a href="https://vipm.kaixinbao.com/pc/login/password/find/index">忘记密码</a>
+						</span>
+                </div>
+
+                <ul class="orther">
+                    <li class="iconfont icon-QQ"><a href="https://vipm.kaixinbao.com/thirdLogin/tencent"></a><span>QQ</span><i></i></li>
+                    <li class="iconfont icon-zhifubao"><a href="https://vipm.kaixinbao.com/thirdLogin/alipay"></a><span>支付宝</span><i></i></li>
+                    <li class="iconfont icon-weibo"><a href="https://vipm.kaixinbao.com/thirdLogin/sina"></a><span>微博</span></li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="WJAppResourcePath" value="http://www.kaixinbao.com/">
+<input type="hidden" id="WJStaticResourcePath" value="http://resource.kaixinbao.com/r02/">
+<input type="hidden" id="uuid" value="1e86a76e678441f4a883e18947ac5208">
+<!-- 参数judge与orderSn从wj工程移植过来的，具体作用不知道，不敢删除-->
+<input type="hidden" name="judge" id="judge"  value="">
+<input type="hidden" name="orderSn" id="orderSn"  value="">
+
+<!-- 公共尾部 -->
+
+<div id="login-footer">
+    <div class="login-footer">
+        <div class="login-footer-con">
+            <dl>
+                <dt>
+                    <a href="http://www.kaixinbao.com/other/about/" rel="nofollow">关于开心保</a>|
+                    <a href="http://www.kaixinbao.com/other/news/" rel="nofollow">开心保要闻</a>|
+                    <a href="http://www.kaixinbao.com/other/sitemap/">网站地图</a>|
+                    <a href="http://www.kaixinbao.com/other/legal/" rel="nofollow">法律声明</a>|
+                    <a href="http://www.kaixinbao.com/other/contact/" rel="nofollow">联系我们</a>|
+                    <a href="http://www.kaixinbao.com/yxhd/isl-tra/" target="_blank" rel="nofollow">微信版</a>
+                </dt>
+                <dd>
+                    <a href="http://www.miitbeian.gov.cn" target="_blank" rel="nofollow">辽ICP备12007009号-1</a>&nbsp;&nbsp;|
+                    <a href="https://resource.kaixinbao.com/r02/images/common/icp.jpg" target="_blank" rel="nofollow">ICP经营许可证(辽B2-20120076)</a>&nbsp;&nbsp;|
+                    <a href="http://www.kaixinbao.com" target="_blank" rel="nofollow">Copyright 2012-2019 版权所有 网金保险销售服务有限公司</a>&nbsp;&nbsp;|
+                    <a href="https://resource.kaixinbao.com/r02/images/common/bxdlywxkz.jpg" target="_blank" rel="nofollow">保险代理业务许可证</a>&nbsp;&nbsp;|
+                    <a href="https://resource.kaixinbao.com/r02/images/common/qyfryyzz.jpg" target="_blank" rel="nofollow">企业营业执照</a>
+                </dd>
+            </dl>
+        </div>
+        <div class="login-footer-approve">
+            <ul>
+                <li><a href="http://www.circ.gov.cn/tabid/5171/InfoID/210753/frtid/4491/Default.aspx" target="_blank" rel="nofollow"><img src="picture/icon2.png" width="36" height="14">中国保监会网销许可</a></li>
+                <li><a href="http://wljg.lngs.gov.cn/iciaicweb/dzbscheck.do?method=change&id=E2014111300054343" target="_blank" rel="nofollow"><img src="picture/icon3.png" width="15" height="15">工商网监认证</a></li>
+                <li><a href="http://www.itrust.org.cn/Home/Index/wx_certifi/wm/1594416088.html" target="_blank" rel="nofollow"><img src="picture/icon1.png" width="15" height="15">ICP网站征信</a></li>
+                <li><a href="https://si.trustutn.org/info?sn=618161121025629572164&certType=1" target="_blank" rel="nofollow"><img src="picture/icon4.png" width="15" height="15">水滴信用实名网站</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/require.js"></script>
+<script type="text/javascript" src="js/require.config.js"></script>
+<script type="text/javascript">require(['login/mod_login']);</script>
+
+<div class="layui-layer layui-layer-dialog pd-dialog" hidden id="layui-layer7" type="dialog" times="7" showtime="0" contype="string" style="z-index: 19891021; width: 360px; top: 370.5px; left: 740px;">
+    <div class="layui-layer-title" style="">温馨提示</div>
+    <div id="" class="layui-layer-content">
+        <div class="pd-content" style="padding-top: 10px; min-height: 38px;">[[${mess}]]</div>
+    </div><span class="layui-layer-setwin"><a class="layui-layer-close layui-layer-close1" href="javascript:;">
+
+</a></span><div class="layui-layer-btn"><a class="layui-layer-btn0" onclick="queding()" style="background-color: rgb(253, 136, 36);">确定</a></div><span class="layui-layer-resize"></span>
+</div>
+
+</body>
+
+<script>
+    if($("#aMess").html()!=''){
+        $("#layui-layer7").show();
+    }
+
+</script>
+</html>

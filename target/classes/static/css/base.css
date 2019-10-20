@@ -1,0 +1,216 @@
+@charset "utf-8";
+
+/* ==== 重置样式 ==== */
+* {
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+	outline: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+caption,
+th {
+	font-weight: normal;
+}
+html,
+body,
+fieldset,
+img,
+iframe {
+	border: 0;
+}
+i,
+em,
+address {
+	font-style: normal;
+}
+li {
+	list-style: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+small {
+	font-size: 100%;
+}
+sup,
+sub {
+	font-size: 83%;
+}
+pre,
+code {
+	font-family: inherit;
+}
+q:before,
+q:after {
+	content: none;
+}
+textarea {
+	overflow: auto;
+	resize: none;
+}
+label {
+	cursor: default;
+}
+a,
+button {
+	cursor: pointer;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+em,
+strong,
+b {
+	font-weight: bold;
+}
+del,
+ins,
+u,
+s,
+a,
+a:hover {
+	text-decoration: none;
+}
+body,
+textarea,
+input,
+button,
+select {
+	font: 14px/1.2 'Microsoft YaHei', arial, \5b8b\4f53;
+	color: #333;
+	outline: 0;
+}
+input[type='text']::-ms-clear {
+	display: none;
+}
+::-webkit-input-placeholder {
+	color: #aaa;
+	opacity: 1;
+}
+:-ms-input-placeholder {
+	color: #aaa;
+	opacity: 1;
+}
+:-moz-placeholder {
+	color: #aaa;
+	opacity: 1;
+}
+::-moz-placeholder {
+	color: #aaa;
+	opacity: 1;
+}
+.f-ib {
+	display: inline-block;
+}
+.clear {
+	clear: both;
+}
+.clearfix:after {
+	display: block;
+	content: '.';
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.cf:after {
+	display: block;
+	content: '.';
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+body {
+	min-width: 1200px;
+	font-size: 14px;
+}
+/* ==== /重置样式 ==== */
+
+/* ==== 面包屑导航 ==== */
+.nav-tree {
+	height: 50px;
+	width: 1200px;
+	margin: 0 auto;
+	line-height: 49px;
+	overflow: hidden;
+	color: #333;
+}
+.nav-tree a,
+.nav-tree .separator {
+	color: #333;
+}
+.nav-tree.separator {
+	padding: 0 6px;
+}
+.nav-tree .separator1 {
+    color: #fc8e3b;
+}
+.nav-tree a:hover {
+	color: #feb254;
+}
+.nav-tree h1 {
+	display: inline-block;
+	font-weight: normal;
+}
+/* ==== /面包屑导航 ==== */
+
+/* ==== 活动图标 ==== */
+.tb_icon {
+	display: inline-block;
+	width: 44px;
+	height: 20px;
+	margin-right: 10px;
+	text-align: center;
+	line-height: 20px;
+	color: #fff;
+}
+.tb_text {
+	line-height: 20px;
+	color: #999;
+}
+.tb_icon.active_01 {
+	background-color: #f99775;
+}
+.tb_icon.active_02 {
+	background-color: #feb254;
+}
+.tb_icon.active_03 {
+	background-color: #79cdd4;
+}
+.tb_icon.active_04 {
+	background-color: #9ccc65;
+}
+.tb_icon.active_05 {
+	background-color: #bfa2e3;
+}
+.tb_icon.active_06 {
+	background-color: #f48fb1;
+}
+.tb_icon.active_07 {
+	background-color: #8dbfee;
+}
+.tb_icon.active_08 {
+	background-color: #ff4476;
+}
+.tb_icon.active_09 {
+	background-color: #df6c70;
+}
+.tb_icon.active_10 {
+	background-color: #8d7eef;
+}
+.tb_icon.active_13 {
+	background-color: #79cdd4;
+}
+/* ==== /活动图标 ==== */

@@ -1,0 +1,194 @@
+
+<!--order-->
+<link rel="stylesheet" href="https://mresource.kaixinbao.com/member/pc/r02/css/member/mod_unpaid.css">
+
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+
+        <div class="member-order">
+            <!-- 订单列表表头 -->
+            <div class="member-order-nav">
+                <h2 class="title"><span></span>全部订单</h2>
+                <div class="member-order-search">
+                    <div class="inputbox"><span class="icons"></span>
+                        <input id="product_title" type="text" placeholder="输入产品名称搜索保单"/></div>
+
+                    <a href="javascript:getOrder('')" class="submit">查询</a>
+                </div>
+            </div>
+            <!-- 订单列表表头 -->
+            <!--待支付-->
+            <div class="member-order-des">
+                <ul id="otherHeaderShow" class="order-header">
+                    <li>产品名称</li>
+                    <li>投保人</li>
+                    <li>基本保额（元）</li>
+                    <li>保费（元）</li>
+                    <li>状态</li>
+                    <li>操作</li>
+                </ul>
+                <!-- 订单列表 -->
+                <div class="orderDes" id="orderPage">
+
+
+                </div>
+                <!-- 订单列表 -->
+
+                <!-- 分页组件 -->
+                <div id="page_btn" align="center"></div>
+
+            </div>
+            <!--待支付-->
+        </div>
+<script type="text/javascript">require(['member/mod_order']);
+
+//评价
+function orderComment(orderId,productId,index) {
+    var $range_stars = $("#range_stars").val();
+    var $degree_stars = $("#degree_stars").val();
+    var $price_stars = $("#price_stars").val();
+    var $afterSale_stars = $("#afterSale_stars").val();
+    if($range_stars == 0 || $degree_stars == 0 || $price_stars == 0 || $afterSale_stars == 0){
+        layer.msg('请选择星级！');
+        return;
+    }
+    var comment_grade = (parseInt($range_stars) + parseInt($degree_stars) + parseInt($price_stars) + parseInt($afterSale_stars)) / 4;
+
+    var commentJson = {commentProductId:productId,commentGrade:comment_grade,commentContent:$(".comment_content"+orderId).val(),commentOrderId:orderId};
+    $.ajax({
+        type:'post',
+        url:'/HappysysComment/addComment',
+        contentType:'application/json;charset=utf-8',
+        dataType:'json',
+        data:JSON.stringify(commentJson),
+        success:function(result){
+            if(result == true){
+                orderResult[index].is_evaluated = 1;
+                //评论成功重新加载订单列表评论区
+                reloadOrder(orderResult);
+                layer.msg('评论成功！');
+            }else {
+                layer.msg('评论失败，请联系管理员！');
+            }
+        }
+    });
+}
+var orderResult ;
+
+getOrder('');
+function getOrder(){
+    var $product_title = $("#product_title").val();
+
+    //ajax 查询用户的所有订单
+    $.get("/HappysysOrder/getOrderByMap",{product_title:$product_title,order_status:order_status},function (result) {
+        if (result.length == 0 ) {
+            //将分页插件隐藏
+            $("#page_btn").hide();
+
+            $("#orderPage").html('');
+            $("#orderPage").append('<div class="no-message">'
+                +'<img src="https://mresource.kaixinbao.com/member/pc/r02/images/member/no-message.png" alt=""/>'
+                +'<p>暂时没有订单数据</p><a target="view_window" href="/" class="no-goto-shop">去逛逛</a>'
+                +'</div></div>');
+        }else {
+            orderResult = result;
+            reloadOrder(result);
+        }
+    },"json");
+}
+
+
+function reloadOrder(result) {
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        //自定义首页、尾页、上一页、下一页文本
+        laypage.render({
+            elem: 'page_btn'
+            ,first: '首页'
+            ,last: '尾页'
+            ,prev: '<em>上一页</em>'
+            ,next: '<em>下一页</em>'
+            ,theme: '#FFB800'
+            ,limit : 3
+            ,count: result.length
+            ,jump: function(obj){
+                document.getElementById('orderPage').innerHTML = function(){
+                    var arr = []
+                        ,thisData = result.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        var orderStatusvarVal = "未支付";
+                        if(item.order_status == 2){
+                            orderStatusvarVal = "待生效"
+                        }else if(item.order_status == 3){
+                            orderStatusvarVal = "已支付"
+                        }
+                        var isEvaluatedVal = "";
+                        var starsVal = "";
+                        if(item.is_evaluated == 0 && item.order_status == 3){
+                            isEvaluatedVal = '<span class="evaluatebtn">&nbsp;&nbsp;&nbsp;立即评价<em class="icons"></em></span>';
+
+                            starsVal = '<div class="evaluate-box" style="height: 270px;">'
+                                +'<div class="evaluate-box-left" style="margin-top: -20px"><dl class="star-mod-dl">'
+                                +'<dt>保障范围</dt><dd><ul class="star">'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li></ul>'
+                                +'<input id="range_stars" type="hidden" value="0"></dd></dl><dl class="star-mod-dl" >'
+                                +'<dt>保障程度</dt><dd><ul class="star">'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li></ul>'
+                                +'<input id="degree_stars" type="hidden" value="0"></dd></dl><dl class="star-mod-dl">'
+                                +'<dt>保障价格</dt><dd><ul class="star">'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li></ul>'
+                                +'<input id="price_stars" type="hidden" value="0"></dd></dl><dl class="star-mod-dl">'
+                                +'<dt>售后服务</dt><dd><ul class="star">'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li>'
+                                +'<li class="i-member i-xingxing"></li></ul>'
+                                +'<input id="afterSale_stars" type="hidden" value="0"></dd></dl></div>'
+                                +'<div class="evaluate-box-right"><em class="jiao"></em>'
+                                +'<textarea class="order-plsf comment_content'+item.order_id+'" value="" placeholder="产品是否给力？分享你的购买心得给大家吧？" style="margin-top: 7px"></textarea>'
+                                +'<a href="javascript:orderComment('+item.order_id+','+item.product_id+','+index+');" class="submit">提交</a>'
+                                +'</div></div></div>';
+
+                        }else if(item.is_evaluated > 0 && item.order_status == 3){
+                            isEvaluatedVal = "已评价";
+                        }
+                        //item:当前json对象
+                        arr.push('<div class="orderDes-box">'
+                            +'<div class="titles">'
+                            +'<span class="orderNum">订单编号：<a target="view_window" href="">'+item.order_number+'</a></span>'
+                            +'<span class="orderTime">下单时间：'+item.order_time+'</span>'
+                            +'</div><table class="order-list">'
+                            +'<td><a target="view_window" href="/HappysysProduct/getById/'+item.product_id+'">'+item.product_title+'</a></td>'
+                            +'<td>'+item.applicant_name+'</td><td>￥'+item.order_face_amount.toFixed(2)+'</td>'
+                            +'<td>￥'+item.order_price.toFixed(2)+'</td>'
+                            +'<td>'+orderStatusvarVal+'</td>'
+                            +'<td class="order-list-action">'
+                            +'<a href="/HappysysProduct/getById/'+item.product_id+'" class="againpay">再次购买</a>'
+                            +'<a href="/HappysysOrder/loadOrderDetailsByOrderId/'+item.order_id+'" class="seeorder">查看订单</a>'+isEvaluatedVal
+                            +'</td></table>'+starsVal+'</div>'
+                        );
+
+                    });
+                    return arr.join('');
+                }();
+            }
+        });
+    });
+}
+
+</script>
+
+<script type="text/javascript" th:src="@{/layui/layui.all.js}" src="/layui/layui.all.js" charset="utf-8"></script>

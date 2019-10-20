@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 公共头部：静态资源路径与工程路径 -->
+    <meta charset="utf-8">
+
+
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <!-- /公共头部：静态资源路径与工程路径 -->
+
+    <title>开心保保险网-好保险,聪明选.网上买保险推荐平台!</title>
+   <!-- <link rel="stylesheet" th:href="@{css/mod_common.css}">
+    <link rel="stylesheet" th:href="@{css/mod_home.css}">-->
+    <link rel="stylesheet" href="https://resource.kaixinbao.com/r02/css/common/mod_common.css">
+    <link rel="stylesheet" href="https://resource.kaixinbao.com/r02/css/home/mod_home.css">
+
+    <link rel="stylesheet" th:href="@{layui/css/layui.css}" media="all">
+
+
+</head>
+<body id="home">
+
+<!-- 公共头部：后台开发请直接替换 -->
+<div th:replace="~{header/IndexHeader::#header-box}"></div>
+<!--<div id="header-box">
+    &lt;!&ndash;-top导航&ndash;&gt;
+    <div class="header-nav">
+        <div class="header-nav-cont clearfix">
+            &lt;!&ndash; 登陆状态 &ndash;&gt;
+            <div class="header-nav-login" id="loginMemberState">
+                &lt;!&ndash; 未登录状态&ndash;&gt;
+                    <div id="notLogin" class="login_out" >
+                    <div class="user-head">您好，请<a href="login.html" id="headerShowLoginWindow"
+                                                  onclick="javascript:void(0);return(VL_FileDL(this));return false;"
+                                                  exturl="http://www.kaixinbao.com/toplogin"
+                                                  vlpageid="toplogin">登录</a><span>|</span>
+                        <a  href="register.html"
+                           onclick="javascript:void(0);return(VL_FileDL(this));return false;"
+                           exturl="http://www.kaixinbao.com/toplogin" vlpageid="toplogin">免费注册</a></div>
+                    <div class="user-box">
+                        <div class="user-box-cont">
+                            <div class="info">
+                                <p class="avatar"><img src="picture/icon_avatar.png" alt=""/></p>
+                                <p class="text"><a
+                                        href="http://www.kaixinbao.com/member/center/index.shtml">会员专享，更多特权！</a></p>
+                            </div>
+                            <ul class="btns">
+                                <li><a href="http://www.kaixinbao.com/member/myPoints/init"><span>积分</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                &lt;!&ndash; 未登录状态&ndash;&gt;
+                &lt;!&ndash; 已登录状态&ndash;&gt;
+                <div id="yesLogin" class="login_in" style="display: none" >
+                    <div class="user-head"><span class="i_user"></span><a
+                            href="http://www.kaixinbao.com/member/center/index.shtml" id="headerLoginMemberUsername"
+                            class="name"></a><span id="headerLoginMemGradeIcon" class=""   th:text="${session.user}==null?'':${session.user.userName}"></span><span
+                            class="iconfont icon-xiangxia"></span>
+                    </div>
+                    <div class="user-box">
+                        <div class="user-box-cont">
+                            <div class="info">
+                                <p class="avatar"><img id="headPicPath" src="picture/icon_avatar.png" alt=""/></p>
+                                <p class="level"><span id="headerLoginMemGradeIcon" class=""></span></p>
+                                <p class="text" id="gradeinfo">消费升级K1会员，享更多福利</p>
+                                <p class="out" id="headerLogout"><span onclick="userclose()">退出</span></p>
+                            </div>
+                            <ul class="btns">
+                                <li><a href="http://www.kaixinbao.com/member/myPoints/init"><span>积分</span><span
+                                        id="memberPointsCount">45</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                &lt;!&ndash; 已登录状态&ndash;&gt;
+            </div>
+            &lt;!&ndash; 登陆状态模块&ndash;&gt;
+            &lt;!&ndash; 功能入口 &ndash;&gt;
+            <div class="header-nav-link">
+                <dl>
+                    <dt>4009-789-789</dt>
+                </dl>
+                <dl>
+                    <dt><a href="javascript:void(0);">手机版</a><i class="iconfont icon-xiangxia"></i></dt>
+                    <dd class="con child" style="display:none;">
+                        <p><img src="picture/wechat14.png" alt="">关注微信了解新资讯</p>
+                        <p><img src="picture/app.png" alt="">下载APP投保快捷省心</p>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><a href="http://www.kaixinbao.com/jifen/">积分商城</a></dt>
+                </dl>
+                <dl>
+                    <dt><a href="javascript:void(0);">保单服务</a><i class="iconfont icon-xiangxia"></i></dt>
+                    <dd class="list child" style="display:none;">
+                        <a href="http://www.kaixinbao.com/ddkscx/" target="_blank" >保单查询</a>
+                        <a href="http://www.kaixinbao.com/bdyz/" target="_blank" >保单验真</a>
+                    </dd>
+                </dl>
+
+                <dl id="vipBtn">
+                    <dt><a  href="http://www.kaixinbao.com/member/center/index.shtml"
+                           onclick="wxsend('memlogin');">会员中心</a><i class="iconfont icon-xiangxia"></i></dt>
+                    <dd class="list child" style="display:none;">
+                        <a href="http://www.kaixinbao.com/member/center/noPayOrder.shtml" >待支付订单</a>
+                        <a href="http://www.kaixinbao.com/member/collection/init" >我的收藏</a>
+                        <a href="http://www.kaixinbao.com/member/myPoints/init" >我的积分</a>
+                    </dd>
+                </dl>
+            </div>
+            &lt;!&ndash; 功能入口 &ndash;&gt;
+        </div>
+    </div>
+    &lt;!&ndash;top导航&#45;&#45;&ndash;&gt;
+    &lt;!&ndash; add广告&ndash;&gt;
+    <div class="header-ban">
+    </div>
+    &lt;!&ndash; add广告&ndash;&gt;
+    &lt;!&ndash;&#45;&#45; logo -&ndash;&gt;
+    <div class="header-logo">
+
+        <a href="http://www.kaixinbao.com/">
+            <img src="picture/3166901960.jpg" width="235" height="94" class="header-main-logo" alt="开心保保险网"/></a>
+        &lt;!&ndash; 搜索&ndash;&gt;
+        <div class="main-nav-search">
+            <form id="form">
+                <span class="iconfont icon-search"></span><input type="text" name="query" autocomplete="off"
+                                                                 id="searchContent" growing-track='true'/><span
+                    class="btn"><input type="submit" id="mainSearch" value="搜索"/></span>
+                <span class="hot">热门搜索：<a href="javascript:void(0);">康惠保旗舰版</a><a
+                        href="javascript:void(0);">瑞泰瑞和升级</a><a href="javascript:void(0);">康惠保</a></span>
+                <div class="search-result">
+                    <ul></ul>
+                </div>
+
+            </form>
+        </div>
+        &lt;!&ndash; 搜索&ndash;&gt;
+        <div class="header-des-logo"><img src="picture/logo_05.png" width="336" height="90" alt="保险服务"/></div>
+    </div>
+    &lt;!&ndash;- logo &#45;&#45;&ndash;&gt;
+    &lt;!&ndash;- 主导航 -&ndash;&gt;
+    <div class="main-nav clearfix">
+
+
+        &lt;!&ndash; 分类导航&ndash;&gt;
+        <div class="main-nav-more">
+            <h2>所有保险产品</h2>
+            <div class="main-nav-box" >
+
+                 <dl th:each="first:${categoryList}">
+
+                    <dt>
+                        <em class="navicon icon3"></em><a class="tit"  th:text="${first.categoryName}"></a><span class="arrows"></span>
+                        <div class="list"><a >重大疾病</a>|<a>住院医疗</a>|<a>防癌保障</a></div>
+                    </dt>
+
+
+                    <dd class="child" style="display: none">
+
+
+                        <div class="case">
+
+                            <div th:each="second:${first.happysysCategories}">
+                                <b th:text="${second.categoryName}"></b>
+                                <p>
+                                    &lt;!&ndash;循环：friendlink count：30&ndash;&gt;
+                                    <a th:each="third:${second.happysysCategories}" th:text="${third.categoryName}"
+                                       target="_blank" th:href="@{'productlist/'+${third.categoryId}+'/0'}"></a>
+
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div  class="recommend">
+                            <b>推荐计划</b>
+
+
+                            <dl>
+                                <dt><a href="http://www.kaixinbao.com/jiankang-baoxian/316142.shtml" target="_blank">安联臻爱医疗保险-感恩版</a></dt>
+                                <dd>
+                                    <ul>
+                                        <li><span>意外身故及伤残</span></li><li><span>百万医疗保险</span></li><li><span>重疾医疗保险</span></li><li><span>重疾绿通</span></li><li><span>住院医疗垫付</span></li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <span>￥<em>110.00</em></span>
+                                    <a href="http://www.kaixinbao.com/jiankang-baoxian/316142.shtml" target="_blank">查看详情</a>
+                                </dd>
+                            </dl>
+
+
+                            <dl>
+                                <dt><a href="http://www.kaixinbao.com/jiankang-baoxian/314267.shtml" target="_blank">安联住院宝保障计划</a></dt>
+                                <dd>
+                                    <ul>
+                                        <li><span>不限社保用药</span></li><li><span>0-65周岁都能投保</span></li><li><span>0免赔</span></li><li><span>保障更全面</span></li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <span>￥<em>166.00</em></span>
+                                    <a href="http://www.kaixinbao.com/jiankang-baoxian/314267.shtml" target="_blank">查看详情</a>
+                                </dd>
+                            </dl>
+
+                        </div>
+
+
+                    </dd>
+
+
+
+                </dl>
+
+&lt;!&ndash;                <dl>
+                    <dt>
+                        <em class="navicon icon2"></em><a href="http://www.kaixinbao.com/renshou-baoxian/"  class="tit">人寿保险</a>
+                        <div class="list">
+                            <a href="http://www.kaixinbao.com/renshou-baoxian/dingqi/">定期寿险</a>|<a href="http://www.kaixinbao.com/renshou-baoxian/nianjinxian/">养老计划</a>
+                        </div>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <em class="navicon icon5"></em><a href="http://www.kaixinbao.com/jiacai-baoxian/"  class="tit">家财保险</a>
+                        <div class="list"><a href="http://www.kaixinbao.com/jiacai-baoxian/">房屋保险</a></div>
+                    </dt>
+                </dl>&ndash;&gt;
+
+
+            </div>
+        </div>
+        &lt;!&ndash; 分类导航&ndash;&gt;
+
+
+        &lt;!&ndash; 导航&ndash;&gt;
+        <div class="main-nav-list">
+            <ul>
+                <li><a href="http://www.kaixinbao.com">首页</a></li>
+                &lt;!&ndash;循环：friendlink count：30&ndash;&gt;
+
+
+                <li><a href="kuaixun" target="_blank">保险快选</a></li>
+
+
+                <li><a href="http://www.kaixinbao.com/youhui/" target="_blank">限时活动</a></li>
+
+
+                <li><a href="http://www.kaixinbao.com/huiyuan/" target="_blank">会员部落</a></li>
+
+
+                <li><a href="http://www.kaixinbao.com/lipei/" target="_blank">理赔服务</a></li>
+
+
+                <li><a href="http://www.kaixinbao.com/pre/underwriting.shtml" target="_blank">核保专家</a></li>
+
+            </ul>
+        </div>
+        &lt;!&ndash; 导航&ndash;&gt;
+    </div>
+    &lt;!&ndash;- 主导航 -&ndash;&gt;
+</div>-->
+<input type="hidden" id="keywordList"
+       value='{"hotkeyword":[{"key":"康惠保旗舰版"},{"key":"瑞泰瑞和升级"},{"key":"康惠保"},{"key":"安联防癌"},{"key":"安享一生"},{"key":"复星联合妈咪保贝"},{"key":"安联臻爱"},{"key":"华海意外"},{"key":"康惠保"},{"key":"瑞泰瑞盈"},{"key":"安联申根签证"},{"key":"百万防癌"},{"key":"百万医疗"},{"key":"航延险"},{"key":"交通意外"},{"key":"门诊住院"},{"key":"人保申根"},{"key":"少儿意外"},{"key":"星悦"},{"key":"中华为爱保"},{"key":"住院医疗"}],"keyword":[],"keywordlist":[{"key":"安联臻爱医疗保险-感恩版"},{"key":"安联臻爱医疗保险2018（重疾版）"},{"key":"阿拉蕾少儿住院综合保2019高端版"},{"key":"阿拉蕾少儿住院综合保2019升级版"},{"key":"爱自由-星享境外旅行保障计划"},{"key":"安联“致青春”重疾保险计划"},{"key":"安联安途欧洲（含申根）旅行-必备计划"},{"key":"安联安途欧洲（含申根）旅行-少儿计划"},{"key":"安联安途欧洲（含申根）旅行-尊贵计划"},{"key":"安联安途全球旅行险计划二"},{"key":"安联安途全球旅行险计划三"},{"key":"安联安途全球旅行险计划一"},{"key":"安联碧海蓝天邮轮旅行保险计划"},{"key":"安联畅享神州境内旅行保障计划"},{"key":"安联畅享亚洲旅行保障计划"},{"key":"安联畅享亚洲旅行保障全年计划"},{"key":"安联防癌医疗保险"},{"key":"安联防癌医疗保险"},{"key":"安联防癌医疗保险"},{"key":"安联防癌医疗保险"},{"key":"安联防癌医疗保险"},{"key":"安联防癌医疗保险"},{"key":"安联防癌医疗保险"},{"key":"安联防癌医疗保险"},{"key":"安联国际旅行全球保障计划"},{"key":"安联国际旅行亚洲保障计划"},{"key":"安联好大夫防癌险男性计划"},{"key":"安联好大夫防癌险女性计划"},{"key":"安联境内畅享自驾意外保障计划"},{"key":"安联境外留学保障计划"},{"key":"安联境外留学保障计划二"},{"key":"安联境外留学保障计划三"},{"key":"安联境外留学保障计划一"},{"key":"安联居无忧（自住型）基本版"},{"key":"安联乐享人生个人意外重疾高额保障计划B款"},{"key":"安联乐享人生个人意外重疾基本保障计划A款"},{"key":"安联乐享人生幼儿意外健康计划二"},{"key":"安联乐享人生幼儿意外健康计划一"},{"key":"安联商旅通-商务旅行保障全年海外停留计划"},{"key":"安联商旅通-商务旅行保障全年计划（最长停留183天）"},{"key":"安联臻爱医疗保险-感恩版（续保专用）"},{"key":"安联臻爱医疗保险-甲状腺版（无社保）"},{"key":"安联臻爱医疗保险-甲状腺版（有社保）"},{"key":"安联臻爱医疗保险标准计划无社保"},{"key":"安联臻爱医疗保险升级计划无社保"},{"key":"安联臻爱医疗保险升级计划有社保"},{"key":"安联臻爱医疗保险尊贵计划无社保"},{"key":"安联臻爱医疗保险尊贵计划有社保"},{"key":"安联住院宝保障计划"},{"key":"安盛户外高风险旅游保险经典计划"},{"key":"安盛智行天下（含休闲运动）境外旅行申根签证全年计划-全球保障"},{"key":"安盛智行天下全球境外旅行含申根签证保险计划（全年）"},{"key":"安盛卓越旅行家境内保险计划"},{"key":"安享一生癌症医疗保险（赴美版无社保）"},{"key":"安享一生癌症医疗保险（赴美版有社保）"},{"key":"安享一生癌症医疗保险（国内版无社保）"},{"key":"安享一生癌症医疗保险（国内版有社保）"},{"key":"安心1号百万医疗（药神版无社保）"},{"key":"安心1号百万医疗（药神版有社保）"},{"key":"安心1号百万医疗（中美版无社保）"},{"key":"安心1号百万医疗（中美版有社保）"},{"key":"安心境外旅游保险计划二"},{"key":"安心综合百万医疗保险（2017无社保款）"},{"key":"安心综合百万医疗保险（2017有社保款）"},{"key":"百年定惠保定期寿险"},{"key":"百年附加聚福保两全保险"},{"key":"百年聚福保终身年金保险"},{"key":"百年康惠保（多倍版）重疾险"},{"key":"百年康惠保（多倍版）重疾险"},{"key":"百年康惠保旗舰版重大疾病保险升级版"},{"key":"百年康惠保重大疾病保险(少儿版）"},{"key":"百年乐行交通工具意外险"},{"key":"诚泰团体意外险"},{"key":"诚泰团体意外险（2019版）"},{"key":"大地保险天地关爱百万医疗保障计划"},{"key":"德华安顾孝亲宝老年恶性肿瘤险"},{"key":"德华安顾孝亲宝老年恶性肿瘤险（交10年保20年）"},{"key":"德华安顾孝亲宝老年恶性肿瘤险（交20年保20年）"},{"key":"电话医生基础版"},{"key":"顶梁柱-成人综合意外险"},{"key":"复星保德信星悦重疾险"},{"key":"复星保德信星悦重疾险（不含身故版）"},{"key":"复星保德信星悦重疾险（不含身故版）"},{"key":"复星保德信星悦重疾险（含身故版）"},{"key":"复星保德信星悦重疾险（含身故版）"},{"key":"复星保德信星悦重疾险（含投保人豁免）"},{"key":"复星乐享一生长期百万医疗险（5年期）"},{"key":"复星联合康乐一生（2019版）重大疾病保险"},{"key":"复星联合康乐一生（加倍保）重疾险"},{"key":"复星联合康乐一生重大疾病保险C款（升级版）"},{"key":"复星联合妈咪保贝少儿重大疾病保险"},{"key":"复星联合药神一号疾病保险（测试勿买）"},{"key":"国寿团意意外险（只支持保全操作）"},{"key":"合众福享金生年金保险"},{"key":"弘康多倍保附加投保人豁免保险费重大疾病保险"},{"key":"弘康多倍保重大疾病保险"},{"key":"弘康多倍保重大疾病医疗保险"},{"key":"弘康附加轻症疾病保险B款"},{"key":"弘康健康一生重大疾病保险A款"},{"key":"弘康相伴一生年金保险（第5年领取）"},{"key":"华安“满堂福”家庭财产保险"},{"key":"华安个人账户资金损失保险"},{"key":"华安一路平安交通工具意外保险"},{"key":"华安一路平安交通工具意外保险安心款"},{"key":"华贵大麦定期寿险"},{"key":"华贵守护e家优选定期寿险"},{"key":"华泰全年千万航意险（带延误保障）"},{"key":"华泰疫苗接种意外险"},{"key":"惠加保恶性肿瘤多倍保"},{"key":"开心保1-6类职业意外险"},{"key":"开心保爱至臻定期寿险"},{"key":"开心保爱至臻终身寿险"},{"key":"开心保安联“亚洲”豪华保障计划"},{"key":"开心保安联国内旅游保险"},{"key":"开心保安联境外自驾车保险"},{"key":"开心保安心境内旅游计划二"},{"key":"开心保安心境内旅游计划三"},{"key":"开心保安心境内旅游计划一"},{"key":"开心保安心无忧保障计划"},{"key":"开心保安心住院医疗综合保障计划一"},{"key":"开心保成人住院保青年款（高端计划）"},{"key":"开心保成人住院保青年款（基础计划）"},{"key":"开心保成人住院保青年款（升级计划）"},{"key":"开心保成人住院保中年款（高端计划）"},{"key":"开心保成人住院保中年款（基础计划）"},{"key":"开心保成人住院保中年款（升级计划）"},{"key":"开心保诚泰百万航空意外保障A"},{"key":"开心保诚泰百万航空意外保障B"},{"key":"开心保诚泰综合交通意外保障"},{"key":"开心保出行无忧保（15天）"},{"key":"开心保出行无忧保（7天）"},{"key":"开心保短期境内度假游特惠A"},{"key":"开心保短期境内度假游特惠B"},{"key":"开心保短期境内度假游特惠C"},{"key":"开心保恶性肿瘤保险（成人版）"},{"key":"开心保恶性肿瘤保险（中老年版）"},{"key":"开心保环球旅游保障计划"},{"key":"开心保健身意外保险"},{"key":"开心保美亚申根宝境外旅行保障短期计划"},{"key":"开心保美亚申根宝境外旅行保障全年计划"},{"key":"开心保人保短期旅游保障计划"},{"key":"开心保人保国内自驾游保障计划"},{"key":"开心保人保航空意外险"},{"key":"开心保人保境外计划"},{"key":"开心保人保全年海外停留旅游保险-全球计划"},{"key":"开心保人保全年海外停留旅游保险-申根计划"},{"key":"开心保人保全年海外停留旅游保险-亚洲计划"},{"key":"开心保人保随车行李险"},{"key":"开心保人保随人行李险（国内版）"},{"key":"开心保人保随人行李险（全球通用版）"},{"key":"开心保人保台湾游保险"},{"key":"开心保少儿过敏险"},{"key":"开心保少儿麻疹险"},{"key":"开心保少儿门诊守护星（无社保）"},{"key":"开心保少儿门诊守护星（有社保）"},{"key":"开心保少儿门诊住院卫士升级版（无社保）"},{"key":"开心保少儿门诊住院卫士实用版（无社保）"},{"key":"开心保少儿门诊住院卫士实用版（有社保）"},{"key":"开心保少儿湿疹险"},{"key":"开心保少儿手足口病险"},{"key":"开心保少儿意外险"},{"key":"开心保太平洋境外（非申根）旅行险"},{"key":"开心保太平洋境外（含申根）旅行险"},{"key":"开心保泰康重疾宝（成人款）"},{"key":"开心保泰康重疾宝（少儿款）"},{"key":"开心保泰然无忧百万医疗险（0免赔）"},{"key":"开心保童乐保少儿重大疾病保险"},{"key":"开心保意百万身故保障计划"},{"key":"开心保意百万身故保障计划"},{"key":"开心保意百万身故保障计划"},{"key":"开心保意百万身故保障计划"},{"key":"开心保中华为爱保定期寿险（中华怡恒定期寿险）"},{"key":"昆仑健康保重大疾病保险（趸交.5年.10年）"},{"key":"昆仑健康保重大疾病保险期缴计划（30年.20年.15年）"},{"key":"昆仑健康保重大疾病保险至尊版"},{"key":"昆仑健康树终身重大疾病保险"},{"key":"昆仑健康树终身重大疾病保险（10年缴计划）"},{"key":"昆仑健康树终身重大疾病保险（20年缴）"},{"key":"昆仑健康树终身重大疾病保险（30年缴计划）"},{"key":"昆仑健康树终身重大疾病保险（5年缴）"},{"key":"昆仑健康树终身重大疾病保险（趸缴计划）"},{"key":"昆仑康爱保恶性肿瘤疾病保险"},{"key":"美行保安联高校因公差旅保障计划二"},{"key":"美行保安联高校因公差旅保障计划一"},{"key":"美行保安联申根之王-玛瑙计划"},{"key":"美行保安联申根之王珍珠计划"},{"key":"美行保安联申根之王钻石计划"},{"key":"美行保安联夏冬令营保障计划二"},{"key":"美行保安联夏冬令营保障计划一"},{"key":"美行保个人银行账户资金安全保险（1.6万保额）"},{"key":"美行保个人银行账户资金安全保险（10万保额）"},{"key":"美行保个人银行账户资金安全保险（15万保额）"},{"key":"美行保个人银行账户资金安全保险（2.4万保额）"},{"key":"美行保个人银行账户资金安全保险（20万保额）"},{"key":"美行保个人银行账户资金安全保险（30万保额）"},{"key":"美行保个人银行账户资金安全保险（40万保额）"},{"key":"美行保个人银行账户资金安全保险（50万保额）"},{"key":"美行保个人银行账户资金安全保险（5万保额）"},{"key":"美行保人保航空意外险"},{"key":"美行保人保综合交通工具意外险"},{"key":"美行保永诚环球旅游保障计划二（申根）"},{"key":"美行保永诚环球旅游保障计划三（申根）"},{"key":"美行保永诚环球旅游保障计划四（申根）"},{"key":"美亚宝岛游踪境外旅行意外伤害保险"},{"key":"美亚乐悠游海外旅行保障计划二"},{"key":"美亚万国游踪境外旅行保障-美澳计划二"},{"key":"美亚万国游踪境外旅行保障-全球标准计划二"},{"key":"美亚万国游踪境外旅行保障-全球标准计划一"},{"key":"美亚万国游踪境外旅行保障-全球高端计划二"},{"key":"美亚万国游踪境外旅行保障-全球高端计划一"},{"key":"美亚万国游踪境外旅行保障-申根标准计划二"},{"key":"美亚万国游踪境外旅行保障-申根标准计划一"},{"key":"美亚万国游踪境外旅行保障-申根高端计划二"},{"key":"美亚万国游踪境外旅行保障-申根高端计划一"},{"key":"美亚小探险家少儿境外旅游保险计划"},{"key":"平安财险健康相伴个人意外险含健康服务"},{"key":"平安短期7天交通意外保险"},{"key":"平安急性肠胃炎健康保险"},{"key":"平安急性肠胃炎健康保险积分商城"},{"key":"平安驾驶无忧驾驶员人身意外保险"},{"key":"平安快乐旅程申根签证境外旅游保险计划"},{"key":"平安商旅护航欧洲申根签证境外行基础计划"},{"key":"平安商旅护航全球申根签证境外行全面计划"},{"key":"情迷欧亚-安联境外旅行保障计划"},{"key":"人保慧选心安综合意外保险"},{"key":"人保开心保货车司机驾意险"},{"key":"人保开心保家政服务人员意外险"},{"key":"人保寿险手术安康意外伤害保险老年高端版"},{"key":"人保寿险手术安康意外伤害保险老年基础版"},{"key":"人保寿险手术安康意外伤害保险老年升级版"},{"key":"人保寿险手术安康意外伤害保险中青年高端版"},{"key":"人保寿险手术安康意外伤害保险中青年基础版"},{"key":"人保寿险手术安康意外伤害保险中青年升级版"},{"key":"瑞泰成长卫士青少年重大疾病保险"},{"key":"瑞泰瑞和（升级版）定期寿险"},{"key":"瑞泰瑞和定期寿险10年缴"},{"key":"瑞泰瑞和定期寿险期缴计划"},{"key":"瑞泰瑞康重大疾病保险"},{"key":"史带爱自由-境内旅游险"},{"key":"史带安享中老年意外保险"},{"key":"史带海外务工境外旅游保障计划"},{"key":"史带海外务工境外旅游豪华保障"},{"key":"史带户外无忧领队意外险"},{"key":"史带境外旅游自选全球含申根签证保障计划"},{"key":"史带境外旅游自选申根签证保障计划"},{"key":"史带开心赛事含高风险运动"},{"key":"史带开心赛事综合运动"},{"key":"史带全年海外停留申根签证旅游保险-全球保障"},{"key":"史带众悦人生白领健康保障计划"},{"key":"史带众悦人生女性健康保障计划"},{"key":"手机碎屏险-标准版含iPhone8"},{"key":"手机碎屏险-官修或换新机尊享版"},{"key":"手机碎屏险-苹果X全面屏新旧机版"},{"key":"太平洋境内境外旅游基本保障计划"},{"key":"太平洋境内旅游保障计划"},{"key":"泰康成人门急诊"},{"key":"泰康疾病综合保障（成人男性版）"},{"key":"泰康疾病综合保障（成人女性版）"},{"key":"泰康疾病综合保障（少儿版）"},{"key":"泰康少儿门急诊"},{"key":"泰康在线住院宝2018少儿基础计划"},{"key":"泰康在线住院宝2018少儿升级计划二"},{"key":"泰康在线住院宝2018少儿升级计划一"},{"key":"泰康在线住院宝成人计划"},{"key":"泰康在线住院宝基础版老年计划"},{"key":"泰康综合意外险基础版"},{"key":"泰康综合意外险升级版"},{"key":"泰康综合意外险尊贵版"},{"key":"淘气保少儿意外险"},{"key":"淘气保少儿意外险"},{"key":"退休乐-老人综合意外险（61-70周岁）"},{"key":"退休乐-老人综合意外险（61-70周岁）"},{"key":"退休乐-老人综合意外险（71-80周岁）"},{"key":"退休乐-老人综合意外险（71-80周岁）"},{"key":"退休乐-老人综合意外险（81-90周岁）"},{"key":"退休乐-老人综合意外险（81-90周岁）"},{"key":"汪星人意外医疗险"},{"key":"网金传财保终身寿险（金樽享）"},{"key":"网金意外无忧（含自费药）"},{"key":"网络支付账户资金损失保险"},{"key":"小宝贝-少儿综合意外险"},{"key":"小天使门诊住院保"},{"key":"信泰 i 立方恶性肿瘤疾病保险"},{"key":"信泰及时雨重大疾病保险"},{"key":"信泰健康无忧重大疾病保险"},{"key":"异乡优享 安联出国培训保障计划二"},{"key":"异乡优享 安联出国培训保障计划三"},{"key":"异乡优享 安联出国培训保障计划一"},{"key":"易安家居意外综合险"},{"key":"易安蓝精灵住院保2019高端版"},{"key":"易安蓝精灵住院保2019基础版"},{"key":"易安蓝精灵住院保2019升级版"},{"key":"易安住院无忧成人保障优选款"},{"key":"易安住院无忧成人保障尊享款"},{"key":"易安住院无忧中老年保障优选款"},{"key":"易安住院无忧中老年保障尊享款"},{"key":"至尊保安联境外旅行保障计划二"},{"key":"至尊保安联境外旅行保障计划二美行保"},{"key":"至尊保安联境外旅行保障计划三"},{"key":"至尊保安联境外旅行保障计划三美行保"},{"key":"至尊保安联境外旅行保障计划一"},{"key":"至尊保安联境外旅行保障计划一美行保"},{"key":"中国平安团体人身意外险"},{"key":"中国人寿开学无忧保险（白银版）"},{"key":"中国人寿开学无忧保险（黄金版）"},{"key":"中国人寿幼儿学平险（白银版）"},{"key":"中国人寿幼儿学平险（黄金版）"},{"key":"中荷人寿房贷宝定期寿险"},{"key":"中荷人寿房贷宝定期寿险（15年缴）"},{"key":"中荷人寿房贷宝定期寿险（20年缴）"},{"key":"中荷人寿房贷宝定期寿险（25年缴）"},{"key":"中荷人寿房贷宝定期寿险（30年缴）"},{"key":"中荷人寿房贷宝定期寿险（5年缴）"},{"key":"中宏宏创e行自驾意外保障（180天）"},{"key":"中宏宏创e行自驾意外保障（1年）"},{"key":"安联臻爱医疗保险2017（重疾版）"},{"key":"开心保平安e生保（2017版）"},{"key":"史带安享中老年重疾健康保障计划"},{"key":"开心保少儿门诊住院卫士升级版（有社保）"},{"key":"安联臻爱医疗保险标准计划有社保"},{"key":"华泰全年航空延误保险"},{"key":"美亚乐悠游海外旅行保障计划一"},{"key":"人保航空延误无忧计划"},{"key":"瑞泰成长卫士少儿重大疾病保险"},{"key":"安意保综合意外险"},{"key":"开心保安联境外旅游保险"},{"key":"安享一生癌症百万医疗险"},{"key":"复星联合康乐一生重疾保险"},{"key":"美亚万国游踪境外旅行保障-美澳计划一"},{"key":"中宏宏创驾享自驾车意外保障"},{"key":"开心保安联申根签证保险-全球保障"},{"key":"开心保百万守护金刚保长期意外险"},{"key":"开心保华海个人意外险"},{"key":"开心保昆仑健康保重大疾病保险"},{"key":"开心保人保全球旅行境外申根计划"},{"key":"瑞泰瑞盈重大疾病保险"},{"key":"瑞泰瑞和定期寿险"},{"key":"百年康惠保重大疾病保险"},{"key":"瑞泰瑞和定期寿险20年缴"}]}'>
+<!-- /公共头部：后台开发请直接替换 -->
+
+<!-- 广告模块 -->
+<div id="imgModule-bg">
+    <div id="imgModule-Box">
+
+        <input type="hidden" id="imgbgData"
+               value="'http://resource.kaixinbao.com/upload/Image/pptj/2019/07/3200931615.jpg','http://resource.kaixinbao.com/upload/Image/pptj/2019/05/3194254077.jpg','http://resource.kaixinbao.com/upload/Image/pptj/2019/05/3188482307.jpg','http://resource.kaixinbao.com/upload/Image/pptj/2019/07/3201643149.jpg'"/>
+        <!-- 图片轮播-->
+        <div class="layui-carousel" id="test1">
+            <div carousel-item>
+                <div><img src="images/show1.jpg"/> </div>
+                <div><img src="images/show2.jpg"/></div>
+                <div><img src="images/show3.jpg"/></div>
+                <div><img src="images/show4.jpg"/></div>
+                <div><img src="images/show5.jpg"/></div>
+            </div>
+        </div>
+        <!-- <div class="imgModule-swiper ">
+             <div class="swiper-container">
+                 <div class="swiper-wrapper">
+
+                     <div class="swiper-slide">
+                         <a href="http://www.kaixinbao.com/jiankang-baoxian/320053.shtml?banner_id=sysj_hhb"
+                            target="_blank">
+
+                             <img class="swiper-lazy" src="picture/3200947369.jpg" alt="百年慧惠保重疾险"/>
+
+                         </a>
+                     </div>
+
+                     <div class="swiper-slide">
+                         <a href="http://www.kaixinbao.com/renshou-baoxian/319396.shtml?banner_id=sysj_rtrh"
+                            target="_blank">
+
+                             <img class="swiper-lazy" src=""
+                                  data-src="http://resource.kaixinbao.com/upload/Image/pptj/2019/06/3195779150.jpg"
+                                  alt="瑞泰瑞和升级版定期寿险"/>
+
+
+                         </a>
+                     </div>
+
+                     <div class="swiper-slide">
+                         <a href="http://www.kaixinbao.com/jiankang-baoxian/315704.shtml?banner_id=sysj_zhen"
+                            target="_blank">
+
+                             <img class="swiper-lazy" src=""
+                                  data-src="http://resource.kaixinbao.com/upload/Image/pptj/2019/05/3188477558.jpg"
+                                  alt="康惠保旗舰版"/>
+
+
+                         </a>
+                     </div>
+
+                     <div class="swiper-slide">
+                         <a href="http://www.kaixinbao.com/sem/001/?banner_id=sysj-lxx" target="_blank">
+
+                             <img class="swiper-lazy" src=""
+                                  data-src="http://resource.kaixinbao.com/upload/Image/pptj/2019/07/3201657898.jpg"
+                                  alt=""/>
+
+
+                         </a>
+                     </div>
+
+                 </div>
+             </div>
+         </div>-->
+
+        <!--  <div class="swiper-nav" style="display: none">
+
+              <span>新品发布</span>
+
+              <span>全面升级</span>
+
+              <span>惊喜福利</span>
+
+              <span>出行钜惠</span>
+
+          </div>-->
+        <!-- 图片轮播-->
+        <!-- 首焦底部三联广告-->
+        <div class="imgModule-list clearfix">
+
+            <a href="http://www.kaixinbao.com/jiankang-baoxian/317513.shtml?banner_id=yn-sysl" target="_blank">
+                <img src="picture/3200896209.jpg" alt="妈咪保贝少儿重疾"/>
+            </a>
+
+            <a href="http://www.kaixinbao.com/yiwai-baoxian/317252.shtml?banner_id=yn-sysl" target="_blank">
+                <img src="picture/3176878458.jpg" alt="退休乐老人意外险"/>
+            </a>
+
+            <a href="http://www.kaixinbao.com/lvyou-baoxian/308521.shtml?banner_id=yn-sysl" target="_blank">
+                <img src="picture/3179632543.jpg" alt="开心保安联申根签证保险"/>
+            </a>
+
+        </div>
+        <!-- 首焦底部三联广告-->
+        <!-- 首焦右侧广告-->
+        <div class="imgModule-main">
+
+            <a href="http://www.kaixinbao.com/jiankang-baoxian/320065.shtml?banner_id=xktj_jkb2" target="_blank">
+                <img src="picture/3201637396.jpg" alt="开心保昆仑健康保2.0"/>
+            </a>
+
+        </div>
+        <!-- 首焦右侧广告-->
+    </div>
+</div>
+<!-- /广告模块 -->
+
+<!-- 严选模块-->
+<div id="strict-box">
+    <div class="strict-tit">
+        <h2 class="strict-title">开心保严选</h2>
+        <ul class="strict-ul-tag">
+
+            <li class="active">家庭保障<span></span></li>
+
+            <li>旅游出行<span></span></li>
+
+        </ul>
+    </div>
+
+    <div class="strict-con">
+        <ul class="strict-ul2 clearfix">
+
+            <li>
+                <a href="http://www.kaixinbao.com/jiankang-baoxian/314235.shtml?banner_id=yn-syyx" target="_blank">
+                    <img src="picture/3178516488.jpg" alt="瑞泰瑞盈重疾险"/>
+                    <em class="bors"></em></a>
+            </li>
+
+            <li>
+                <a href="http://www.kaixinbao.com/jiankang-baoxian/316072.shtml?banner_id=yn-syyx" target="_blank">
+                    <img src="picture/3179616789.jpg" alt="百年康惠保多倍版重疾险"/>
+                    <em class="bors"></em></a>
+            </li>
+
+        </ul>
+        <ul class="strict-ul3 clearfix">
+
+            <li>
+                <a href="http://www.kaixinbao.com/yiwai-baoxian/277946.shtml?banner_id=syyx" target="_blank">
+                    <img src="picture/3201669633.jpg" alt=""/>
+                    <em class="bors"></em></a>
+            </li>
+
+            <li>
+                <a href="http://www.kaixinbao.com/jiankang-baoxian/319649.shtml?banner_id=syyx" target="_blank">
+                    <img src="picture/3201875889.jpg" alt=""/>
+                    <em class="bors"></em></a>
+            </li>
+
+            <li>
+                <a href="http://www.kaixinbao.com/jiankang-baoxian/314267.shtml?banner_id=syyx" target="_blank">
+                    <img src="picture/3182649192.jpg" alt="安联住院宝"/>
+                    <em class="bors"></em></a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="strict-con" style="display: none">
+        <ul class="strict-ul2 clearfix">
+
+            <li>
+                <a href="http://www.kaixinbao.com/lvyou-baoxian/285064.shtml?banner_id=syyx2" target="_blank">
+                    <img src="picture/3188528563.jpg" alt=""/>
+                    <em class="bors"></em></a>
+            </li>
+
+            <li>
+                <a href="http://www.kaixinbao.com/lvyou-baoxian/308521.shtml?banner_id=syyx2" target="_blank">
+                    <img src="picture/3148364365.jpg" alt=""/>
+                    <em class="bors"></em></a>
+            </li>
+
+        </ul>
+        <ul class="strict-ul3 clearfix">
+
+            <li>
+                <a href="http://www.kaixinbao.com/lvyou-baoxian/265820.shtml?banner_id=syyx2" target="_blank">
+                    <img src="picture/3148291123.jpg" alt=""/>
+                    <em class="bors"></em></a>
+            </li>
+
+            <li>
+                <a href="http://www.kaixinbao.com/lvyou-baoxian/297941.shtml?banner_id=syyx2" target="_blank">
+                    <img src="picture/3148306876.jpg" alt=""/>
+                    <em class="bors"></em></a>
+            </li>
+
+            <li>
+                <a href="http://www.kaixinbao.com/lvyou-baoxian/284991.shtml?banner_id=syyx2" target="_blank">
+                    <img src="picture/3183557817.jpg" alt=""/>
+                    <em class="bors"></em></a>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<!-- /严选模块-->
+
+<!-- 保险规划 -->
+<div id="support-box">
+    <div class="wearper-box">
+
+        <p class="support-tit">精准分析保险需求，规划高性价比保障方案
+            <span>花更少的钱，获更好保障方案</span></p>
+        <ul class="support-ul">
+
+            <li class="support-li1">
+                <span>儿童保障</span>
+                <a target="_blank" href="http://www.kaixinbao.com/yxhd/2018child/"><img src="picture/3147856515.png"
+                                                                                        alt="儿童保障"/></a>
+            </li>
+
+            <li class="support-li2">
+                <span>成人保障</span>
+                <a target="_blank" href="http://www.kaixinbao.com/yxhd/2018people/"><img src="picture/3147877017.png"
+                                                                                         alt="成人保障"/></a>
+            </li>
+
+            <li class="support-li3">
+                <span>老人保障</span>
+                <a target="_blank" href="http://www.kaixinbao.com/yxhd/2018old/"><img src="picture/3147861264.png"
+                                                                                      alt="老人保障"/></a>
+            </li>
+
+        </ul>
+        <p class="support-text">
+
+            <span>孩子的第一份保险怎么选？</span>
+
+            <span>保障在手，奋斗无忧</span>
+
+            <span>父母康健，儿女安心</span>
+
+        </p>
+    </div>
+</div>
+<!-- /保险规划 -->
+
+<!-- 会员服务-->
+<div id="service-box">
+    <div class="wearper-box">
+
+        <p class="service-tit">累计服务800万+用户，初心不改，服务不变
+            <span>开心保，只为更懂你</span></p>
+        <ul class="servece-ul">
+
+            <li><a target="_blank" href="http://www.kaixinbao.com/huiyuan/"><img src="picture/3147908251.png"
+                                                                                 class="lazy lazyscroll server"
+                                                                                 alt="会员权益"/></a>
+                <span>会员权益</span>
+                <p>保险讲师全方位保险解读，专业团队定制高性价比保险方案，按需选择，为您和您的家人提供贴心的保险服务</p>
+            </li>
+
+            <li><img src="picture/3147881766.png" class="lazy lazyscroll server zixun" alt="客户服务"/>
+                <span>客户服务</span>
+                <p>7*24小时客服热线，在线处理保全变更、协助理赔，累计协助理赔数万起，全程电子监控，为您提供高效透明的客户服务</p>
+            </li>
+
+            <li><a target="_blank" href="http://www.kaixinbao.com/pre/underwriting.shtml"><img
+                    src="picture/3147914004.png" class="lazy lazyscroll server" alt="服务优选"/></a>
+                <span>服务优选</span>
+                <p>保障自查，保障需求评估、保单规划等附加值功能，为客户提供优选保险服务</p>
+            </li>
+
+            <li><a target="_blank" href="http://www.kaixinbao.com/jifen/"><img src="picture/3147893502.png"
+                                                                               class="lazy lazyscroll server"
+                                                                               alt="积分商城"/></a>
+                <span>积分商城</span>
+                <p>会员专享，积分可兑换丰富礼品，小积分，大用途，更多福利更多惊喜</p>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<!--/会员服务 -->
+
+<!-- 评测与资讯-->
+<div id="news-box">
+    <div class="wearper-box">
+        <p class="news-tit">新鲜资讯+保险测评，你想知道的都在这里<span>不仅仅是销售一份保单，更想让你了解保险的一切</span></p>
+        <div class="news-con">
+
+            <a href="http://www.kaixinbao.com/zhishi/" target="_blank" class="news-con_link">查看更多</a>
+            <dl class="news-con-dl">
+                <dt class="titles"><a target="_blank" href="http://ketang.kaixinbao.com/ketang/detail-317979.shtml"><img
+                        src="picture/3147934506.jpg" alt="3147934506.jpg"/></a>
+                    <p><span>测 评</span></p>
+                </dt>
+                <dd class="cons">
+
+                    <p>
+                        <a target="_blank" href="http://www.kaixinbao.com/zhishi/renshi/AG20190308007.shtml"
+                           class="tits"><i class="icons"></i>复星保德信星悦重疾险值得买吗？王者PK谁是赢家？</a>
+                        <em>百年人寿的康惠保旗舰版自从上市以来，便稳坐消费型重疾险的第一把交椅，无论是产品保障责任以及定价，还是核保规</em>
+                        <a target="_blank" href="http://www.kaixinbao.com/zhishi/renshi/AG20190308007.shtml"
+                           class="link">阅读全文</a>
+                    </p>
+
+                    <p>
+                        <a target="_blank" href="http://www.kaixinbao.com/zhishi/317135.shtml" class="tits"><i
+                                class="icons"></i>2019年多次赔付重疾险最新产品评测</a>
+                        <em>2019年多次赔付重疾险哪款更值得买。目前市场上的多次赔付重疾险产品很多，我们优选出如下几款性价比较高的产品进行分</em>
+                        <a target="_blank" href="http://www.kaixinbao.com/zhishi/317135.shtml" class="link">阅读全文</a>
+                    </p>
+
+                </dd>
+            </dl>
+            <dl class="news-con-dl">
+                <dt class="titles"><a target="_blank" href="http://ketang.kaixinbao.com/ketang/detail-320150.shtml"><img
+                        src="picture/3147928753.jpg" alt="3147928753.jpg"/></a>
+                    <p><span>资 讯</span></p>
+                </dt>
+                <dd class="cons">
+
+                    <p>
+                        <a target="_blank" href="http://www.kaixinbao.com/zixun/317234.shtml" class="tits"><i
+                                class="icons"></i>开心保参与中国银保监会3·15消费者权益宣传周活动</a>
+                        <em>为深入贯彻习近平新时代中国特色社会主义思想和党的十九大精神，认真落实2019年银行业和保险业监督管理工作会议决</em>
+                        <a target="_blank" href="http://www.kaixinbao.com/zixun/317234.shtml" class="link">阅读全文</a>
+                    </p>
+
+                    <p>
+                        <a target="_blank" href="http://www.kaixinbao.com/zixun/314756.shtml" class="tits"><i
+                                class="icons"></i>“百年康惠保”荣膺“最受欢迎互联网保险产品奖”</a>
+                        <em>5月10日至11日，“2018第二届中国互联网保险发展论坛”在北京召开</em>
+                        <a target="_blank" href="http://www.kaixinbao.com/zixun/314756.shtml" class="link">阅读全文</a>
+                    </p>
+
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<!-- /评测与资讯-->
+
+<!-- 品牌-->
+<div id="brand-box">
+
+    <p class="brand-tit">30+合作保险公司，200+热门产品<span>精选投保人满意的高性价比产品</span></p>
+    <ul class="brand-ul">
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20180502002.shtml"><img
+                src="picture/3132851567.jpg" alt=""/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20181219001.shtml"><img
+                src="picture/3162032147.png" alt="华海保险_华海财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20181029001.shtml"><img
+                src="picture/315670673.gif" alt=""/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20180730001.shtml"><img
+                src="picture/3199815658.jpg" alt="中华人寿_中华联合人寿保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20180502004.shtml"><img
+                src="picture/3162335127.jpg" alt="中荷人寿_中荷人寿保险有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20180502003.shtml"><img
+                src="picture/3132849832.jpg" alt="德华安顾"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20170302001.shtml"><img
+                src="picture/3153118105.png" alt="易安保险_易安财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20161107009.shtml"><img
+                src="picture/3059153449.png" alt="诚泰财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20160919002.shtml"><img
+                src="picture/3153103356.png" alt="泰康在线_泰康在线财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20160902001.shtml"><img
+                src="picture/3060571626.gif" alt="安心保险_安心财产保险有限责任公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20160222003.shtml"><img
+                src="picture/3035102458.jpg" alt="百年人寿_百年人寿保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/A07G20150812001.shtml"><img
+                src="picture/3021715411.gif" alt="瑞泰人寿保险有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130114011.shtml"><img
+                src="picture/302172160.gif" alt="中国平安财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130114133.shtml"><img
+                src="picture/3021909931.gif" alt="美亚财产保险有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130111020.shtml"><img
+                src="picture/302174662.gif" alt="中国太平洋财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130118001.shtml"><img
+                src="picture/3151474118.gif" alt="安联保险公司_安联财产保险中国有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20130121002.shtml"><img
+                src="picture/3021791438.gif" alt="史带财产保险股份有限公司（原大众保险）"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20130522082.shtml"><img
+                src="picture/302193433.gif" alt="中国人民人寿保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130114004.shtml"><img
+                src="picture/3021836689.gif" alt="合众人寿保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20130710008.shtml"><img
+                src="picture/3151489872.gif" alt="安盛天平财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130118002.shtml"><img
+                src="picture/3021945182.gif" alt="华安财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20130121001.shtml"><img
+                src="picture/3021877693.gif" alt="华泰财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20130514025.shtml"><img
+                src="picture/3022034821.gif" alt="昆仑健康保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130121009.shtml"><img
+                src="picture/3022051306.gif" alt="中美大都会人寿保险有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130121002.shtml"><img
+                src="picture/3156725422.gif" alt=""/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130115064.shtml"><img
+                src="picture/3021821940.gif" alt="太平保险_中国太平保险公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130121003.shtml"><img
+                src="picture/3022071808.gif" alt="中国人寿保险股份公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20130114098.shtml"><img
+                src="picture/3151469369.gif" alt="中国人民财产保险公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AH20130114060.shtml"><img
+                src="picture/3022092310.gif" alt="中国大地财产保险股份有限公司"/></a></li>
+
+
+        <li><a target="_blank" href="http://www.kaixinbao.com/gongsi/AG20190708004.shtml"><img
+                src="picture/320162390.jpg" alt="复星保德信"/></a></li>
+
+    </ul>
+
+</div>
+<!-- 品牌-->
+
+<!-- 侧边栏广告 -->
+<div id="fix-wechar" class="fix-banner" style="display:none">
+    <img src="picture/code_main.png" alt="">
+    <span class="fix-banner-closed"></span>
+</div>
+<!-- 侧边栏广告 -->
+
+<!-- 公共尾部：后台开发请直接替换 -->
+<div id="advantage-box">
+    <div class="wearper-box">
+        <dl class="advantage-dl">
+            <dt><img src="picture/icon1.png" alt="正品保险"/></dt>
+            <dd>
+                <p>正品保险</p>
+                <span>中国保监会监制</span>
+            </dd>
+        </dl>
+        <dl class="advantage-dl">
+            <dt><img src="picture/icon2.png" alt="快捷投保"/></dt>
+            <dd>
+                <p>快捷投保</p>
+                <span>全方位一键对比</span>
+            </dd>
+        </dl>
+        <dl class="advantage-dl">
+            <dt><img src="picture/icon3.png" alt="省心服务"/></dt>
+            <dd>
+                <p>省心服务</p>
+                <span>电子保单快捷变更</span>
+            </dd>
+        </dl>
+        <dl class="advantage-dl">
+            <dt><img src="picture/icon4.png" alt="安全可靠"/></dt>
+            <dd>
+                <p>安全可靠</p>
+                <span>7x24小时客服不间断</span>
+            </dd>
+        </dl>
+        <dl class="advantage-dl">
+            <dt><img src="picture/icon5.png" alt="品牌实力"/></dt>
+            <dd>
+                <p>品牌实力</p>
+                <span>7年800万用户选择</span>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<!--友情链接-->
+<div id="frined-box">
+    <div class="frined-link-con">
+        <div class="layui-tab-brief" lay-filter="docDemoTabBrief">
+            <h2>友情链接</h2>
+            <ul class="layui-tab-title">
+                <!--循环：hotopic count：50-->
+
+
+                <li class="active">保险网站</li>
+
+
+                <li class="">金融理财</li>
+
+
+                <li class="">其他</li>
+
+            </ul>
+            <div class="layui-tab-content">
+                <!--循环：hotopic count：50-->
+
+
+                <div class="layui-tab-item">
+                    <!--循环：friendlink count：50-->
+
+
+                    <a href="http://www.kaixinbao.com/" target="_blank">人寿保险</a>
+
+
+                    <a href="http://www.kaixinbao.com/jiankang-baoxian/zhongdajibing/" target="_blank">重大医疗保险</a>
+
+
+                    <a href="http://www.kaixinbao.com/jiankang-baoxian/315704.shtml" target="_blank">康惠保旗舰版</a>
+
+
+                    <a href="http://www.kaixinbao.com/lvyou-baoxian/" target="_blank">旅游保险网</a>
+
+
+                    <a href="http://www.kaixinbao.com/renshou-baoxian/dingqi/" target="_blank">定期寿险</a>
+
+
+                    <a href="http://www.kaixinbao.com/yiwai-baoxian/" target="_blank">意外险</a>
+
+
+                    <a href="https://www.eshebao.cn" target="_blank">社保代缴</a>
+
+
+                    <a href="http://www.kaixinbao.com/jiankang-baoxian/309551.shtml" target="_blank">长期重疾险</a>
+
+
+                    <a href="http://www.dajiabao.com/" target="_blank">买保险网</a>
+
+
+                    <a href="http://www.fangxinbao.com/" target="_blank">放心保</a>
+
+
+                    <a href="http://insurance.cnfol.com" target="_blank">中金在线保险</a>
+
+
+                    <a href="http://www.ganji.com/baoxian/" target="_blank">保险公司</a>
+
+
+                    <a href="http://www.cignacmb.com/" target="_blank">招商信诺</a>
+
+
+                    <a href="http://www.ft22.com/" target="_blank">工伤保险</a>
+
+
+                    <a href="http://www.wanyiwang.com/" target="_blank">保险资料</a>
+
+                </div>
+
+
+                <div class="layui-tab-item" style='display: none'>
+                    <!--循环：friendlink count：50-->
+
+
+                    <a href="http://insurance.cngold.org/" target="_blank">金投网</a>
+
+
+                    <a href="http://www.chashebao.com" target="_blank">社保查询网</a>
+
+
+                    <a href="http://www.12333sb.com/" target="_blank">12333社保查询网</a>
+
+                </div>
+
+
+                <div class="layui-tab-item" style='display: none'>
+                    <!--循环：friendlink count：50-->
+
+
+                    <a href="http://www.kaixinbao.com/renshou-baoxian/" target="_blank">人寿保险多少钱</a>
+
+
+                    <a href="http://www.kaixinbao.com/yiwai-baoxian/310134.shtml" target="_blank">中国人寿保险少儿</a>
+
+
+                    <a href="http://www.kaixinbao.com/zhishi/renshi/CG20121121027.shtml" target="_blank">女性重疾险</a>
+
+
+                    <a href="http://www.kaixinbao.com/wenda/baoxian/314638.shtml" target="_blank">平安防癌险</a>
+
+
+                    <a href="http://www.kaixinbao.com/huixuan/0000000015.shtml" target="_blank">60岁以上老人保险</a>
+
+
+                    <a href="http://www.kaixinbao.com/jiankang-baoxian/309644.shtml" target="_blank">百万医疗险</a>
+
+
+                    <a href="http://www.kaixinbao.com/jiankang-baoxian/313907.shtml" target="_blank">消费型重疾险</a>
+
+
+                    <a href="http://www.kaixinbao.com/wenda/baoxian/314539.shtml" target="_blank">少儿重疾险哪个好</a>
+
+
+                    <a href="http://www.kaixinbao.com/jiankang-baoxian/312949.shtml" target="_blank">老年防癌险</a>
+
+
+                    <a href="http://www.kaixinbao.com/wenda/baoxian/guihua/314315.shtml" target="_blank">防癌险哪家最好</a>
+
+
+                    <a href="http://www.kaixinbao.com/wenda/baoxian/guihua/314314.shtml" target="_blank">防癌保险该不该买</a>
+
+
+                    <a href="http://www.kaixinbao.com/zhishi/renshoubaoxianzhishi/A03G20130725027.shtml"
+                       target="_blank">平安儿童保险有几种</a>
+
+
+                    <a href="http://www.kaixinbao.com/wenda/baoxian/314814.shtml" target="_blank">儿童教育保险哪种好</a>
+
+
+                    <a href="http://www.kaixinbao.com/zhishi/goumai/AG20170307007.shtml" target="_blank">重疾保险有必要买吗</a>
+
+
+                    <a href="http://www.kaixinbao.com/wenda/baoxian/314813.shtml" target="_blank">少儿险哪个险种好</a>
+
+
+                    <a href="http://www.qc188.com/" target="_blank">平行进口车</a>
+
+
+                    <a href="http://www.joyowo.com" target="_blank">劳务派遣</a>
+
+
+                    <a href="https://www.icheruby.com" target="_blank">试管婴儿</a>
+
+
+                    <a href="http://www.hibor.com.cn" target="_blank">研报</a>
+
+
+                    <a href="http://cc.focus.cn/" target="_blank">长春房产网</a>
+
+
+                    <a href="http://chengdu.liebiao.com/" target="_blank">成都分类信息</a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--/友情链接-->
+
+<!--快速入口-->
+<div id="fastTrack-box">
+    <div class="track-con">
+        <dl>
+            <dt>新手指南</dt>
+            <dd>
+                <a  href="http://www.kaixinbao.com/about/xszn/index.shtml#xszn1" target="_blank"
+                >如何注册</a>
+                <a  href="http://www.kaixinbao.com/about/xszn/index.shtml#xszn4" target="_blank"
+                >如何投保</a>
+                <a  href="http://www.kaixinbao.com/about/xszn/index.shtml#xszn3" target="_blank"
+                >找回密码</a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>支付帮助</dt>
+            <dd>
+                <a  href="http://www.kaixinbao.com/about/4/index.shtml#zfbz2" target="_blank"
+                >支付方式</a>
+                <a  href="http://www.kaixinbao.com/about/4/index.shtml#zfbz1" target="_blank"
+                >支付说明</a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>保单服务</dt>
+            <dd>
+                <a href="http://www.kaixinbao.com/ddkscx/" target="_blank" >保单查询</a>
+                <a href="http://www.kaixinbao.com/bdyz/" target="_blank" >保单验真</a>
+                <a href="http://www.kaixinbao.com/about/1/index.shtml#yxxg2" target="_blank" >变更与取消</a>
+                <a href="http://www.kaixinbao.com/about/1/index.shtml#yxxg1" target="_blank" >保单寄送</a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>理赔服务</dt>
+            <dd>
+                <a href="http://www.kaixinbao.com/about/2/index.shtml#lpbz1" target="_blank" >理赔指南</a>
+                <a href="http://www.kaixinbao.com/lpzs/index.shtml" target="_blank" >理赔报案</a>
+                <a href="http://www.kaixinbao.com/lpzs/index.shtml" target="_blank" >理赔案例</a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>服务中心</dt>
+            <dd>
+                <a  href="http://www.kaixinbao.com/about/3/dayizonghui/253398.shtml" target="_blank"
+                >发票索取</a>
+                <a href="http://www.kaixinbao.com/about/3/dayizonghui/index.shtml" target="_blank"
+                >常见问题</a>
+            </dd>
+        </dl>
+        <div class="track-con-WeChatImg">
+            <p><img src="picture/wechar1.png" alt="下载APP投保快捷省心"></p>
+            <p><img src="picture/wechat14_bk.png" alt="关注微信了解更多资讯"></p>
+        </div>
+    </div>
+</div>
+<!--快速入口-->
+
+<!--footer-->
+<div id="footer-box">
+    <div class="footer-con">
+        <div class="footer-con-link">
+            <dl>
+                <dt>
+                    <a  href="http://www.kaixinbao.com/other/about/" >关于开心保</a>|
+                    <a href="http://www.kaixinbao.com/other/news/" >开心保要闻</a>|
+                    <a href="http://www.kaixinbao.com/other/sitemap/">网站地图</a>|
+                    <a  href="http://www.kaixinbao.com/other/legal/" >法律声明</a>|
+                    <a  href="http://www.kaixinbao.com/other/contact/" >联系我们</a>|
+                    <a  href="http://www.kaixinbao.com/other/jobs/" >加入我们</a>|
+                    <a  href="http://www.kaixinbao.com/yxhd/isl-tra/" target="_blank"
+                    >微信版</a>
+                </dt>
+                <dd>
+                    <a href="https://resource.kaixinbao.com/r02/images/common/bxdlywxkz.jpg" target="_blank"
+                    >保险代理业务许可证</a>&nbsp;&nbsp;
+                    <a href="http://beian.miit.gov.cn" target="_blank" >辽ICP备12007009号-1</a>&nbsp;&nbsp;
+                    <a href="https://resource.kaixinbao.com/r02/images/common/qyfryyzz.jpg" target="_blank"
+                    >企业营业执照</a>&nbsp;&nbsp;
+                    <a href="https://resource.kaixinbao.com/r02/images/common/icp.jpg" target="_blank" >ICP经营许可证(辽B2-20120076)</a>
+                </dd>
+                <dd>Copyright 2012-2019 版权所有 网金保险销售服务有限公司</dd>
+            </dl>
+        </div>
+        <div class="footer-con-approve">
+            <ul>
+
+
+                <li><a href="http://www.circ.gov.cn/tabid/5171/InfoID/210753/frtid/4491/Default.aspx" target="_blank"
+                ><img src="picture/2582921308.png" width="90" height="37"/></a></li>
+
+
+                <li><a href="http://www.itrust.org.cn/yz/pjwx.asp?wm=1594416088" target="_blank" ><img
+                        src="picture/2582937061.png" width="37" height="37"/></a></li>
+
+
+                <li><a href="http://wljg.lngs.gov.cn/iciaicweb/dzbscheck.do?method=change&id=E2014111300054343"
+                       target="_blank" ><img src="picture/298851182.png" width="37" height="37"/></a></li>
+
+
+                <li><a href="http://si.trustutn.org/info?sn=618161121025629572164&certType=1" target="_blank"
+                ><img src="picture/3061644601.png" width="90" height="37"/></a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!--/footer-->
+
+<div id="toorbar">
+    <div class="toorbar-box">
+        <div class="toobar-box-height"></div>
+        <a class="toorbar-box-service ntkf-service" data-ntkf="" href="javascript:void(0);" vlpageid="xiaoneng"
+           exturl="http://www.kaixinbao.com/xiaoneng" onclick="return(VL_FileDL(this));return false;">
+            <span class="iconfont icon-kefu1"></span>
+            <em class="text ">客服</em>
+        </a>
+        <div class="toorbar-box-shopcar">
+            <span class="iconfont icon-shopcar"></span>
+            <a href="/HappysysUser/loadUserPersonalCenter?pageName=shopping_cart" target="_blank"> <em class="text">购物车</em></a>
+            <span class="num" id="shopCartNo"></span>
+        </div>
+        <!--
+        <div class="toorbar-box-shopvs">
+            <span class="iconfont icon-duibi"></span>
+            <em class="text">产品对比</em>
+            <em class="vs"><i>0</i>/4</em>
+        </div>
+        -->
+        <div class="toorbar-box-wechart">
+            <span class="iconfont icon-erweima"></span>
+            <div class="wechart child">
+                <p><span>微信公众号</span><img src="picture/wechat14.png" alt=""></p>
+                <p><span>下载app</span><img src="picture/app.jpg" alt=""></p>
+            </div>
+        </div>
+        <div class="toorbar-box-top">
+            <span class="iconfont icon-top"></span>
+            <div class="top child">返回顶部</div>
+        </div>
+        <!--
+        <div class="toorbar-box-vs">
+            <div class="title"><em>产品对比</em><span class="closed">关闭</span></div>
+            <p class="tip">最多可对比 <em>4</em> 款产品</p>
+            <div class="content">
+                <dl>
+                    <dt><em class="iconfont icon-kongxin"></em><a href="../" target="_blank">阳光保重大疾病险保重大疾病险</a> <span class="iconfont icon-close1"></span></dt>
+                    <dd class="trait"><span>特点特点特点</span><span>特点特点特点</span></dd>
+                    <dd class="money"><span><em>￥</em><i>999.00</i></span> <img src="static/picture/1001.gif" alt=""></dd>
+                </dl>
+                <dl>
+                    <dt><em class="iconfont icon-kongxin"></em><a href="../" target="_blank">阳光保重大疾病险保重大疾病险</a>  <span class="iconfont icon-close1"></span></dt>
+                    <dd class="trait"><span>特点特点特点</span><span>特点特点特点</span></dd>
+                    <dd class="money"><span><em>￥</em><i>999.00</i></span> <img src="static/picture/1001.gif" alt=""></dd>
+                </dl>
+                <dl>
+                    <dt><em class="iconfont icon-kongxin"></em><a href="../" target="_blank">阳光保重大疾病险保重大疾病险</a>  <span class="iconfont icon-close1"></span></dt>
+                    <dd class="trait"><span>特点特点特点</span><span>特点特点特点</span></dd>
+                    <dd class="money"><span><em>￥</em><i>999.00</i></span> <img src="static/picture/1001.gif" alt=""></dd>
+                </dl>
+                <dl>
+                    <dt><em class="iconfont icon-kongxin"></em><a href="../" target="_blank">阳光保重大疾病险保重大疾病险</a>  <span class="iconfont icon-close1"></span></dt>
+                    <dd class="trait"><span>特点特点特点</span><span>特点特点特点</span></dd>
+                    <dd class="money"><span><em>￥</em><i>999.00</i></span> <img src="static/picture/1001.gif" alt=""></dd>
+                </dl>
+            </div>
+            <div class="beginvs">
+                <span>已选<em class="nums">0</em>件产品</span>
+                <a href="javascript:void(0);">开始对比</a>
+            </div>
+        </div>
+        -->
+    </div>
+    <!--<span id="aab" hidden="hidden" th:text="${session.user}"></span>-->
+</div>
+<!-- /公共尾部：后台开发请直接替换 -->
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+<script type="text/javascript" rel="script" th:src="@{/js/CommonHeader.js}"></script>
+
+<script src="layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            ,width: '787px' //设置容器宽度 787
+            ,arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+        });
+    });
+
+    $(function () {
+        //头部显示用户信息
+        var happyuser=$("#aab").text();
+
+        if(happyuser.length>0){
+            $("#notLogin").css("display","none");
+            $("#yesLogin").css("display","block");
+        }
+        var sel = $('.main-nav-box > dl');
+
+        sel.hover(
+            function () {
+                $(this)
+                    .addClass('hover')
+                    .find('.child')
+                    .show();
+                $(this)
+                    .siblings('dl')
+                    .removeClass('hover');
+            },
+            function () {
+                $(this)
+                    .removeClass('hover')
+                    .find('.child')
+                    .hide();
+            }
+        );
+
+
+        var sel = $('.header-nav-link > dl'),
+            nav = $('.main-nav-more'),
+            jsign = $('#home');
+
+        sel.hover(
+            function () {
+                $(this).addClass('active');
+                $(this)
+                    .find('dt')
+                    .addClass('sel')
+                    .end()
+                    .find('.child')
+                    .show();
+                $(this)
+                    .siblings('dl')
+                    .removeClass('hover');
+            },
+            function () {
+                $(this).removeClass('active');
+                $(this)
+                    .find('dt')
+                    .removeClass('sel')
+                    .end()
+                    .find('.child')
+                    .hide();
+            }
+        );
+
+        if (jsign.length == 0) {
+            nav.hover(
+                function () {
+                    $(this)
+                        .find('.main-nav-box')
+                        .show();
+                },
+                function () {
+                    $(this)
+                        .find('.main-nav-box')
+                        .hide();
+                }
+            );
+        }
+
+
+        var jNoLogin = $('#loginMemberState .login_out'); //未登录模块
+        var jYesLogin = $('#loginMemberState .login_in'); //已登录模块
+
+        jNoLogin.hover(
+            function () {
+                $(this)
+                    .find('.user-box')
+                    .show();
+            },
+            function () {
+                $(this)
+                    .find('.user-box')
+                    .hide();
+            }
+        );
+
+        jYesLogin.hover(
+            function () {
+                $(this)
+                    .find('.user-box')
+                    .show();
+                $(this)
+                    .find('.user-head .icon-xiangxia')
+                    .addClass('active');
+            },
+            function () {
+                $(this)
+                    .find('.user-box')
+                    .hide();
+                $(this)
+                    .find('.user-head .icon-xiangxia')
+                    .removeClass('active');
+            }
+        )
+
+
+        $('.main-nav-search .hot a').on('click', function () {
+            var key = $(this).text();
+            $('#searchContent').val(key);
+            $('#mainSearch').trigger('click');
+        });
+
+        $('#mainSearch').on('click', function () {
+            res.resSearchSbt();
+        })
+
+
+        var jnav = $('.main-nav-list'),
+            jli = jnav.find('li'),
+            jChild = jli.find('.child-link'),
+            jlia = jnav.find('a'),
+            currenturl = document.location.href,
+            nlast = 0;
+
+        for (var i = 0; i < jli.length; i++) {
+            var linkurl = jlia.eq(i).attr('href');
+            if (currenturl.indexOf(linkurl) != -1) nlast = i;
+        }
+
+        jli.eq(nlast).addClass('sel');
+        jChild.parent().hover(
+            function () {
+                $(this)
+                    .find('.iconfont')
+                    .addClass('up');
+                jChild.show();
+            },
+            function () {
+                $(this)
+                    .find('.iconfont')
+                    .removeClass('up');
+                jChild.hide();
+            }
+        )
+
+
+
+
+
+    })
+</script>
+
+</body>
+
+
+</html>

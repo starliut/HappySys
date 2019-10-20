@@ -1,0 +1,829 @@
+﻿<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <title>[[${product.productTitle}]]-开心保保险网</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+
+    <link rel="stylesheet" href="https://resource.kaixinbao.com/r02/css/common/mod_cm_kxb.css" />
+    <link rel="stylesheet" href="https://resource.kaixinbao.com/r02/css/shop/mod_detail.css" />
+
+    <link rel="shortcut icon" href="https://resource.kaixinbao.com/r02/images/favicon.ico"/>
+
+    <link rel="stylesheet" href="/layui/assets/common.css"/>
+    <link rel="stylesheet" href="/layui/css/aa.css">
+
+</head>
+<body>
+
+<!--商品详情头-->
+<div th:replace="~{header/ProductDetailsHeader::#header-box}"></div>
+
+
+<!--中间部分-->
+<div class="content-box">
+    <div class="nav-box">
+        <div class="center-box top1">
+            <div class="nav-tree">
+                <div class="nav-tree-box">
+                    <span><a href="http://www.kaixinbao.com/" target="_self">首页</a></span>
+
+                    <span class="separator">&gt;</span><a href="http://www.kaixinbao.com/jiankang-baoxian/"
+                                                          target="_self">健康保险</a>
+                    <span class="separator">&gt;</span>
+
+
+                    <span><a href="http://www.kaixinbao.com/jiankang-baoxian/zhongdajibing/"
+                             target="_self">重大疾病险</a></span>
+                    <span class="separator">&gt;</span>
+
+                    <span class="separator1" id="product_id" th:value="${product.getProductId()}">[[${product.productTitle}]]</span>
+                </div>
+            </div>
+        </div>
+        <div class="fix-wraper">
+            <div class="center-box top2">
+                <ul class="tabbar">
+                    <li data-att="cpjs">产品介绍</li>
+                    <li class="active" data-att="bzxq">保障详情</li>
+                    <li data-att="cjwt">常见问题</li>
+                    <li data-att="lpfw">理赔服务</li>
+                    <li data-att="yhpj" class="user_commont">用户评价（0）</li>
+                </ul>
+                <div class="fun-nav">
+                    <div class="shop-buy-compared"
+                         data-value={"img":"","money":"681.00","name":"昆仑健康保重大疾病保险（2.0版）","link":"http://www.kaixinbao.com/jiankang-baoxian/320065.shtml","trait":["覆盖185种疾病"],"typetext":"健康","id":"228001001","type":"D"}>
+                        <em class="i-shop i-jiaruduibi1"></em>加入对比
+                    </div>
+                    <div class="store">
+                        <a href="javascript:addAndDelShoppingCart()" style="color: white">
+                                            <!--i-shoucang-weidian-->
+                        <em id="add_shopping_cart" class="i-shop i-shoucang-weidian"></em>加入购物车</a></div>
+                    <div class="share">
+                        <em class="i-shop i-fenxiang"></em>分享
+                        <div class="share-box">
+                            <p>微信扫一扫分享给好友</p>
+                            <img src="/picture/228001001.jpg" alt=""/>
+                            <i class="icon-arrow2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="fun-nav-fix"><span>保费:</span><span class="red">&nbsp;<i class="product_id"></i>元</span><span
+                        class="base">立即投保</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="tit-box">
+        <div class="center-box">
+            <h2 class="pro-title" th:text="${product.productTitle}"></h2>
+
+            <p class="subhead">适合人群：出生满28日至60周岁的健康人群</p>
+
+            <img class="company-logo" src="/picture/2280.gif" alt=""/>
+        </div>
+    </div>
+    <div class="center-box">
+        <div class="right">
+            <div class="top-con">
+                <div class="sales bor">
+                    <span>销量</span>
+                    <span class="num" id="sales_volume"></span>
+                </div>
+                <div class="sales">
+                    <span>好评率</span>
+                    <span class="num commentSatisfaction"></span>
+                </div>
+            </div>
+            <ul class="description">
+                <li class="serve">服务与承诺</li>
+                <li><em class="i-shop i-chenggong"></em>24小时在线/电话服务</li>
+                <li><em class="i-shop i-chenggong"></em>中国保监会网销许可</li>
+                <li><em class="i-shop i-chenggong"></em>工商网监认证</li>
+                <li><em class="i-shop i-chenggong"></em>ICP网站征信</li>
+            </ul>
+            <div class="adviser">
+                <script language="javascript" src="http://resource.kaixinbao.com/js/407.js"></script>
+                <div id="ZCMSAD_407" style="width:270px; height:110px;"><a
+                        href="http://www.kaixinbao.com/yxhd/gdymjdbyy/"
+                        onclick="adClick(&quot;82&quot;,&quot;http://www.kaixinbao.com/yxhd/gdymjdbyy/&quot;)"
+                        target="_blank"><img title="详情页广告图"
+                                             src="http://resource.kaixinbao.com/upload/Image/tpbf/2019/07/3202683918.jpg"
+                                             width="270" height="110" style="border:0px;"></a></div>
+            </div>
+        </div>
+        <div class="left">
+            <div class="linkage">
+                <div class="product-head-buy">
+                    <div class="sign">
+                        <!-- 产品特色 -->
+                        <div class="flex-wrap">
+                            <span th:each="feature:${product.getProductFeatureList()}"
+                                  th:class="'live'+${featureStat.count}" th:text="${feature.getFeatureName()}"></span>
+                        </div>
+
+                        <span class="insure-filter"></i>保障详情<i class="rs-edge" style="border-top-color:#fd8824"></i></span>
+                        <ul class="filter-temp">
+                            <li class="icon-arrow"></li>
+
+                            <li class="insuranceTotal" th:each="insurance:${product.getProductInsuranceList()}" th:value="${insurance.getInsuranceId()}" >
+                                <span class="descript" th:text="${insurance.getInsuranceName()}"></span>
+                                <span class="money" th:value="${insurance.getInsurancePrice()}">不投保</span>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <ul class="appnt" id="operation">
+
+                        <!--投保年龄 Section-->
+                        <li>
+                            <div class="item">投保年龄</div>
+                            <div id="section_id" class="text">
+                                <span th:each="section:${product.getProductSectionList()}"
+                                      th:value="${section.getSectionId()}"
+                                      th:text="${section.getSectionMin()}+'-'+${section.getSectionMax()}+'周岁'"
+                                      th:class="${sectionStat.count==1}?'selected'" ></span>
+                            </div>
+                        </li>
+
+                        <!--保险期限 Deadline-->
+                        <li>
+                            <div class="item">保险期限</div>
+                            <div id="deadline_id" class="text">
+                                <span th:each="deadline:${product.getProductDeadlineList()}"
+                                      th:value="${deadline.getDeadlineId()}"
+                                      th:text="${deadline.getDeadlineTime()}"
+                                      th:class="${deadlineStat.count==1}?'selected'"></span>
+                            </div>
+                        </li>
+
+                        <!--基本保额 InsuranceSum-->
+                        <li>
+                            <div class="item">基本保额</div>
+                            <div id="insurance_sum_id" class="text">
+                                <span th:each="insuranceSum:${product.getProductInsuranceSumList()}" class=""
+                                      th:value="${insuranceSum.getInsuranceSumId()}"
+                                      th:class="${insuranceSumStat.count==1}?'selected'">
+                                    [[${#strings.substring(insuranceSum.getInsuranceSum(),0,2)}]]万
+                                    <input type="hidden" class="sum" th:value="${insuranceSum.getInsuranceSum()}"/>
+                                </span>
+                            </div>
+                        </li>
+
+                        <!--保障详情 Insurance-->
+                        <li  class="dline" th:style="${insuranceStat.index!=0}?'border:0px':''"
+                             th:each="insurance:${product.getProductInsuranceList()}">
+
+                            <div class="item" th:text="${insurance.getInsuranceName()}"></div>
+                            <div class="text insurance_id">
+                                <span class="selected" th:value="${insurance.getInsuranceId()}"  onclick="updateUnApplicant(this)">不投保</span>
+                                <span class="insurance" th:value="${insurance.getInsuranceId()}" onclick="updateApplicant(this)" >投保</span>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+
+            <p class="bottom-money" style="display: block">
+                <span>保费:</span>
+                <span class="red">￥<i id="totolPrice" class="product_id" ></i>
+                    <b class="split-line"></b></span>
+                <b class="split-line"></b>
+                </span>
+            </p>
+
+            <form id="Immediately" action="/HappysysPayment/payment1" method="post">
+
+                <input type="hidden" name="productId" value="" />
+                <input type="hidden" name="productName" value="" />
+                <input type="hidden" name="totolPrice" value="" />
+                <input type="hidden" name="section" value="" />
+                <input type="hidden" name="deadline" value="" />
+                <input type="hidden" name="insuranceSum" value="" />
+                <input type="hidden" name="insuranceList" value=""/>
+
+                <input type="button" class="buy-btn" style="border: none;" value="立即投保" />
+
+            </form>
+
+
+        </div>
+        <div class="tab-content">
+            <div class="tab-box">
+                <div class="detail-box bzxq">
+                    <!-- 保障权益 -->
+                    <div class="area-cont">
+                        <h2 class="de-tit tit2">
+                            保障权益 <span class="split-line"></span> <b><sup>*</sup>投保前请您仔细阅读</b>
+                        </h2>
+                        <!-- 条款下载 -->
+                        <ul class="list-clm fz">
+
+                            <li>
+                                <a rel="nofollow" target="_blank"
+                                   href="http://resource.kaixinbao.com/eriskfile/escapeBlame/228001001_00006308.pdf">
+                                    免责条款.pdf
+                                    <span class="icon-wrap"><em class="i-shop i-xiazai1"></em></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a rel="nofollow" target="_blank"
+                                   href="http://resource.kaixinbao.com/eriskfile/proExample/228001001_00006310.pdf">
+                                    电子保单示例.pdf
+                                    <span class="icon-wrap"><em class="i-shop i-xiazai1"></em></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a rel="nofollow" target="_blank"
+                                   href="http://resource.kaixinbao.com/eriskfile/Clause/228001001_00006311.pdf">
+                                    保险条款 .pdf
+                                    <span class="icon-wrap"><em class="i-shop i-xiazai1"></em></span>
+                                </a>
+                            </li>
+                            <li class="cashValue">
+                                <a>现金价值计算<span class="icon-wrap"><em class="i-shop i-xiazai1"></em></span></a>
+                            </li>
+                        </ul>
+                        <div class="boxtable">
+                            <table id="duty-list" width="100%" border="0">
+                                <colgroup>
+                                    <col width="18%">
+                                    <col width="18%">
+                                    <col width="64%">
+                                </colgroup>
+                                <tbody class="duty-box">
+                                <tr>
+                                    <td colspan="3" class="td-ttl">
+                                        详细保障
+                                    </td>
+                                </tr>
+                                <tr th:each="insurance:${product.getProductInsuranceList()}" id="insuranceList">
+                                    <td class="dutyCol1"><em class="xiangmu"></em><span><b th:text="${insurance.getInsuranceName()}"></b></span></td>
+                                    <td class="dutyCol2" >
+                                        <div >
+                                            <div class="rs-wrap">
+                                                <input type="hidden" th:id="'insurance'+${insurance.getInsuranceId()}" />
+                                                <input type="text" value="不投保"
+                                                       class="elm-sel"
+                                                       readonly="readonly"
+                                                       style="cursor: pointer; border: none; padding: 0px; text-overflow: inherit;">
+                                                <i class="rs-edge"style="border-top-color: rgb(253, 136, 36); display: none;"></i>
+                                                <dl class="rs-select" style="min-width: 170px; display: none;"></dl>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="dutyCol3" th:text="${insurance.getInsuranceDetails()}"></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 投保须知 -->
+                    <div class="area-cont">
+                        <h2 class="de-tit">投保须知</h2>
+                        <ol class="notice-list">
+                            <li class="static">
+                                1、您通过开心保网购买的保险产品由昆仑健康保险股份有限公司承保（简称昆仑健康）承保，目前该公司在北京、上海、浙江、广东、山东有分支机构，本产品可销售地区为：北京、上海、浙江、广东、山东，客户在开心保网购买，后续的保单信息变更、退保、理赔等服务可由开心保网协助办理。
+                            </li>
+                            <li class="static">
+                                2、投保年龄：被保险人年龄限为出生满28日至60周岁之间（含28日和60周岁）
+                            </li>
+                            <li class="static">
+                                3、保额限制：投保本险种最低基本保险金额17周岁（含）以下30万元起投，18—45周岁限20万元起投,
+                                46周岁—60周岁10万元起投。累计最高基本保险金额17周岁（含）以下限70万元，18—40周岁限60万元,41—45周岁限50万元,46周岁—50周岁限30万元,51周岁—60周岁限20万元。
+                            </li>
+                            <li class="static">
+                                4、风险保额：以基本保险金额的1.5倍计入被保险人的疾病责任风险保额。
+                            </li>
+                            <li class="static">
+                                5、自您签收保险合同之日起，有15个自然日的犹豫期。在此期间如果您认为本产品与您的需求不相符，可以提出解除保险合同，我们将返还您所交的保险费。
+                            </li>
+                            <li class="static">
+                                6、昆仑健康在开心保网上销售保险产品的合同订立均采取电子保单形式，您在投保成功后30分钟内，电子保单会发送到您填写的投保人邮箱中，电子保单与纸质保单具有同等法律效力。如需纸质保单，请致电昆仑健康全国统一客服专线400-811-8899申请。
+                            </li>
+                            <li class="static">
+                                7、本产品首期保费在线实时支付。续期缴费为多年交费方式，一年后的保险费用，保险公司将从约定账户按照合同约定的方式和金额划转。
+                            </li>
+                            <li>
+                                8、投保时，投保人已就该产品的保障内容、保险金额及指定的受益人向被保险人进行了明确说明，并征得其同意。投保人知道仅可为本人、父母、配偶或子女投保，否则出险后无法顺利获得理赔。
+                            </li>
+                            <li>
+                                9、请您认真阅读保险条款、投保提示书，特别就条款中有关责任免除和投保人、被保险人义务的内容进行详细了解，确认接受条款的全部内容并了解保单利益的不确定性。
+                            </li>
+                            <li>
+                                10、投保人应就提出的询问据实告知并就各项内容如实填写，否则保险公司有权按照《中华人民共和国保险法》解除保险合同或不承担保险责任。
+                            </li>
+                            <li>
+                                11、为了维护您的合法权益，昆仑健康会在保单生效后15天犹豫期内进行在线或电话回访。昆仑健康全国统一客服回访显示号码为010-65500202。
+                            </li>
+                            <li>
+                                12、为保证您的合法权益，您可拨打昆仑健康客服热线400-811-8899查询保单信息或验证保单；或登录昆仑健康官方网站进行保单验真（http://www.kunlunhealth.com/）。若您有任何的意见或建议，请随时拨打开心保客服电话4009789789。
+                            </li>
+                            <li>
+                                13、目前我公司互联网保险业务，均已采用加密传输协议（https）或证书方式进行信息加密传输，通过技术和管理手段，对涉及投保人的信息安全加以保障，保护用户个人信息安全。
+                            </li>
+                            <li>
+                                14、本页面只针对产品进行描述，具体保险责任均以保单为准。
+                            </li>
+                        </ol>
+                    </div>
+                    <p class="view-more"><span class="more-area"><span class="spread">展开全部</span><em
+                            class="i-shop i-xiangxia"></em></span></p>
+
+                    <!-- 条款信息 -->
+                    <div class="area-cont notice-termlist">
+                        <h2 class="de-tit">条款信息</h2>
+                        <ol>
+                            <li><span class="i-shop i-xiangmu"></span>昆仑健康[2019]疾病保险015号</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+            <!-- 详情图片 -->
+            <div class="cpxq">
+                <img class="lazy"
+                     data-original="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007013.jpg"
+                     src="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007013.jpg"
+                     alt="昆仑健康保2_01.jpg">
+                <img class="lazy"
+                     data-original="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007014.jpg"
+                     src="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007014.jpg"
+                     alt="昆仑健康保2_02.jpg">
+                <img class="lazy"
+                     data-original="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007015.jpg"
+                     src="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007015.jpg"
+                     alt="昆仑健康保2_03.jpg">
+                <img class="lazy"
+                     data-original="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007016.jpg"
+                     src="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007016.jpg"
+                     alt="昆仑健康保2_04.jpg">
+                <img class="lazy"
+                     data-original="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007017.jpg"
+                     src="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007017.jpg"
+                     alt="昆仑健康保2_05.jpg">
+                <img class="lazy"
+                     data-original="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007018.jpg"
+                     src="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007018.jpg"
+                     alt="昆仑健康保2_06.jpg">
+                <img class="lazy"
+                     data-original="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007019.jpg"
+                     src="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007019.jpg"
+                     alt="昆仑健康保2_07.jpg">
+                <img class="lazy"
+                     data-original="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007020.jpg"
+                     src="http://resource.kaixinbao.com/eriskfile/packagingDrawings/228001001_00007020.jpg"
+                     alt="昆仑健康保2_08.jpg">
+            </div>
+
+            <div class="decorate"></div>
+            <!-- 常见问题 -->
+            <div class="detail-box cjwt">
+                <div class="qa-btm">
+                    <h2 class="de-tit">常见问题</h2>
+                    <div class="qa-up">
+                        <ul class="qa-list" id="common_problem">
+                            <!--<li th:each="commonProblem:${product.getProductCommonProblemList()}">
+                                <p class="q-cont"><span class="i-q"></span><span th:text="${commonProblem.commonpTitle}"></span><span class="i-shop i-zhankai1"></span></p>
+                                <p class="a-cont">
+                                    <span class="i-da"></span><span th:text="${commonProblem.commonpAnswer}"></span>
+                                </p>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="detail-box lpfw">
+                <h2 class="de-tit">理赔服务</h2>
+                <div class="bg-process">
+                    <div class="list">
+                        <span class="ltop">1</span><span class="btext">在线申请</span><span
+                            class="arrow i-shop i-zhixiang1"></span><img
+                            src="https://resource.kaixinbao.com/r02/images/shop/lp1.png" alt="">
+                    </div>
+                    <div class="list">
+                        <span class="ltop">2</span><span class="btext">提交资料</span><span
+                            class="arrow i-shop i-zhixiang1"></span><img
+                            src="https://resource.kaixinbao.com/r02/images/shop/lp2.png" alt="">
+                    </div>
+                    <div class="list">
+                        <span class="ltop">3</span><span class="btext">理赔审核</span><span
+                            class="arrow i-shop i-zhixiang1"></span><img
+                            src="https://resource.kaixinbao.com/r02/images/shop/lp3.png" alt="">
+                    </div>
+                    <div class="list"><span class="ltop">4</span><span class="btext">领取赔偿</span><img
+                            src="https://resource.kaixinbao.com/r02/images/shop/lp4.png" alt=""></div>
+                </div>
+            </div>
+            <!-- 理赔辅助材料 -->
+
+            <!-- 理赔资料 -->
+
+            <!-- 评价 -->
+            <div class="comment">
+                <h3 class="common-num user_commont">用户评价(0)</h3>
+                <div class="head-commen">
+                    <div class="degree">
+                        <span class="num commentSatisfaction"></span>
+                        <span class="agree">满意度</span>
+                    </div>
+                    <!--<ul>
+                        <li data-value="日常保障">日常保障（<span class="num">4</span>）</li>
+                    </ul>-->
+                </div>
+                <!--用户评价  -->
+                <div id="comment">
+                    <div id="commentlist">
+
+                        <ul id="biuuu_city_list"></ul>
+
+                    </div>
+                    <input type="hidden" id="purpose" value="">
+                </div>
+                <!-- 分页组件 -->
+                <div id="page_btn" align="center"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="clear:both;"></div>
+
+<!--公共脚-->
+<div th:replace="~{common/CommonFooter::#commonfooter}"></div>
+
+<!--工具栏-->
+<div th:replace="~{common/Toorbar::#toorbar}"></div>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+<script type="text/javascript" rel="script" th:src="@{/js/CommonHeader.js}"></script>
+<script type="text/javascript" th:src="@{/layui/layui.all.js}" src="/layui/layui.all.js" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    layer.msg('加载中...', {
+        icon: 16
+        ,shade: 0.1
+        ,area: ['120px', '60px']
+    });
+
+    // 查询此商品的销量
+    $.get("/HappysysOrder/getOrderCountByProductId/"+[[${product.productId}]],function (result) {
+        $("#sales_volume").html(result);
+    });
+
+
+    // 查询此商品的所有常见问题
+    $.get("/HappysysCommonProblem/getCommonProblemByProductId/"+[[${product.productId}]],function (result) {
+        $(result).each(function(index,obj){
+            $("#common_problem").append('<li>'
+                +'<p class="q-cont"><span class="i-q"></span><span>'+obj.commonpTitle+'</span>'
+                +'<span class="i-shop i-zhankai1"></span></p><p class="a-cont">'
+                +'<span class="i-da"></span><span>'+obj.commonpAnswer+'</span></p></li>');
+        });
+    });
+
+            //ajax 查询user评价
+            $.get("/HappysysComment/getCommentAndUserByProductId/"+[[${product.productId}]],function (result) {
+                var commentAndUserListData = result.commentAndUser;
+
+                $(".commentSatisfaction").html(result.commentSatisfaction+"%");
+                $(".user_commont").html("用户评价（"+commentAndUserListData.length+"）");
+
+                layui.use(['laypage', 'layer'], function(){
+                    var laypage = layui.laypage
+                        ,layer = layui.layer;
+                    laypage.render({
+                        elem: 'page_btn'
+                        ,first: '首页'
+                        ,last: '尾页'
+                        ,prev: '<em>上一页</em>'
+                        ,next: '<em>下一页</em>'
+                        ,theme: '#FFB800'
+                        ,limit : 6
+                        ,count: commentAndUserListData.length
+                        ,jump: function(obj){
+                            //模拟渲染
+                            document.getElementById('biuuu_city_list').innerHTML = function(){
+                                var arr = []
+                                    ,thisData = commentAndUserListData.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                                layui.each(thisData, function(index, item){
+                                    //item:当前json对象
+                                    arr.push('<div class="user-comment">'
+                                        +'<div class="cont-show">'
+                                        +'<p class="user">'
+                                        +'<img src="'+item.user_icon+'" title="'+item.user_name+'" />'
+                                        +'<span class="user-name">'+item.user_name+'</span>'
+                                        +'<span class="i_k i_k0"></span>'
+                                        +'</p>'
+                                        +'<div class="tit">'
+                                        +'<span class="star'+item.comment_grade+'"></span>'
+                                        +'</div>'
+                                        +'<div class="read">'+(item.comment_content == undefined ? "此用户未评论！":item.comment_content)+'</div>'
+                                        +'<div class="goal"><span>'+item.comment_time+'</span></div>'
+                                        +'</div>'
+                                        +'<div class="bottom-bor"></div>'
+                                        +'</div>');
+                                });
+                                return arr.join('');
+                            }();
+                        }
+                    });
+                });
+
+            },"json");
+
+            var addOrDel = 0;
+            //检测当前user是否已经收藏此商品
+            if([[${session.user}]] != null){
+                $.get("/HappysysShoppingCart/getShoppingCartByProductIdAndUserId/"+[[${product.productId}]],function (result) {
+                    if ($.isEmptyObject(result) == false){
+                        $("#add_shopping_cart").prop("class","i-shop i-shoucang-yidian");
+                        addOrDel = 1;
+                    }
+                },"json");
+            }
+
+
+            //加入和删除购物车
+            function addAndDelShoppingCart(){
+
+                if([[${session.user}]] != null){
+                    if(addOrDel == 0){//加入
+                        $.get("/HappysysShoppingCart/addShoppingCart",{productId:[[${product.productId}]]},function (result) {
+                            if (result == true){
+                                layer.msg('加入购物车成功！');
+                                $("#add_shopping_cart").prop("class","i-shop i-shoucang-yidian");
+                                addOrDel = 1;
+                            }
+                        },"json");
+                    }else if(addOrDel == 1){//删除
+                        $.get("/HappysysShoppingCart/delShoppingCartByProductIdAndUserId/"+[[${product.productId}]],function (result) {
+                            if (result == true){
+                                layer.msg('取消成功！');
+                                $("#add_shopping_cart").prop("class","i-shop i-shoucang-weidian");
+                                addOrDel = 0;
+                            }
+                        },"json");
+                    }
+                }else {
+                    location.href="/login.html";
+                }
+
+            };
+
+            $(function () {
+
+                //导航滚动固定
+                var top = $('.top2').offset().top;
+                $(window).scroll(function () {
+                    var winPos = $(window).scrollTop();
+                    if (winPos > top) {
+                        $('.fix-wraper').addClass('fix-top');
+                    } else {
+                        $('.fix-wraper').removeClass('fix-top');
+                    }
+                });
+
+                $('.tabbar').on('click', 'li', function () {
+                    $(this)
+                        .addClass('active')
+                        .siblings()
+                        .removeClass('active');
+                    var flag = $(this).attr('data-att');
+                    var sTop = 0;
+
+                    switch (flag) {
+                        case 'yhpj':
+                            sTop = $('.comment').offset().top - 50;
+                            $('html,body').animate({scrollTop: sTop}, 0);
+                            break;
+                        case 'cpjs':
+                            sTop = $('.cpxq').offset().top - 50;
+                            $('.pro-info').trigger('click');
+                            $('html,body').animate({scrollTop: sTop}, 0);
+                            break;
+                        case 'bzxq':
+                            sTop = $('.tit-box').offset().top - 50;
+                            $('html,body').animate({scrollTop: sTop}, 0);
+                            break;
+                        case 'cjwt':
+                            if (!$('.cjwt').offset()) {
+                                return;
+                            }
+                            sTop = $('.cjwt').offset().top - 50;
+                            $('html,body').animate({scrollTop: sTop}, 0);
+                            break;
+                        case 'lpfw':
+                            sTop = $('.lpfw').offset().top - 50;
+                            $('html,body').animate({scrollTop: sTop}, 0);
+                            break;
+                        default:
+                    }
+                    return false;
+                });
+
+                $(window).scroll(function () {
+                    var wst = $(document).scrollTop();
+
+                    if (wst >= $('.comment').offset().top - 100) {
+                        $('.tabbar li').removeClass('active');
+                        $('[data-att=yhpj]').addClass('active');
+                        return;
+                    }
+                    if (wst >= $('.lpfw').offset().top - 100) {
+                        $('.tabbar li').removeClass('active');
+                        $('[data-att=lpfw]').addClass('active');
+                        return;
+                    }
+
+                    if ($('.cjwt').offset()) {
+                        if (wst >= $('.cjwt').offset().top - 100) {
+                            $('.tabbar li').removeClass('active');
+                            $('[data-att=cjwt]').addClass('active');
+                            return;
+                        }
+                    }
+
+                    if (wst >= $('.cpxq').offset().top - 100) {
+                        $('.tabbar li').removeClass('active');
+                        $('[data-att=cpjs]').addClass('active');
+                        return;
+                    }
+                    if (wst >= $('.tit-box').offset().top - 100) {
+                        $('.tabbar li').removeClass('active');
+                        $('[data-att=bzxq]').addClass('active');
+                        return;
+                    }
+                });
+
+                //保障预览
+                $('.insure-filter').click(function () {
+                    $(this).toggleClass('active');
+                    $('.filter-temp').toggle();
+                    $(this)
+                        .find('.rs-edge')
+                        .toggleClass('rot');
+                });
+
+
+                $('.comment').delegate('.good', 'click', function () {
+                    $(this).toggleClass('active');
+                    var gflag = 'N';
+                    var gid = $(this).attr('data-commentid');
+                    if ($(this).is('.active')) {
+                        gflag = 'Y';
+                    }
+                    res.good(gid, gflag);
+                });
+
+                $('.head-commen li').click(function () {
+                    $(this)
+                        .addClass('active')
+                        .siblings()
+                        .removeClass('active');
+                    res.changeComment($(this));
+                });
+
+                $('.more-area').click(function () {
+                    $('.view-more em').toggleClass('i-xiangshang');
+                    $('.view-more em').toggleClass('i-xiangxia');
+                    if ($('.view-more em').is('.i-xiangshang')) {
+                        $(this)
+                            .find('.spread')
+                            .html('收起全部');
+                    } else {
+                        $(this)
+                            .find('.spread')
+                            .html('展开全部');
+                    }
+                    $('.notice-list li')
+                        .not('.static')
+                        .toggle();
+                });
+
+                function dynamicSelect(obj) {
+                    $(obj).addClass("selected");
+                    $(obj).siblings().removeClass("selected");
+                };
+
+                // 所有标签项的点击时间
+                $("#operation span").click(function(){
+
+                    dynamicSelect(this);
+
+                    var _list = new Array();
+                    var count = 0;
+
+                    $(".insurance").each(function(i,d) {
+                        if ($(d).attr("class") == "insurance selected") {
+                            _list[count] = $(d).attr("value");
+                            count++;
+                        }
+                    })
+
+                    //var price =  $(this).attr("value");
+                    //下述内容相当于判断price!=""、price!=null、price != undefined、price!=0
+                    //if(price) {
+                    //}
+                    calculatePrice(_list);
+
+                });
+
+    });
+
+
+    //立即购买
+    $(document).on('click', '.buy-btn', function (e) {
+        e.preventDefault();
+        payment();
+    });
+    $(document).on('click', '.base', function (e) {
+        e.preventDefault();
+        payment();
+    });
+
+    $(document).on('mouseover', '.q-cont', function(){
+        $(this)
+            .parent()
+            .siblings()
+            .find('.i-zhankai1')
+            .removeClass('trans');
+        $(this)
+            .parent()
+            .siblings()
+            .find('.a-cont')
+            .hide();
+        $(this)
+            .find('.i-zhankai1')
+            .toggleClass('trans');
+        $(this)
+            .siblings('.a-cont')
+            .slideDown(100);
+    })
+
+
+    function payment(){
+
+        //商品名称
+        $("input[name=productName]").val($("#product_id").text().trim());
+        $("input[name=productId]").val($("#product_id").attr("value"));
+        //商品总价格
+        $("input[name=totolPrice]").val($("#totolPrice").text().trim());
+        $("input[name=section]").val($("#section_id>.selected").text().trim());
+        $("input[name=deadline]").val($("#deadline_id>.selected").text().trim());
+        $("input[name=insuranceSum]").val($("#insurance_sum_id>.selected>.sum").val());
+
+        var count = 0;
+        var _list = new Array();
+        $(".insurance").each(function(i,d) {
+            if ($(d).attr("class") == "insurance selected") {
+                _list[count] = $(d).attr("value");
+                count++;
+            }
+        })
+        $("input[name=insuranceList]").val(_list);
+
+        $("#Immediately").submit();
+
+    }
+
+    calculatePrice(null);
+
+    function calculatePrice(_list){
+        $.ajax({
+            "url": "/HappysysProduct/getCaluelatePrice",
+            "type": "post",
+            "data": JSON.stringify({"product_id":$("#product_id").attr("value"),
+                "section_id":$("#section_id>.selected").attr("value"),
+                "deadline_id":$("#deadline_id>.selected").attr("value"),
+                "insurance_sum_id":$("#insurance_sum_id>.selected").attr("value"),
+                "insurances":_list
+            }),
+            "contentType":"application/json",
+            "dataType": "text",
+            "success": function (rs) {
+                $(".product_id").text(rs);
+            },
+            "errer": function () {
+                layer.msg('数据测试中......');
+            }
+        });
+    }
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

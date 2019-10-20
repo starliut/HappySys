@@ -1,0 +1,126 @@
+
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+
+        <div class="member-order-nav">
+            <h2 class="title"><span></span>用户资料</h2>
+        </div>
+        <!-- 用户资料 -->
+        <div class="member-datum-form">
+            <form id="updateUserInfoForm" action="/HappysysUser/updateUserById" method="post" enctype="multipart/form-data">
+                <ul class="validate">
+                    <li>
+                        <div class="item" style="margin-top: 30px"><span>头像</span></div>
+                        <div class="text">
+                            <a href="javascript:clickFileField()"><img id="userIconImg" style="cursor:pointer" src="https://resource.kaixinbao.com/r02/images/common/hader_kxb.jpg" th:src="${session.user.userIcon}" height="100px" width="100px"></a>
+                            <input type="file" id="userIcon" name="file" accept="image/*" onchange="changeImg()" style="display: none" >
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item"><span>姓名</span></div>
+                        <div class="text">
+                            <input type="text" name="userName" id="username" placeholder="请输入" data-verify="NOTNULL|请输入姓名" th:value="${session.user.userName }"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item"><span>邮箱</span></div>
+                        <div class="text">
+                            <input type="text" name="userEmail" th:value="${session.user.userEmail }"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item"><span>性别</span></div>
+                        <div class="text raidos">
+                                    <span id="Mspan" th:class="${session.user.userSex == 'M'? 'sel':''}">
+                                        <em class="iradio"></em><input type="radio" value="M"/>男
+                                    </span>
+                            <span id="Fspan" th:class="${session.user.userSex == 'F'? 'sel':''}">
+                                        <em class="iradio"></em><input type="radio" value="F"/>女
+                                    </span>
+                        </div>
+                        <input th:attr="checked=${session.user.userSex == 'M'?true:false}" type="radio" style="display: none;" id="MUserRadio" name="userSex" value="M"/>
+                        <input th:attr="checked=${session.user.userSex == 'F'?true:false}" type="radio" style="display: none;" id="FUserRadio" name="userSex" value="F"/>
+
+                    </li>
+                    <li>
+                        <div class="item"><span>生日</span></div>
+                        <div data-id="birthDay" class="text">
+                            <!--<input class="date-sel__birth" name="userBirthday" th:value="${session.user.userBirthday }" type="text" placeholder="请选择" data-verify="NOTNULL|请选择生日" data-format="date" data-min="1900-01-01"   data-max=""   value="" />
+                            <em class="i-data"></em>-->
+                            <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                                <input type="text" name="userBirthday" th:value="${#dates.format(session.user.userBirthday, 'yyyy-MM-dd')}" class="layui-input" id="layui_date">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <submit class="submit_btn" style="border:0px; cursor:pointer">变更</submit>
+
+            </form>
+        </div>
+        <!-- 用户资料 -->
+
+        <script type="text/javascript">
+
+            layui.use('laydate', function(){
+                var laydate = layui.laydate;
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#layui_date' //指定元素
+                    ,min: '1900-01-01'
+                    ,max: ''+getTime()
+                    ,theme: "#F76809"
+                });
+            });
+            //获取当前时间
+            function getTime(){
+                var date = new Date(); //创建时间对象
+                var year = date.getFullYear(); //获取年
+                var month = date.getMonth()+1;//获取月
+                var day = date.getDate(); //获取当日
+                var time = year+"-"+month+"-"+day; //组合时间
+                return time;
+            }
+
+
+            function clickFileField() {
+                $("#userIcon").trigger("click");
+            }
+
+            /*当文件域选中图片时实现图片预览*/
+            function changeImg() {
+                var r= new FileReader();
+                f=document.getElementById('userIcon').files[0];
+                r.readAsDataURL(f);
+                r.onload=function  (e) {
+                    document.getElementById('userIconImg').src=this.result;
+                };
+            }
+
+            $(function () {
+                $(".submit_btn").click(function () {
+                    var $userName = $("[name=userName]").val();
+                    var $userBirthday = $("[name=userBirthday]").val();
+                    if($userName == null && $userName == ""){
+                        layer.msg("请输入用户名！");
+                    }else{
+                        $("#updateUserInfoForm").trigger("submit");
+                    }
+                });
+                $("#Mspan").click(function () {
+                    $("#MUserRadio").trigger("click");
+                    $(this).attr("class", "sel");
+                    $("#Fspan").removeAttr("class", "sel");
+                });
+                $("#Fspan").click(function () {
+                    $("#FUserRadio").trigger("click");
+                    $(this).attr("class", "sel");
+                    $("#Mspan").removeAttr("class", "sel");
+                });
+
+            })
+        </script>
+
+
+<script type="text/javascript" th:src="@{/layui/layui.all.js}" src="/layui/layui.all.js" charset="utf-8"></script>
+
+

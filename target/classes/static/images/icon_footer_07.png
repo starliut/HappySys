@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Error>
+  <Code>NoSuchKey</Code>
+  <Message>The specified key does not exist.</Message>
+  <RequestId>5D3C14A0B3B1C70FFA56EB37</RequestId>
+  <HostId>kxb.oss-cn-hangzhou.aliyuncs.com</HostId>
+  <Key>r02/css/images/common/icon_footer_07.png</Key>
+</Error>

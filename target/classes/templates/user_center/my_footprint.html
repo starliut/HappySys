@@ -1,0 +1,84 @@
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+
+<!--my_footprint-->
+<link rel="stylesheet" href="https://mresource.kaixinbao.com/member/pc/r02/css/member/mod_track.css">
+
+    <div class="member-order-nav">
+        <h2 class="title"><span></span>我的足迹</h2>
+    </div>
+    <!--<p class="track-message-num">最近的50条浏览记录</p>-->
+    <!-- 我的积分列表 -->
+    <div class="member-track-con" id="trackPage">
+
+        <div id="trackPageDiv">
+            <!--ajax循环！展示我的商品足迹-->
+
+        </div>
+
+
+        <!-- 分页组件 -->
+        <div id="page_btn" align="center"></div>
+        <!-- 分页组件 -->
+
+    </div>
+    <!-- /我的积分列表 -->
+
+    <script>
+
+        $.ajax({
+            url: "/HappysysFootprint/getFootprintProductByUserId",
+            method:"get",
+            dataType:"json",
+            success:function (result) {
+                $("#trackPage").before('<p class="track-message-num">最近的'+result.length+'条浏览记录</p>');
+                if(result.length == 0){
+                    $("#trackPage").append('<div class="no-message">'
+                        +'<img src="https://mresource.kaixinbao.com/member/pc/r02/images/member/no-message.png" alt=""/>'
+                        +'<p>您还没有任何足迹哦！</p><a target="view_window" href="/" class="no-goto-shop">去逛逛</a>'
+                        +'</div></div>');
+                }else {
+                    layui.use(['laypage', 'layer'], function(){
+                        var laypage = layui.laypage
+                            ,layer = layui.layer;
+
+                        laypage.render({
+                            elem: 'page_btn'
+                            ,first: '首页'
+                            ,last: '尾页'
+                            ,prev: '<em>上一页</em>'
+                            ,next: '<em>下一页</em>'
+                            ,theme: '#FFB800'
+                            ,limit : 6
+                            ,count: result.length
+                            ,jump: function(obj){
+                                document.getElementById('trackPageDiv').innerHTML = function(){
+                                    var arr = []
+                                        ,thisData = result.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                                    layui.each(thisData, function(index, item){
+                                        //item:当前json对象
+                                        arr.push('<dl><dt>'
+                                            +'<a href="/HappysysProduct/getById/'+item.productId+'" target="_blank">'
+                                            +'<img src="'+item.productImage+'" alt=""/></a>'
+                                            +'</dt><dd class="des">'
+                                            +'<a class="title" href="/HappysysProduct/getById/'+item.productId+'" target="_blank">'+item.productTitle+'</a>'
+                                            +'</dd><dd class="active">'
+                                            +'<a href="/HappysysProduct/getById/'+item.productId+'" class="gotosee">查看详情</a>'
+                                            +'</dd></dl>');
+                                    });
+                                    return arr.join('');
+                                }();
+                            }
+                        });
+                    });
+                }
+            },
+            error:function () {
+                alert("系统异常，请联系管理员！")
+            }
+
+        });
+
+
+    </script>
+
+<script type="text/javascript" th:src="@{/layui/layui.all.js}" src="/layui/layui.all.js" charset="utf-8"></script>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" href="css/layui.css"  media="all">
+    <link rel="stylesheet" href="css/mod_common.css">
+    <link rel="stylesheet" href="css/mod_register.css">
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" th:inline="javascript">
+
+
+        //获取验证码
+        function getVerify() {
+            // $("#imgCode").on("click", function() {
+            $("#imgVerify").attr("src", 'login/getVerify?' + Math.random());//jquery方式
+            // });
+        }
+
+        function aVerify() {
+            var value = $("#verify_input").val();
+             //alert(value);
+            $.ajax({
+                async: false,
+                type: 'post',
+                url: 'login/checkVerify',
+                dataType: "json",
+                data: {
+                    verifyInput: value
+                },
+                success: function (result) {
+                    if (result) {
+                        //alert("二维码验证成功!");
+                    } else {
+                        alert("二维码验证失败!");
+                        getVerify();    //失败了才切换二维码
+                    }
+                    // window.location.reload();
+
+                }
+            });
+        }
+
+        function dianji(btn) {
+            //删除本身
+            btn.remove();
+        }
+        function erweima() {
+
+            var mobile=$("#mobileNo").val();
+
+            $.post('generate/erweima',{phone:mobile},function (result) {
+
+                $("#yic").val(result);
+            })
+        }
+
+
+
+        $(function () {
+            $("#mobileNo").blur(function () {
+                var value1=$("#mobileNo").val();
+                var headp= value1.substring(0,1);
+                var info='';
+                if(value1.length==0){
+                    info="账号不能为空！";
+                    $("#shouji").after('<div class="error"   onclick="dianji(this)" style="width: 298px; height: 40px; line-height: 39px; left: 1px;"><em class="iconfont i-th"></em><strong>'+info+'</strong></div>');
+                }else if(headp != "1"){
+                    alert("手机号码必须以1开头！");
+                }else if(value1.length<11 || value1.length>11){
+                    info="手机号格式不正确！";
+                    $("#shouji").after('<div class="error"  onclick="dianji(this)" style="width: 298px; height: 40px; line-height: 39px; left: 1px;"><em class="iconfont i-th"></em><strong>'+info+'</strong></div>');
+                }else if(value1.length!=0){
+                    $.post("user/nameisExists",{phone:value1},function (data) {
+
+                        if(data==1){
+                            alert("该手机号已注册！");
+                        }
+                    })
+                }
+            });
+
+
+            $("#vrcode").blur(function () {
+                var zhen=$("#vrcode").val();
+                var shou= $("#yic").val();
+                if(zhen==shou){
+
+                }else{
+                    $("#errorER").after('<div class="error"  onclick="dianji(this)" style="width: 170px; height: 42px; line-height: 39px; left: 1px;"><em class="iconfont i-th"></em><strong>二维码不正确</strong></div>');
+                }
+            })
+
+            $("#tijiao").click(function () {
+                var value1 = $("#mobileNo").val();
+                var info = '';
+                if (value1.length == 0) {
+                    info = "账号不能为空！";
+                    $("#mobileNo").focus();
+                    $("#shouji").after('<div class="error"   onclick="dianji(this)" style="width: 298px; height: 40px; line-height: 39px; left: 1px;"><em class="iconfont i-th"></em><strong>' + info + '</strong></div>');
+
+                } else if (value1.length < 11 || value1.length > 11) {
+                    info = "手机号格式不正确！";
+                    $("#shouji").after('<div class="error"  onclick="dianji(this)" style="width: 298px; height: 40px; line-height: 39px; left: 1px;"><em class="iconfont i-th"></em><strong>' + info + '</strong></div>');
+
+                } else{
+                    $.post('add/user', {phone: $("#mobileNo").val(), password: $("#password").val()}, function (data) {
+                        window.location.href='login.html';
+                        //window.open("/login.html");
+                    })
+                }
+
+
+
+            })
+            var time1=60;
+            var miao;
+            function time() {
+
+                $("#erwei").addClass("layui-btn-disabled layui-btn");
+                $("#erwei").text("重新发送("+time1+")");
+                miao=setInterval(function () {
+                    time1=time1-1;
+                    if(time1>=0){
+                        $("#erwei").text("重新发送("+time1+")");
+                    }else {
+                        time1=60;
+                        $("#erwei").removeClass("layui-btn-disabled layui-btn");
+
+                        $("#erwei").text("获取验证码");
+                        clearInterval(miao);
+                    }
+                },1000)
+            }
+            $("#erwei").click(function () {
+                time();
+            })
+
+        })
+
+    </script>
+</head>
+
+<body id="register">
+<!-- 公共头部 -->
+
+<div id="login-header">
+    <div class="login-header">
+        <div class="login-header-logo">
+            <a href = "http://www.kaixinbao.com"><img src="picture/logo.png" alt="欢迎登陆开心保"> </a>
+        </div>
+        <div class="login-header-service">
+            <span><em class="icons"><img src="picture/kefu_03.png" alt="开心保客服电话"></em>客服: 4009-789-789 </span>
+        </div>
+    </div>
+</div>
+<div id="login-box">
+    <div class="mod-login">
+        <div class="mod-login-box">
+
+                <div class="register">
+                    <ul class="validate">
+                        <li>
+                            <div class="text" id="shouji" >
+                                <input type="text" id="mobileNo" name="user_name" autocomplete="new-password" class="accountInput" placeholder="请输入正确手机号" data-verify="NOTNULL|账号不为空&&TELPHONE|输入手机号格式不正确" />
+                            </div>
+
+
+                        </li>
+                        <li class="short">
+                            <div class="text">
+                                <input type="text" id="verify_input"  onblur="aVerify()" autocomplete="new-password" class="input-img"  data-verify="NOTNULL|图片验证码不为空" placeholder="请输入验证码" maxlength="4"/>
+                                <div class="imgcode">
+                                    <a href="javascript:void(0);" title="点击更换验证码">
+                                         <img id="imgVerify" src="login/getVerify" alt="更换验证码" height="36" width="170" onclick="getVerify(this);">
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="short">
+                            <div class="text" id="errorER">
+                                <input id="yic" type="hidden"/>
+                                <input type="text" id='vrcode'  autocomplete="new-password" placeholder="请输入验证码" data-verify="NOTNULL|验证码不为空" />
+                              <!--  <span class="btn-send send" onclick="erweima()">获取短信验证码</span>-->
+                                <button class="btn-send send" id="erwei"  onclick="erweima()">获取短信验证码</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="text">
+                                <input type="password" id='password' name="user_password" autocomplete="new-password" placeholder="请输入密码" data-verify="NOTNULL|密码不为空&&NUMADDEH|密码过于简单,必须同时包含数字和字母&&LENGTH[6,20]|密码位数有误，应为6-20位" />
+                            </div>
+                        </li>
+
+                    </ul>
+                    <div class="agreement">
+                        <!--<span><em class="iconfont icon-kongxin">::before</em><input type="checkbox">我已阅读并同意</span><a href="javascript:void(0);">《注册协议》</a>-->
+                    </div>
+                    <a href="javascript:void(0);" id="tijiao" class="registerbtn">立即注册</a>
+                </div>
+
+            <div class="loginlink">
+                <a href="https://vipm.kaixinbao.com/pc/login.shtml">手机号/邮箱登录&gt;</a>
+            </div>
+            <ul class="orther">
+                <li class="iconfont icon-QQ"><a href="https://vipm.kaixinbao.com/thirdLogin/tencent"></a><span>QQ</span></li>
+                <li class="iconfont icon-zhifubao"><a href="https://vipm.kaixinbao.com/thirdLogin/alipay"></a><span>支付宝</span></li>
+                <li class="iconfont icon-weibo"><a href="https://vipm.kaixinbao.com/thirdLogin/sina"></a><span>微博</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="WJAppResourcePath" value="http://www.kaixinbao.com/">
+<input type="hidden" id="WJStaticResourcePath" value="http://resource.kaixinbao.com/r02/">
+
+<!-- 公共尾部 -->
+
+<div id="login-footer">
+    <div class="login-footer">
+        <div class="login-footer-con">
+            <dl>
+                <dt>
+                    <a href="http://www.kaixinbao.com/other/about/" rel="nofollow">关于开心保</a>|
+                    <a href="http://www.kaixinbao.com/other/news/" rel="nofollow">开心保要闻</a>|
+                    <a href="http://www.kaixinbao.com/other/sitemap/">网站地图</a>|
+                    <a href="http://www.kaixinbao.com/other/legal/" rel="nofollow">法律声明</a>|
+                    <a href="http://www.kaixinbao.com/other/contact/" rel="nofollow">联系我们</a>|
+                    <a href="http://www.kaixinbao.com/yxhd/isl-tra/" target="_blank" rel="nofollow">微信版</a>
+                </dt>
+                <dd>
+                    <a href="http://www.miitbeian.gov.cn" target="_blank" rel="nofollow">辽ICP备12007009号-1</a>&nbsp;&nbsp;|
+                    <a href="https://resource.kaixinbao.com/r02/images/common/icp.jpg" target="_blank" rel="nofollow">ICP经营许可证(辽B2-20120076)</a>&nbsp;&nbsp;|
+                    <a href="http://www.kaixinbao.com" target="_blank" rel="nofollow">Copyright 2012-2019 版权所有 网金保险销售服务有限公司</a>&nbsp;&nbsp;|
+                    <a href="https://resource.kaixinbao.com/r02/images/common/bxdlywxkz.jpg" target="_blank" rel="nofollow">保险代理业务许可证</a>&nbsp;&nbsp;|
+                    <a href="https://resource.kaixinbao.com/r02/images/common/qyfryyzz.jpg" target="_blank" rel="nofollow">企业营业执照</a>
+                </dd>
+            </dl>
+        </div>
+        <div class="login-footer-approve">
+            <ul>
+                <li><a href="http://www.circ.gov.cn/tabid/5171/InfoID/210753/frtid/4491/Default.aspx" target="_blank" rel="nofollow"><img src="picture/icon2.png" width="36" height="14">中国保监会网销许可</a></li>
+                <li><a href="http://wljg.lngs.gov.cn/iciaicweb/dzbscheck.do?method=change&id=E2014111300054343" target="_blank" rel="nofollow"><img src="picture/icon3.png" width="15" height="15">工商网监认证</a></li>
+                <li><a href="http://www.itrust.org.cn/Home/Index/wx_certifi/wm/1594416088.html" target="_blank" rel="nofollow"><img src="picture/icon1.png" width="15" height="15">ICP网站征信</a></li>
+                <li><a href="https://si.trustutn.org/info?sn=618161121025629572164&certType=1" target="_blank" rel="nofollow"><img src="picture/icon4.png" width="15" height="15">水滴信用实名网站</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/require.js"></script>
+<script type="text/javascript" src="js/require.config.js"></script>
+<script type="text/javascript">require(['login/mod_register']);</script>
+
+</body>
+
+
+</html>

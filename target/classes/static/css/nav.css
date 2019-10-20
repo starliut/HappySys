@@ -1,0 +1,331 @@
+@charset "utf-8";
+
+/* ==== 顶部导航栏 ==== */
+.header-nav {
+	width: 100%;
+	height: 30px;
+	background-color: #f5f5f5;
+	line-height: 30px;
+}
+.header-nav-cont {
+	width: 1200px;
+	margin: 0 auto;
+	font-size: 12px;
+	position: relative;
+}
+.header-nav-login {
+	width: 300px;
+	height: 30px;
+	position: absolute;
+	left: 405px;
+}
+.header-nav-link {
+	width: 630px;
+	float: right;
+}
+.header-nav-link dl {
+	position: relative;
+	float: right;
+	min-width: 40px;
+}
+.header-nav-link dt a {
+	color: #333;
+}
+.header-nav-link dt.sel a {
+	color: #f69945;
+}
+.header-nav-link dd {
+	position: absolute;
+	top: 30px;
+}
+.header-nav-link dd.list {
+	width: 95px;
+	border-top: none;
+	background: #fff;
+	position: absolute;
+	left: 0;
+	overflow: hidden;
+	padding: 10px 0;
+	z-index: 10;
+	box-shadow: 0 0 18px 0 rgba(205, 205, 205, 0.5);
+}
+.header-nav-link dd.list a {
+	display: block;
+    height: 28px;
+    text-align: center;
+	line-height: 28px;
+	color: #888;
+}
+.header-nav-link dd.list a:hover {
+	color: #ed6d00;
+}
+.header-nav-link dl dt {
+	display: inline-block;
+	cursor: pointer;
+	color: #666;
+	height: 30px;
+	width: 95px;
+	text-align: center;
+	line-height: 30px;
+	padding: 0 10px;
+}
+.header-nav-link dl:first-child dt {
+	width: 102px;
+	color: #454545;
+	background: none;
+	font-size: 14px;
+	padding: 0;
+}
+.header-nav-link dl:first-child.active {
+	box-shadow: 0;
+}
+
+.header-nav-link dl.active {
+	box-shadow: 0 0 18px 0 rgba(205, 205, 205, 0.5);
+}
+
+.header-nav-link dl dt.active {
+	background: #fff;
+	color: #ed6d00;
+}
+.header-nav-link .active dt .iconfont {
+	color: #ed6d00;
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+}
+.header-nav-link dd.con {
+	width: 262px;
+	right: 0;
+	z-index: 30;
+	color: #ed6d00;
+	padding: 10px 0;
+	text-align: center;
+	background: #fff;
+	box-shadow: 0 0 18px 0 rgba(205, 205, 205, 0.5);
+}
+.header-nav-link dd.con p {
+	float: left;
+	width: 130px;
+	text-align: center;
+	line-height: 18px;
+	color: #333;
+}
+.header-nav-link dd.con img {
+	display: block;
+	margin: 0 auto;
+}
+.header-nav-link dt .iconfont {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin-left: 5px;
+	text-align: center;
+	line-height: 12px;
+	font-size: 10px;
+	color: #999;
+	font-weight: normal;
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+.header-nav .login_out,
+.header-nav .login_in {
+	position: relative;
+	float: right;
+	width: 160px;
+	margin-right: -15px;
+	z-index: 99;
+}
+.header-nav .user-head {
+	width: 160px;
+	height: 30px;
+	text-align: center;
+}
+.header-nav .user-head:hover {
+	background-color: #fff;
+	box-shadow: 0 0 15px rgba(205, 205, 205, 0.5);
+}
+.header-nav .user-head .name {
+	margin-right: 5px;
+	color: #333;
+}
+.header-nav .user-head .name:hover {
+	color: #fc8e3b;
+}
+.header-nav .login_in .i_user {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	background: url('../images/icon_head_user.png') no-repeat left top;
+	vertical-align: -2px;
+}
+.header-nav .login_in .i_k {
+	display: inline-block;
+	width: 27px;
+	height: 17px;
+	vertical-align: text-bottom;
+}
+.header-nav .login_in .i_k0 {
+	background: url('../images/icon_level_k0.png') no-repeat left top;
+}
+.header-nav .login_in .i_k1 {
+	background: url('../images/icon_level_k1.png') no-repeat left top;
+}
+.header-nav .login_in .i_k2 {
+	background: url('../images/icon_level_k2.png') no-repeat left top;
+}
+.header-nav .login_in .i_k3 {
+	background: url('../images/icon_level_k3.png') no-repeat left top;
+}
+.header-nav .user-head .icon-xiangxia {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin-left: 5px;
+	font-size: 10px;
+	line-height: 12px;
+	color: #999;
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+.header-nav .user-head:hover .icon-xiangxia {
+	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+}
+.header-nav .user-box {
+	display: none;
+	position: absolute;
+	top: 30px;
+	left: 0;
+	width: 244px;
+	height: 154px;
+	z-index: 999;
+}
+.user-box-cont {
+	float: left;
+	width: 100%;
+	height: 124px;
+	background: #fff url('../images/bg_user_box.jpg') no-repeat left top;
+	box-shadow: 0 5px 15px 0 rgba(205, 205, 205, 0.5);
+	border-bottom: 1px solid #f2f2f2;
+	border-left: 1px solid #f2f2f2;
+	border-right: 1px solid #f2f2f2;
+}
+.user-box-cont .info {
+	position: relative;
+	width: 100%;
+	height: 84px;
+}
+.user-box-cont .info .avatar {
+	float: left;
+	width: 50px;
+	height: 50px;
+	margin: 17px 10px;
+}
+.user-box-cont .info .avatar img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-o-border-radius: 50%;
+	-ms-border-radius: 50%;
+}
+.user-box-cont .info .level {
+	position: relative;
+	float: left;
+	margin-top: 10px;
+}
+.user-box-cont .info .birth {
+	position: absolute;
+	top: 14px;
+	left: 46px;
+	width: 20px;
+	height: 20px;
+	background: url(../images/icon_birthday.png) no-repeat top left;
+}
+.user-box-cont .info .text {
+	float: left;
+	width: 162px;
+	line-height: 16px;
+	font-size: 11px;
+	color: #5c5567;
+	overflow: hidden;
+}
+#gradeinfo {
+	height: 32px;
+}
+.user-box-cont .info .out {
+	position: absolute;
+	top: 10px;
+	right: 17px;
+	color: #5c5567;
+	cursor: pointer;
+}
+.user-box-cont .info .out:hover {
+	color: #fc8e3b;
+}
+.user-box-cont .btns {
+	overflow: hidden;
+}
+.user-box-cont .btns li {
+	float: left;
+	width: 100%;
+	height: 40px;
+	text-align: center;
+}
+
+.user-box-cont .btns li a {
+	display: block;
+	line-height: 40px;
+}
+.user-box-cont .btns li a:hover span {
+	color: #fc8e3b;
+}
+.user-box-cont .btns li span {
+	margin-right: 5px;
+	font-size: 12px;
+	color: #fc8e3b;
+}
+.user-box-cont .btns li span:first-child {
+	color: #333;
+}
+.login_out .user-head {
+	font-size: 12px;
+	color: #333;
+}
+.login_out .user-head span,
+.login_out .user-head a {
+	display: inline-block;
+	color: #fc8e3b;
+}
+.login_out .user-head a:hover {
+	text-decoration: underline;
+}
+.login_out .user-head a:first-child {
+	padding-left: 5px;
+}
+.login_out .user-head span {
+	padding: 0 5px;
+}
+.login_out .text {
+	padding-left: 10px;
+	text-align: left;
+}
+.login_out .text a {
+	display: block;
+	padding-top: 34px;
+	font-size: 12px;
+	color: #333;
+}
+.login_out .text a:hover {
+	color: #fc8e3b;
+}
+/* ==== /顶部导航栏 ==== */

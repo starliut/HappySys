@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>确认保单</title>
+
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/uploadify.css"/>
+    <!--全局通用样式-->
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/redesign/re_header.css"/>
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/new_logo.css">
+    <!--购买流程通用样式-->
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/shop/css/re_shops.css"/>
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/skins/default.css"/>
+    <link rel="shortcut icon" href="https://resource.kaixinbao.com/r02/images/favicon.ico"/>
+
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
+
+
+</head>
+<body>
+
+<div class="" style="display: none; position: absolute;">
+    <div class="aui_outer">
+        <table class="aui_border">
+            <tbody>
+            <tr>
+                <td class="aui_nw"></td>
+                <td class="aui_n"></td>
+                <td class="aui_ne"></td>
+            </tr>
+            <tr>
+                <td class="aui_w"></td>
+                <td class="aui_c">
+                    <div class="aui_inner">
+                        <table class="aui_dialog">
+                            <tbody>
+                            <tr>
+                                <td colspan="2" class="aui_header">
+                                    <div class="aui_titleBar">
+                                        <div class="aui_title" style="cursor: move; display: block;"></div>
+                                        <a class="aui_close" href="javascript:/*artDialog*/;"
+                                           style="display: block;">×</a></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="aui_icon" style="">
+                                    <div class="aui_iconBg"
+                                         style="background: url(&quot;https://resource.kaixinbao.com/js/skins/icons/warning.png&quot;);"></div>
+                                </td>
+                                <td class="aui_main" style="width: auto; height: auto;">
+                                    <div class="aui_content" style="padding: 20px 25px;"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="aui_footer">
+                                    <div class="aui_buttons" style=""></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <td class="aui_e"></td>
+            </tr>
+            <tr>
+                <td class="aui_sw"></td>
+                <td class="aui_s"></td>
+                <td class="aui_se" style="cursor: se-resize;"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="nTalk_post_hiddenElement"
+     style="left: -10px; top: -10px; visibility: hidden; display: none; width: 1px; height: 1px;"></div>
+
+
+<!--top头部-->
+<div th:replace="~{header/ProductListHeader::#tou}"></div>
+<!--top头部end-->
+
+<!-- 弹窗添加代码 -->
+<input hidden id="microServiceMemberDomain" value="https://vipm.kaixinbao.com/">
+<!-- 弹窗添加代码 end -->
+
+<div class="wrapper">
+    <div class="re-line-log">
+            <ul class="re-line-ul">
+                <li class="re-line-d"><div class="re-linehead re-linehead1"><span></span></div><h3 class="re-line-h3">1、填写投保信息<p>我们对您填写的信息严格保密</p></h3><span class="re-line-jiao"></span></li>
+                <li class="re-line-s"><div class="re-linehead re-linehead2"><span></span></div><h3 class="re-line-h3">2、确认保单<p>确认信息填写是否正确无误</p></h3><span class="re-line-jiao"></span></li>
+                <li><div class="re-linehead re-linehead3"><span></span></div><h3 class="re-line-h3">3、在线支付<p>
+                    支持多种支付方式</p></h3><span class="re-line-jiao"></span></li>
+            </ul>
+        </div>
+
+        <div class="clear"></div>
+
+    <div class="w900 order-bg">
+
+        <form id="resultForm" action="/HappysysPayment/payment3" method="post">
+            <div class="lay-ins-con pro-con-info">
+                <span class="small_fr f_mi">订单号：[[${orderDetails.order_number}]]</span>
+                <div class="ins-tit un_bot_bor">保单明细</div>
+                <div class="bdmx_table_b">
+                    <table class="bdmx_table">
+                        <tr>
+                            <th class="bd_t_bg" width="340px;">投保计划</th>
+                            <th class="bd_t_bg">保单起保日期</th>
+                            <th class="bd_t_bg">保单终止日期</th>
+                        </tr>
+                        <tr>
+                            <td><a target="_blank" style="text-decoration: none;color: black"
+                                   th:href="'/HappysysProduct/getById/'+${orderDetails.product_id}">
+                                [[${orderDetails.product_title}]]</a></td>
+                            <td>[[${orderDetails.order_time}]]</td>
+                            <td>[[${orderDetails.order_expire_time}]]</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="lay-ins-con pro-con-info">
+                <div class="ins-tit un_bot_bor">投保人信息</div>
+                <table class="tbr_mes_table">
+                    <tr>
+                        <td class="bd_t_bg td_t_w">姓名</td>
+                        <td class="tb_t_ws">[[${applicantInfo.applicantName}]]</td>
+                        <td class="bd_t_bg td_t_w">证件类型</td>
+                        <td class="tb_t_ws">身份证</td>
+                        <td class="bd_t_bg td_t_w">证件号码</td>
+                        <td class="tb_t_ws">[[${applicantInfo.applicantIdentity}]]</td>
+                    </tr>
+                    <tr>
+                        <td class="bd_t_bg td_t_w">出生日期</td>
+                        <td class="tb_t_ws">[[${#dates.format(applicantInfo.applicantBirthday,'yyyy-MM-dd')}]]</td>
+                        <td class="bd_t_bg td_t_w">邮箱</td>
+                        <td class="tb_t_ws">[[${applicantInfo.applicantEmail}]]</td>
+                        <td class="bd_t_bg td_t_w">性别</td>
+                        <td class="tb_t_ws">[[${recognizeeInfo.applicantSex == 'F' ? '女':'男'}]]</td>
+                    </tr>
+                    <tr>
+                        <td class="bd_t_bg td_t_w">手机号码</td>
+                        <td class="tb_t_ws">[[${applicantInfo.applicantPhone}]]</td>
+                    </tr>
+
+
+                </table>
+            </div>
+
+            <div class="lay-ins-con pro-con-info">
+                <div class="ins-tit  ">被保险人信息<em class="ins-tit-b">（共1人）</em></div>
+                <div class="tbr-box">
+                    <span class="tbr-box-num">1</span>
+                    <table class="tbr_mes_table">
+                        <tr>
+                            <td class="bd_t_bg td_t_w">姓名</td>
+                            <td class="tb_t_ws">[[${recognizeeInfo.applicantName}]]</td>
+                            <td class="bd_t_bg td_t_w">证件类型</td>
+                            <td class="tb_t_ws">身份证</td>
+                            <td class="bd_t_bg td_t_w">证件号码</td>
+                            <td class="tb_t_ws">[[${recognizeeInfo.applicantIdentity}]]</td>
+                        </tr>
+                        <tr>
+                            <td class="bd_t_bg td_t_w">出生日期</td>
+                            <td class="tb_t_ws">[[${#dates.format(recognizeeInfo.applicantBirthday,'yyyy-MM-dd')}]]</td>
+                            <td class="bd_t_bg td_t_w">邮箱</td>
+                            <td class="tb_t_ws">[[${recognizeeInfo.applicantEmail}]]</td>
+                            <td class="bd_t_bg td_t_w">性别</td>
+                            <td class="tb_t_ws">[[${recognizeeInfo.applicantSex == 'F' ? '女':'男'}]]</td>
+                        </tr>
+                        <tr>
+                            <td class="bd_t_bg td_t_w">手机号码</td>
+                            <td class="tb_t_ws">[[${recognizeeInfo.applicantPhone}]]</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div>
+                <div class="lay-ins-con pro-tab">
+                    <div class="ins-tit">保障权益</div>
+                    <table class="tab-bd insurant-tab prod-proj-tab" border=0 cellspacing=0 cellpadding=0>
+                        <colgroup>
+                            <col width="20%">
+                            <col width="10%">
+                            <col width="70%">
+                        </colgroup>
+                        <tr class=prod-proj-tab-hd>
+                            <td style="text-align: left;">保障项目</td>
+                            <td style="text-align: left">&nbsp;&nbsp;&nbsp;保险金额</td>
+                            <td>保障内容</td>
+                        </tr>
+
+                        <tr th:each="insurance:${insuranceList}">
+                            <td>[[${insurance.insuranceName}]]</td>
+                            <td><font class="yh-oreder-money">￥[[${#numbers.formatDecimal(insurance.insuranceCompensatePrice,
+                                0, 2)}]]</font></td>
+                            <td>[[${insurance.insuranceDetails}]]</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div style="display:none;">
+                <div class="lay-ins-con pro-tab">
+                    <h3 class=ins-tit>保障信息</h3>
+                    <table class="tab-bd insurant-tab prod-proj-tab" border=0 cellspacing=0
+                           cellpadding=0>
+                        <colgroup>
+                            <col width="20%">
+                            <col width="10%">
+                            <col width="70%">
+                            <tr class=prod-proj-tab-hd>
+                                <td style="text-align: left;">保障项目</td>
+                                <td style="text-align: left;">保险金额</td>
+                                <td>保障内容</td>
+                            </tr>
+                            <tr>
+                                <td>重大疾病保险金</td>
+                                <td>30万</td>
+                                <td>
+                                    被保险人因意外伤害或自本合同生效或最后复效起90日后经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的重大疾病，本公司按本合同约定的基本保险金额的100%给付重大疾病保险金，本合同的现金价值自重大疾病确诊之日起降低为零。若投保人选择本合同“可选责任重大疾病医疗津贴保险金”和“可选责任恶性肿瘤保险金”，给付重大疾病保险金后，除“重大疾病医疗津贴保险金”和“恶性肿瘤保险金”外的其他保险责任终止，本公司将豁免本合同自被保险人确诊初次患有本合同约定的重大疾病之日以后的剩余各期保险费，被豁免的保险费视为已交纳，同时本合同继续有效。若投保人未选择本合同“重大疾病医疗津贴保险金”和“恶性肿瘤保险金”，给付重大疾病保险金后本合同终止。
+                                    若被保险人自本合同生效或最后复效起90日内经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的重大疾病，本公司向投保人无息退还已交保险费，本合同终止。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>中症疾病保险金</td>
+                                <td>15万*2次</td>
+                                <td>
+                                    被保险人因意外伤害或自本合同生效或最后复效起90日后经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的中症疾病，本公司按本合同约定的基本保险金额的50%给付中症疾病保险金。对于同一种中症疾病只给付一次中症疾病保险金，给付后该种中症疾病保险金保险责任终止，本合同的中症疾病保险金给付以两次为限，当累计给付的中症疾病保险金次数达到两次时，本项保险责任终止。
+                                    如果被保险人因同一原因或在同一事故中导致其发生本合同所指的两种或两种以上的中症疾病，本公司仅按一种中症疾病给付中症疾病保险金。如本公司已给付过重大疾病保险金，对于重大疾病确诊日之后确诊的中症疾病，本公司不再承担给付中症疾病保险金责任。
+                                    若被保险人自本合同生效或最后复效起90日内经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的中症疾病，本公司向投保人无息退还已交保险费，本合同终止。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>轻症疾病保险金</td>
+                                <td>基本保额*30%/40%/50%</td>
+                                <td>
+                                    被保险人因意外伤害或自本合同生效或最后复效起90日后经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的轻症疾病，本公司按本合同约定的基本保险金额的一定比例给付轻症疾病保险金。对于同一种轻症疾病只给付一次轻症疾病保险金，给付后该种轻症疾病保险金保险责任终止，本合同的轻症疾病保险金给付以三次为限，每次的给付比例分别为30%、40%、50%，当累计给付的轻症疾病保险金次数达到三次时，本项保险责任终止。
+                                    如果被保险人因同一原因或在同一事故中导致其发生本合同所指的两种或两种以上的轻症疾病，本公司仅按一种轻症疾病给付轻症疾病保险金。如被保险人确诊时同时符合轻症疾病和重大疾病定义的，本公司仅给付重大疾病保险金，不承担给付轻症疾病保险金责任。如被保险人确诊时同时符合轻症疾病和中症疾病定义的，本公司仅给付中症疾病保险金，不承担给付轻症疾病保险金责任。如本公司已给付过重大疾病保险金，对于重大疾病确诊日之后确诊的轻症疾病，本公司不再承担给付轻症疾病保险金责任。
+                                    若被保险人自本合同生效或最后复效起90日内经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的轻症疾病，本公司向投保人无息退还已交保险费，本合同终止。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>少儿特定疾病保险金</td>
+                                <td>不投保</td>
+                                <td>
+                                    被保险人因意外伤害或自本合同生效或最后复效起90日后，且在年满18周岁前经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的少儿特定疾病，本公司除给付重大疾病保险金外，还将按本合同约定的基本保险金额的100%给付少儿特定疾病保险金，本项保险责任终止。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>成人特定疾病保险金</td>
+                                <td>不投保</td>
+                                <td>
+                                    被保险人因意外伤害或自本合同生效或最后复效起90日后，且在年满18周岁（含18周岁生日当天）后经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的男、女特定疾病（无论一种或多种），本公司除给付重大疾病保险金外，还将按本合同约定的基本保险金额的50%给付成人特定疾病保险金，本项保险责任终止。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>恶性肿瘤保险金</td>
+                                <td>不投保</td>
+                                <td>
+                                    如被保险人首次发生的重大疾病为恶性肿瘤，被保险人生存至首次恶性肿瘤确诊之日起满三年后，经本公司指定或认可的医院由专科医生确诊仍患有本合同约定的恶性肿瘤，本公司按本合同约定的基本保险金额的100%给付恶性肿瘤保险金，本项保险责任终止。如被保险人首次发生的重大疾病为非恶性肿瘤重大疾病，被保险人生存至首次非恶性肿瘤重大疾病确诊之日起满180日后，经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的恶性肿瘤，本公司按本合同约定的基本保险金额的100%给付恶性肿瘤保险金，本项保险责任终止。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>重大疾病医疗津贴保险金</td>
+                                <td>不投保</td>
+                                <td>
+                                    被保险人因意外伤害或自本合同生效或最后复效起90日后经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的重大疾病，被保险人因重大疾病在本公司指定或认可的医院接受本合同约定的治疗行为的，本公司对实际实施的治疗，按本合同约定的基本保险金额的10%给付一次重大疾病医疗津贴保险金。在本合同保险期间内的每一保单年度内，本合同的重大疾病医疗津贴保险金给付以一次为限；该项责任持续至首次重大疾病确诊之日起第五个保单周年日，累计给付以五次为限。当累积给付的重大疾病医疗津贴保险金达到五次时，本项保险责任终止。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>身故、全残及疾病终末期保险金</td>
+                                <td>不投保</td>
+                                <td>
+                                    在保险期间内，若被保险人身故、全残或经诊断因疾病发生并经本公司指定或认可的医院由专科医生确诊达到疾病终末期阶段，本公司按被保险人身故、全残或被确诊达到疾病终末期阶段时累计已交保险费的100%给付身故保险金，本合同终止。如本公司已给付重大疾病保险金，则不再承担给付身故保险金责任。身故保险金、全残保险金与疾病终末期保险金，本公司仅给付其中一项。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>中、轻症豁免保险费</td>
+                                <td>不投保</td>
+                                <td>
+                                    被保险人因意外伤害或自本合同生效或最后复效起90日后经诊断因疾病首次发生并经本公司指定或认可的医院由专科医生确诊初次患有本合同约定的中症疾病或轻症疾病，本公司将豁免本合同自被保险人确诊初次患有本合同约定的中症疾病或轻症疾病之日以后的剩余各期保险费。被豁免的保险费视为已交纳，同时本合同继续有效。
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="lay-ins-con pro-con-info">
+                <div class="ins-tit un_bot_bor">费用合计</div>
+                <div class="bdmx_table_b">
+                    <table class="bdmx_table">
+                        <tr>
+                            <th class="bd_t_bg" width="340px;">起止日期</th>
+                            <th class="bd_t_bg">状态</th>
+                            <th class="bd_t_bg">基本保额</th>
+                            <th class="bd_t_bg">费用合计</th>
+                        </tr>
+                        <tr>
+                            <td>session.</td>
+                            <td th:if="${orderDetails.order_status == 1}">待支付</td>
+                            <td th:if="${orderDetails.order_status == 2}">待生效</td>
+                            <td th:if="${orderDetails.order_status == 3}">生效中</td>
+                            <td><font class="yh-oreder-money">￥[[${#numbers.formatDecimal(orderDetails.order_face_amount,
+                                0, 2)}]]</font></td>
+                            <td><font class="yh-oreder-money">￥[[${#numbers.formatDecimal(orderDetails.order_price, 0,
+                                2)}]]</font></td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="ins-tit un_bot_bor">投保声明及必读</div>
+
+            <div class="msg-con bdmx_table_b">
+                <ol class="sz_list">
+                    <li>本人作为投保人已经将此保险产品全部保障内容和保险金额向被保险人做了明确说明，被保险人对此已表示完全同意。</li>
+                    <li>本投保人声明均已如实填写上述各项投保信息，如果信息填写不真实或不准确，愿意承担一切责任。</li>
+                    <li>本投保人和被保险人均已详细阅读并认可该保险产品的各项保险条款，特别是对保险条款中有关责任免除部分已经详细了解并完全认可。同时阅读并已了解开心保提示、客户告知书以及关于投保人、被保险人权利和义务等相关内容，本投保人和被保险人均已认可保险合同的全部内容。</li>
+                    <li>根据《中华人民共和国合同法》第十一条规定，数据电文是合法有效的合同书面形式。本投保人同意保险公司提供的电子保单或其它保险信息作为本保险合同成立生效的合法有效凭证，并具有完全证据效力。</li>
+                </ol>
+            </div>
+
+            <div class="object_btn" style="text-align: center;">
+                <div class="btn-more">
+                    <div class="check_btn"><label><input name="agreeInsure" id="agreeInsure" type="checkbox" value="">&nbsp;我接受以上投保声明及必读内容 </label>
+                    </div>
+                    <div class=" height_s"></div>
+                    <input type="button" id="qrgm_pay" data-type="auto" class="qrgm_btn" value="确认无误，去支付">
+
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<div class="clear"></div>
+
+<div class="g-main-con">
+    <div class="clear h20"></div>
+    <!-- foot -->
+    <div class="g-weaper">
+        <div class="g-footer">
+            <dl class="m-footer-dl">
+                <dt class="f_mi"><em class="i-f-icon i-f-icon1 "></em>正品保险</dt>
+                <dd>中国保监会监制</dd>
+                <dd>保险公司授权</dd>
+                <dd>高性价比产品</dd>
+            </dl>
+            <dl class="m-footer-dl">
+                <dt class="f_mi"><em class="i-f-icon i-f-icon2 "></em>快捷投保</dt>
+                <dd>全方位一键对比</dd>
+                <dd>1对1保险顾问指导</dd>
+            </dl>
+            <dl class="m-footer-dl">
+                <dt class="f_mi"><em class="i-f-icon i-f-icon3 "></em>省心服务</dt>
+                <dd>电子保单快捷变更</dd>
+                <dd>满200元发票包邮</dd>
+                <dd>免费协助理赔无差异</dd>
+            </dl>
+            <dl class="m-footer-dl">
+                <dt class="f_mi"><em class="i-f-icon i-f-icon4 "></em>安全可靠</dt>
+                <dd>7x24小时客服不间断</dd>
+                <dd>风险提示保障安全</dd>
+            </dl>
+            <dl class="m-footer-dl">
+                <dt class="f_mi"><em class="i-f-icon i-f-icon5 "></em>品牌实力</dt>
+                <dd>7年800万用户选择</dd>
+                <dd>2013年最佳保险中介</dd>
+                <dd>30+知名保险合作伙伴</dd>
+            </dl>
+
+            <div class="clear h20"></div>
+        </div>
+    </div>
+    <div class="clear h20"></div>
+    <div class="g-footer-bg">
+        <div class="g-weaper">
+            <div class="g-footer2">
+                <dl class="m-footer-dl">
+                    <dt><em class="i-f-icon i-f-icon6 "></em>新手指南</dt>
+                    <dd><a href="http://www.kaixinbao.com/about/xszn/index.shtml#xszn1" target="_blank" rel="nofollow">如何注册</a>
+                        <a href="http://www.kaixinbao.com/about//xszn/index.shtml#xszn4" target="_blank" rel="nofollow">如何投保</a>
+                        <a href="http://www.kaixinbao.com/about/xszn/index.shtml#xszn3" target="_blank" rel="nofollow">找回密码</a>
+                    </dd>
+                </dl>
+                <dl class="m-footer-dl">
+                    <dt><em class="i-f-icon i-f-icon7 "></em>支付帮助</dt>
+                    <dd><a href="http://www.kaixinbao.com/about/4/index.shtml#zfbz2" target="_blank"
+                           rel="nofollow">支付方式</a><a href="http://www.kaixinbao.com/about/4/index.shtml#zfbz1"
+                                                     target="_blank" rel="nofollow">支付说明</a></dd>
+                </dl>
+                <dl class="m-footer-dl">
+                    <dt><em class="i-f-icon i-f-icon8 "></em>保单服务</dt>
+                    <dd><a href="http://www.kaixinbao.com/ddkscx/" target="_blank" rel="nofollow">保单查询</a>
+                        <a href="http://www.kaixinbao.com/ddkscx/" target="_blank" rel="nofollow">保单验真</a>
+                        <a href="http://www.kaixinbao.com/about/1/index.shtml#yxxg2" target="_blank" rel="nofollow">变更与取消</a>
+                        <a href="http://www.kaixinbao.com/about/1/index.shtml#yxxg1" target="_blank"
+                           rel="nofollow">保单寄送</a></dd>
+                </dl>
+                <dl class="m-footer-dl">
+                    <dt><em class="i-f-icon i-f-icon9 "></em>理赔服务</dt>
+                    <dd><a href="http://www.kaixinbao.com/about/2/index.shtml#lpbz1" target="_blank"
+                           rel="nofollow">理赔指南</a><a href="http://www.kaixinbao.com/lpzs/index.shtml" target="_blank"
+                                                     rel="nofollow">理赔报案</a>
+                        <a href="http://www.kaixinbao.com/lpzs/index.shtml" target="_blank" rel="nofollow">理赔案例</a></dd>
+                </dl>
+                <dl class="m-footer-dl">
+                    <dt><em class="i-f-icon i-f-icon10 "></em>服务中心</dt>
+                    <dd><a href="http://www.kaixinbao.com/about/3/dayizonghui/253398.shtml" target="_blank"
+                           rel="nofollow">发票索取</a>
+                        <a href="http://www.kaixinbao.com/about/3/dayizonghui/index.shtml" target="_blank"
+                           rel="nofollow">常见问题</a>
+                    </dd>
+                </dl>
+                <div class="m-WeChatImg">
+                    <p><em class="icon_01"></em><span><img
+                            src="https://resource.kaixinbao.com/images/redesign/wechart.gif" alt="">关注微信了解新资讯</span></p>
+                    <p><em class="icon_02"></em><span><img src="https://resource.kaixinbao.com/images/redesign/app.png"
+                                                           alt="">下载APP投保快捷省心</span></p>
+                </div>
+            </div>
+            <div class="clear h20"></div>
+            <div class="clear h20"></div>
+            <!-- 热门专题 -->
+        </div>
+    </div>
+    <!-- 底部 -->
+    <div class="g-btn-footer">
+        <div class="g-weaper">
+            <div class="g-f-left">
+                <div class="botlink02">
+                    <ul class="clearfix">
+                        <li><a href="http://www.kaixinbao.com/other/about/" rel="nofollow">关于开心保</a></li>
+                        <li>|</li>
+                        <li><a href="http://www.kaixinbao.com/other/news/" rel="nofollow">开心保要闻</a></li>
+                        <li>|</li>
+                        <!--<li><a href="http://www.kaixinbao.com/other/jobs/" rel="nofollow">加入开心保</a></li>
+                        <li>|</li>-->
+                        <li><a href="http://www.kaixinbao.com/other/sitemap/">网站地图</a></li>
+                        <li>|</li>
+                        <li><a href="http://www.kaixinbao.com/other/legal/" rel="nofollow">法律声明</a></li>
+                        <li>|</li>
+                        <li><a href="http://www.kaixinbao.com/other/contact/" rel="nofollow">联系我们</a></li>
+                        <li>|</li>
+                        <!-- 				<li><a href="http://u.kaixinbao.com/" target="_blank" rel="nofollow">分销联盟</a></li>
+                                            <li>|</li> -->
+                        <!-- <li><a href="http://kaixinbao.tmall.com/" target="_blank" rel="nofollow">开心保天猫店</a></li>
+                        <li>|</li>
+                        <li><a href="http://temai.kaixinbao.com/" target="_blank" rel="nofollow">特价机票</a></li>
+                        <li><a href="http://wap.kaixinbao.com/" target="_blank" >移动版</a></li> -->
+                        <li><a href="http://www.kaixinbao.com/yxhd/isl-tra/" target="_blank" rel="nofollow">微信版</a></li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+                <div class="copyright">
+                    <div class="copyrightright"><a href="https://resource.kaixinbao.com/images/bxdlywxkz.jpg"
+                                                   target="_blank" rel="nofollow">保险代理业务许可证</a>&nbsp;&nbsp;<a
+                            href="http://www.miitbeian.gov.cn" target="_blank" rel="nofollow">辽ICP备12007009号-1</a>&nbsp;&nbsp;<a
+                            href="https://resource.kaixinbao.com/images/qyfryyzz.jpg" target="_blank" rel="nofollow">企业营业执照</a>&nbsp;&nbsp;<a
+                            href="https://resource.kaixinbao.com/images/icp.jpg" target="_blank" rel="nofollow">ICP经营许可证(辽B2-20120076)</a>
+                    </div>
+                    <div class="copyrightleft">Copyright 2012-2019 版权所有 网金保险销售服务有限公司</div>
+                </div>
+            </div>
+            <div class="g-f-right">
+                <ul class="sl-floatcenter">
+                    <li class="sl-floatcenter-item">
+                        <a href="https://v.pinpaibao.com.cn/cert/site/?site=www.kaixinbao.com&amp;at=business"
+                           target="_blank" rel="nofollow"><img
+                                src="http://resource.kaixinbao.com/upload/Image/xrwz/2012/12/gw.png" width="83"
+                                height="30">
+                        </a>
+                    </li>
+
+                    <li class="sl-floatcenter-item"><a
+                            href="http://www.circ.gov.cn/tabid/5171/InfoID/210753/frtid/4491/Default.aspx"
+                            target="_blank" rel="nofollow"><img
+                            src="http://resource.kaixinbao.com/upload/Image/xrwz/2012/12/2582921308.png" width="90"
+                            height="37"></a></li>
+
+                    <!--                     <li class="sl-floatcenter-item"><a href="http://www.itrust.org.cn/yz/pjwx.asp?wm=1594416088"
+                                                                           target="_blank" rel="nofollow"><img
+                                                src="http://resource.kaixinbao.com/upload/Image/xrwz/2012/12/2582937061.png" width="37"
+                                                height="37"/></a></li> -->
+
+                    <li class="sl-floatcenter-item"><a
+                            href="http://wljg.lngs.gov.cn/iciaicweb/dzbscheck.do?method=change&amp;id=E2014111300054343"
+                            target="_blank" rel="nofollow"><img
+                            src="http://resource.kaixinbao.com/upload/Image/xrwz/2014/12/298851182.png" width="37"
+                            height="37"></a></li>
+
+                    <li class="sl-floatcenter-item"><a
+                            href="http://si.trustutn.org/info?sn=618161121025629572164&amp;certType=1" target="_blank"
+                            rel="nofollow"><img
+                            src="http://resource.kaixinbao.com/upload/Image/xrwz/2016/11/3061644601.png" width="90"
+                            height="37"></a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div id="fix_nav" class="fix_nav" style="right: 114.5px;">
+    <a class="fix-onlineqq " href="javascript:void(0);" vlpageid="xiaoneng" rel="nofollow"
+       exturl="http://www.kaixinbao.com/xiaoneng" id="qqwap1" onclick="return(VL_FileDL(this));return false;">
+        <img class="anim_fade_image" src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_01.jpg">
+        <img src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_01_on.jpg">
+    </a>
+    <span class="fix-RichScan">
+                    <img class="anim_fade_image" src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_02.jpg">
+                    <img src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_02_on.jpg">
+                    <div style="display: none;" class="weixinDiv tagshow"><img
+                            src="https://resource.kaixinbao.com/images/wxnew.png">绑微信送积分</div>
+                </span>
+    <span class="fix-top" id="gotop">
+                    <img class="anim_fade_image" src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_03.jpg">
+                    <img src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_03_on.jpg">
+                </span>
+</div>
+
+</body>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+
+
+<script type="text/javascript">
+
+
+    layui.use("layer",function(){
+
+        var layer = layui.layer,$ = layui.jquery //弹层
+
+        $(".qrgm_btn").click(function(){
+
+            var agreeInsure = document.getElementById("agreeInsure");
+            if (!agreeInsure.checked) {
+                jQuery('#agreeInsure').parent().addClass("red");
+
+                var othis = $(this),type = othis.data("type");
+                layer.open({
+                    type: 1,
+                    title:"消息"
+                    ,offset: type
+                    ,move:false
+                    ,content: '<div style="padding: 20px 100px;">请仔细阅读投保须知和必读，\n' +
+                    '并勾选我接受以上投保声明及必读内容</div>'
+                    ,btn: '确定'
+                    ,btnAlign: 'c' //按钮居中
+                    ,tips: [1, '#c00']
+                    ,yes: function(){
+                        layer.closeAll();
+                    }
+                });
+
+            }
+            else {
+                $("#resultForm").submit();
+            }
+
+
+
+        });
+
+    });
+
+
+    jQuery(function () {
+
+        //头部显示用户信息
+        var happyuser=$("#aab").text();
+
+        if(happyuser.length>0){
+            $("#notLogin").css("display","none");
+            $("#yesLogin").css("display","block");
+        }
+
+
+    })
+
+</script>
+
+</html>

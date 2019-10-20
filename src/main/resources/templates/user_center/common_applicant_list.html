@@ -1,0 +1,122 @@
+
+<!--<dl class="infobox">
+    <dd><span>姓名：</span><em>赵龙军</em></dd>
+    <dd><span>性别：</span><em>男</em></dd>
+    <dd><span>手机号：</span><em>17680642452</em></dd>
+    <dd><span>邮箱：</span><em>1316541654@qq.com</em></dd>
+    <dd><span>出生日期：</span><em>2001-01-26</em></dd>
+    <dd><span>证件号：</span><em>身份证 43102120010126753X</em></dd>
+    <dd class="action">
+        &lt;!&ndash;<a href="javascript:void(0);" class="update" data-value=""><span></span>编辑</a>&ndash;&gt;
+        <a href="javascript:void(0);" class="delete" data-value=""><span></span>删除</a>
+    </dd>
+</dl>-->
+
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+
+<!--commont_applicant_list-->
+<link rel="stylesheet" href="https://mresource.kaixinbao.com/member/pc/r02/css/member/mod_useinfo.css">
+
+
+        <div class="member-userinfo-box">
+            <div class="adduser">
+                <a href="javascript:void(0);">新增投被保人</a><span id="applicantInfoTitle">已有<em>0</em>个常用投被保人信息。</span>
+            </div>
+            <div class="member-userinfo-con">
+
+                <div id="biuuu_city_list"></div>
+
+
+            </div>
+
+            <!-- 分页组件 -->
+            <div id="page_btn" align="center"></div>
+            <!-- 分页组件 -->
+
+        </div>
+
+
+    <script type="text/javascript" th:inline="javascript">
+
+
+        //删除
+        function delApplicantById(applicantId,index) {
+
+            if (confirm("确定要删除嘛？")){
+                $.post("/HappysysApplicantInfo/delApplicantById",{applicantId:applicantId},
+                    function(result){
+                        if(result == true){
+                            layer.msg('删除成功！');
+                            var $em = $("#applicantInfoTitle em");
+                            $em.html(parseInt($em.html()) -1);
+
+                            //移除json数组中第index开始1个元素
+                            applicantAndInsuredList.splice(index,1);
+
+                            loadApplicant(applicantAndInsuredList);
+                        }else {
+                            layer.msg('此被保人在订单中存在，不能删除哦！');
+                        }
+                    }
+                );
+            }
+        };
+
+        var applicantAndInsuredList ;
+
+        //查询用户所有被保人、投保人
+        $.get("/HappysysApplicantInfo/getCurrentUserApplicantAndInsured",function (result) {
+            if(result.length == 0){
+                $("#applicantInfoTitle").html("您还没有投被保人哦！");
+            }else {
+                loadApplicant(result);
+            }
+        },"json");
+        
+        
+        function loadApplicant(result) {
+            layui.use(['laypage', 'layer'], function(){
+                var laypage = layui.laypage
+                    ,layer = layui.layer;
+                //自定义首页、尾页、上一页、下一页文本
+                laypage.render({
+                    elem: 'page_btn'
+                    ,first: '首页'
+                    ,last: '尾页'
+                    ,prev: '<em>上一页</em>'
+                    ,next: '<em>下一页</em>'
+                    ,theme: '#FFB800'
+                    ,limit : 2
+                    ,count: result.length
+                    ,jump: function(obj){
+                        document.getElementById('biuuu_city_list').innerHTML = function(){
+                            $("#applicantInfoTitle em").html(result.length);
+                            applicantAndInsuredList = result;
+                            var myindex = 0;
+                            var arr = []
+                                ,thisData = result.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                            layui.each(thisData, function(index, item){
+
+                                //item:当前json对象
+                                arr.push('<dl class="infobox">'
+                                    +'<dd><span>姓名：</span><em>'+item.applicantName+'</em></dd>'
+                                    +'<dd><span>性别：</span><em>'+(item.applicantSex == 'F'?'女':'男')+'</em></dd>'
+                                    +'<dd><span>手机号：</span><em>'+item.applicantPhone+'</em></dd>'
+                                    +'<dd><span>邮箱：</span><em>'+item.applicantEmail+'</em></dd>'
+                                    +'<dd><span>出生日期：</span><em>'+item.applicantBirthday+'</em></dd>'
+                                    +'<dd><span>证件号：</span><em>身份证 '+item.applicantIdentity+'</em></dd>'
+                                    +'<dd class="action">'
+                                    +'<a href="javascript:void(0);" onclick="delApplicantById('+item.applicantId+','+myindex+')" class="delete"><span></span>删除</a>'
+                                    +'</dd></dl>');
+                                myindex ++;
+                            });
+                            return arr.join('');
+                        }();
+                    }
+                });
+            });
+        }
+
+    </script>
+
+<script type="text/javascript" th:src="@{/layui/layui.all.js}" src="/layui/layui.all.js" charset="utf-8"></script>

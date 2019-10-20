@@ -1,0 +1,119 @@
+server:
+  #eureka服务器端口号。尽管无论官网还是大部分参考书都使用8761，但默认并不是，而是8080
+  port: 800
+  
+spring:
+  application:
+    name: happy-consumer
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+
+    #映射静态资源
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/templates/,classpath:/META-NF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  #redis配置
+  redis:
+      database: 0
+      host: 118.25.13.168
+      port: 6379
+      password: 856856
+      timeout: 20000
+
+
+  servlet:
+    multipart:
+      enabled: true       # 开启 multipart 上传功能
+
+  #Thymeleaf配置
+  thymeleaf:
+    encoding: UTF-8
+    #开发时关闭缓存,不然没法看到实时页面(要重启)
+    cache: false
+    prefix: classpath:/templates/ #(默认)
+    suffix: .html		  #(默认)
+
+
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+    serialization:
+           #格式化输出
+          indent_output: true
+          #忽略无法转换的对象
+          fail_on_empty_beans: false
+    #设置空如何序列化
+    defaultPropertyInclusion: NON_EMPTY
+    deserialization:
+      #允许对象忽略json中不存在的属性
+      fail_on_unknown_properties: false
+    parser:
+      #允许出现特殊字符和转义符
+      allow_unquoted_control_chars: true
+      #允许出现单引号
+      allow_single_quotes: true
+
+  # rabbitmq配置
+  rabbitmq:
+    host: 139.196.162.112
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    #实例是否在eureka服务器上注册自己的信息以供其他服务发现，默认为true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:6001/eureka
+      #Eureka服务器集群
+      #defaultZone: http://eureka6001.com:6001/eureka/,http://eureka6002.com:6002/eureka/
+  instance:
+    instance-id: HAPPY-CONSUMER-80
+    prefer-ip-address: true     #访问路径可以显示IP地址
+
+
+#fegin的超时时间
+feign:
+  httpclient:
+    connection-timeout: 30000
+    enabled: true
+
+#hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  eureka:
+    enabled: true
+
+info:
+  app.name: tj-happy
+  company.name: www.tj.com
+  build.artifactId: ${project.artifactId}
+  build.version: ${project.version}
+
+#分页配置
+pagehelper:
+#  helperDialect: mysql  #方言  默认
+  reasonable: true      #启动合理化
+#  pageSizeZero: true    #小于pageIndex1时，pageIndex=1 默认
+
+#默认支持文件上传:本示例上传七牛云
+servlet:
+  multipart:
+    enabled: true
+    max-file-size: 10000000      #单文件大小
+    max-request-size: 100000000   #总大小

@@ -1,0 +1,1014 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>填写保单</title>
+    <meta name="Author" content="SINOSOFT Team"/>
+    <meta name="Copyright" content="SINOSOFT"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/uploadify.css"/>
+    <!--全局通用样式-->
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/redesign/re_header.css"/>
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/new_logo.css">
+    <!--购买流程通用样式-->
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/shop/css/re_shops.css"/>
+
+    <link rel="stylesheet" type="text/css" href="http://resource.kaixinbao.com/style/skins/default.css"/>
+    <link rel="shortcut icon" href="https://resource.kaixinbao.com/r02/images/favicon.ico"/>
+    <link rel="stylesheet" th:href="@{/css/layui.css}" media="all">
+
+    <script type="text/javascript" src="http://resource.kaixinbao.com/js/iframe.js"></script>
+    <script type="text/javascript" src="http://resource.kaixinbao.com/js/VerifyInput.js"></script>
+    <script type="text/javascript" src="http://resource.kaixinbao.com/js/Common.js"></script>
+
+
+</head>
+<body class="up-bg-qh">
+
+
+<!--top头部-->
+<div th:replace="~{header/ProductListHeader::#tou}"></div>
+<!--top头部end-->
+
+<!-- 弹窗添加代码 -->
+<input hidden id="microServiceMemberDomain" value="https://vipm.kaixinbao.com/">
+<!-- 弹窗添加代码 end -->
+
+
+<div class="wrapper">
+    <input type="hidden" id="artLoginFlag" name="artLoginFlag" value="1">
+    <div class="re-line-log">
+        <ul class="re-line-ul">
+            <li class="re-line-s">
+                <div class="re-linehead re-linehead1"><span></span></div>
+                <h3 class="re-line-h3">1、填写投保信息<p>我们对您填写的信息严格保密</p></h3>
+                <span class="re-line-jiao"></span></li>
+            <li>
+                <div class="re-linehead re-linehead2"><span></span></div>
+                <h3 class="re-line-h3">2、确认保单<p>确认信息填写是否正确无误</p></h3>
+                <span class="re-line-jiao"></span></li>
+            <li>
+                <div class="re-linehead re-linehead3"><span></span></div>
+                <h3 class="re-line-h3">3、在线支付<p>
+                    支持多种支付方式</p></h3>
+                <span class="re-line-jiao"></span></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+
+    <form id="orderInfoForm" action="/HappysysPayment/payment2" method="post">
+
+        <div class="clearfix">
+            <div class="line_at">产品信息</div>
+            <div class="form up_from_p">
+                <p>
+                    <span class="span_t">保险名称：</span>
+                    <span style="width:500px;">[[${map.productName}]]</span>
+                </p>
+                <p>
+                    <span class="span_t">保险期限：</span>
+                    <span id="deadline">[[${map.deadline}]]
+                    </span>
+                </p>
+                <p>
+                    <span class="span_t">基本保额：</span>
+                    <span id="insurance_sum">[[${#strings.substring(map.insuranceSum,0,2)}]]万
+                    </span>
+                </p>
+                <div class="clearfix">
+                    <p class="from_update xg_width">
+                        <span class="span_t">保单起保日期：</span>
+                        <input id="effective" name="orderTime" type="text" pattern="yyyy-MM-dd"
+                               readonly="readonly" class="shop_day_cfs  ">
+                        <em class="from-up-time" >( 次日0点开始生效 )</em>
+                    </p>
+                    <p class="from_update xg_width">
+                        <span class="span_t">保单终止日期：</span>
+                        <input id="fail_" name="orderExpireTime" readonly="readonly" class="shop_day_cfs"
+                               style="border:0;background:transparent;" value="">
+                        <em class="from-up-time" id="ensureDate_em"></em>
+                    </p>
+
+                    <p>
+                        <input type="hidden" name="orderPrice" th:value="${map.totolPrice}">
+                        <input type="hidden" name="orderFaceAmount" th:value="${map.insuranceSum}">
+                        <input type="hidden" name="orderStatus" value="1">
+                        <input type="hidden" name="orderProductId" th:value="${map.productId}">
+                        <input type="hidden" name="orderUserId" th:value="${session.user.getUserId()}">
+                        <input type="hidden" name="insuranceList" th:value="${map.insuranceList}">
+                    </p>
+
+                </div>
+            </div>
+            <div class="line_a">
+                <div class="line_a " style="overflow:hidden;">
+                    <div class="line_at cf">
+                        <div class="tbr_mes">投保人信息 <span class="tbr-b">（填写我的信息）</span></div>
+
+                    </div>
+                    <div id="sdinformationAppnt" class="form">
+
+                        <div class="cy_user" id="quick_2">
+                            <dl class="cy_dl_csf">
+                                <dt id="quick_2_2" class="cy_user_t">常用投保人：</dt>
+                                <dd id="quick_2_1" class="cy_user_ch" >
+
+                                    <label th:if="${applicant}==null"><input type="radio" value="0"
+                                                                             onclick="clearText('#sdinformationAppnt');"
+                                                                             name="quickappnt" checked >新增</label>
+                                    <label th:if="${applicant}!=null" ><input type="radio" th:value="${applicant.getApplicantId()}"
+                                                                              onclick="quickQueryAppnt(this);"
+                                                                              name="quickappnt" checked>[[${applicant.getApplicantName()}]]</label>
+
+
+                                </dd>
+                            </dl>
+                            <div class="clear"></div>
+                        </div>
+
+                        <div class="h10"></div>
+                        <div class="h2"></div>
+
+                        <p>
+                            <input type="hidden" id="applicant_Id" name="list[0].applicantId" value=""/>
+                            <input type="hidden" id="applicantUserId" name="list[0].applicantUserId" value="">
+                        </p>
+                        <p>
+                            <span class="span_t">*投保人姓名：</span>
+                            <input type="text" id="applicantName" name="list[0].applicantName"
+                                   verify="投保人姓名|notnull&amp;UFO&amp;LEN>2&amp;CHANDEH"
+                                   onblur="verifyElement('投保人姓名|notnull&amp;UFO&amp;LEN>2&amp;CHANDEH',this.value,this.id);"
+                                   onfocus="verifyShowInf(this.value,this.id);" value="" maxlength="60">
+                            <label class="requireField"></label>
+                            <i class="validate yz_mes_des">请填写与有效证件相符的姓名，以保障您的权益</i>
+                        </p>
+                        <div class="clearfix">
+                            <p class="from_table">
+                                <span class="span_t">*证件号码：</span>
+                                <select id="applicantTypeId" class="typeoption"
+                                        style="width:105px;">
+                                    <option value="0">身份证</option>
+                                </select>
+                            </p>
+                            <p class="from_table2">
+                                <input id="applicantId" name="list[0].applicantIdentity" maxlength="64"
+                                       type="text" value="" onfocus="verifyShowInf(this.value,this.id);"
+                                       verify="证件号码|NOTNULL&amp;BIRAPPAGE"
+                                       onblur="idcheck('applicantTypeId','applicantId','applicantBirthday','applicantSex','');">
+                                <label class="requireField"></label>
+                                <i class="validate yz_mes_des">请填写正确的证件号码</i>
+                            </p>
+                        </div>
+
+                        <p>
+                            <span class="span_t">*出生日期：</span>
+                            <input id="applicantBirthday"
+                                   name="list[0].applicantBirthday" type="text"
+                                   onclick="applicantDate()"
+                                   value="" onblur="verifyElement('出生日期|NOTNULL',this.value,this.id)"
+                                   verify="出生日期|NOTNULL" class="shop_day">
+                            <label class="requireField"></label>
+                            <i class="validate yz_mes_des">请填写正确的出生日期</i>
+                        </p>
+
+
+
+                        <p class="idControl">
+                            <span class="span_t">*性别：</span>
+                            <label><input type="radio" name="list[0].applicantSex" value="M"
+                                          class="applicantSex frome_radio" checked="checked">男</label>
+                            <label><input type="radio" name="list[0].applicantSex" value="F"
+                                          class="applicantSex frome_radio" >女</label>
+                            <label class="requireField"></label>
+                        </p>
+
+
+                        <div class="pos-tb-p">
+                            <p>
+                                <span class="span_t">*手机号码：</span>
+                                <input type="text" id="applicantMobile" name="list[0].applicantPhone"
+                                       value="" onfocus="verifyShowInf(this.value,this.id);"
+                                       onblur="verifyElement('手机号码|MOBILENO',this.value,this.id)" verify="手机号码|MOBILENO"
+                                       maxlength="11">
+                                <label class="requireField"></label>
+                                <i class="validate yz_mes_des">请填写正确的手机号</i>
+                            </p>
+                        </div>
+                        <div class="pos-tb-p">
+                            <p>
+                                <span class="span_t">*电子邮箱：</span>
+                                <input type="text" id="applicantMail" name="list[0].applicantEmail" value=""
+                                       onblur="verifyElement('电子邮箱|NOTNULL&amp;EMAIL',this.value,this.id)"
+                                       onfocus="verifyShowInf(this.value,this.id);"
+                                       onchange="verifyShowInf(this.value,this.id);" verify="电子邮箱|NOTNULL&amp;EMAIL">
+                                <label class="requireField"></label>
+                                <i class="validate yz_mes_des">请填写常用邮箱，以便接收电子保单，此邮箱将自动成为您登录的账号</i>
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="line_a ">
+                        <div class="line_at cf">
+                            <div class="tbr_mes">被保人信息 <span class="tbr-b">（我要为ta买保险）</span></div>
+
+                        </div>
+
+                        <div id="sdinformationinsured" class="form tb-up-from">
+                            <div class="dbbr_des">
+
+                                <div class="cy_user order-user">
+                                    <dl class="cy_dl_csf">
+                                        <dt class="cy_user_t" >一键添加常用被保人：</dt>
+                                        <dd class="cy_user_ch" >
+                                            <label><input type="radio" value="0" onclick="clearText('#insurance_0');"
+                                                          name="quickrecognizee" checked >新增</label>
+                                            <label th:each="re:${recognizee}"><input type="radio" name="quickrecognizee" onclick="quickQueryInsured(this);" th:value="${re.getApplicantId()}">[[${re.getApplicantName() eq applicant.getApplicantName()?'本人':re.getApplicantName()}]]</label>
+                                        </dd>
+                                    </dl>
+                                    <div class="clear"></div>
+                                </div>
+
+                                <div id="insurance_0">
+                                    <div>
+                                        <p>
+                                            <input type="hidden" id="recognizeeId" name="list[1].applicantId" value=""/>
+                                            <input type="hidden" id="recognizeeUserId" name="list[1].applicantUserId"
+                                                   value="">
+                                        </p>
+
+                                        <p>
+                                            <span class="span_t">*被保人姓名：</span>
+                                            <input type="text" id="recognizeeName_0"
+                                                   name="list[1].applicantName" value=""
+                                                   onblur="verifyElement('被保人姓名|NOTNULL&amp;UFO&amp;LEN>2&amp;CHANDEH',this.value,this.id)"
+                                                   maxlength="60" verify="被保人姓名|NOTNULL&amp;UFO&amp;LEN>2&amp;CHANDEH">
+                                            <label class="requireField"></label>
+                                            <i class="validate yz_mes_des">请填写正确的被保人姓名</i>
+                                        </p>
+                                        <div class="clearfix">
+                                            <p class="from_table" id="testid111">
+                                                <span class="span_t">*证件号码：</span>
+                                                <select id="recognizeeTypeId_0" class="typeoption"
+                                                        style="width:105px;">
+                                                    <option id="" value="0">身份证</option>
+                                                </select>
+                                            </p>
+                                            <p class="from_table2">
+                                                <input id="recognizeeId_0" type="text"
+                                                       name="list[1].applicantIdentity" value=""
+                                                       verify="证件号码|NOTNULL&amp;BIRAGE"
+                                                       onblur="idcheck('recognizeeTypeId_0','recognizeeId_0','recognizeeBirthday_0','recognizeeSex_0','sdinformation.InsuranceCompany');">
+                                                <label class="requireField"></label>
+                                                <i class="validate yz_mes_des">请填写正确的证件号码</i>
+                                            </p>
+                                        </div>
+
+                                        <p>
+                                            <span class="span_t">*出生日期：</span>
+                                            <input id="recognizeeBirthday_0"
+                                                   name="list[1].applicantBirthday" type="text"
+                                                   onclick="insuredDate()"
+                                                   value="" onblur="verifyElement('出生日期|NOTNULL',this.value,this.id)"
+                                                   verify="出生日期|NOTNULL" class="shop_day">
+                                            <label class="requireField"></label>
+                                            <i class="validate yz_mes_des">请填写正确出生日期</i>
+                                        </p>
+
+
+                                        <p class="idControl">
+                                            <span class="span_t">*性别：</span>
+                                            <label><input type="radio" name="list[1].applicantSex"
+                                                          value="M"
+                                                          class="recognizeeSex_0 frome_radio"
+                                                          checked="checked">男</label>
+                                            <label><input type="radio" name="list[1].applicantSex"
+                                                          value="F"
+                                                          class="recognizeeSex_0 frome_radio" >女</label>
+                                            <label class="requireField"></label>
+                                        </p>
+
+                                        <p>
+                                            <span class="span_t">*手机号码：</span>
+                                            <input type="text" id="recognizeeMobile_0"
+                                                   name="list[1].applicantPhone" value=""
+                                                   onblur="verifyElement('手机号码|MOBILENO',this.value,this.id)"
+                                                   onfocus="verifyShowInf(this.value,this.id);" verify="手机号码|MOBILENO"
+                                                   maxlength="11">
+                                            <label class="requireField"></label>
+                                            <i class="validate yz_mes_des">请填写正确的手机号</i>
+                                        </p>
+
+                                        <div class="pos-tb-p">
+                                            <p>
+                                                <span class="span_t">*电子邮箱：</span>
+                                                <input type="text" id="recognizeeMail_0"
+                                                       name="list[1].applicantEmail" value=""
+                                                       onblur="verifyElement('电子邮箱|NOTNULL&amp;EMAIL',this.value,this.id)"
+                                                       onfocus="verifyShowInf(this.value,this.id);"
+                                                       onchange="verifyShowInf(this.value,this.id);"
+                                                       verify="电子邮箱|NOTNULL&amp;EMAIL">
+                                                <label class="requireField"></label>
+                                                <i class="validate yz_mes_des">请填写常用邮箱，以便接收电子保单，此邮箱将自动成为您登录的账号</i>
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="line_a clear_mar">
+                        <div class="line_at">合计信息</div>
+                        <div class="shop_mes_all">
+                            <table class="cp_pricebox" border="0">
+                                <tbody><tr>
+                                    <th>起止日期</th>
+                                    <th>保险年限</th>
+                                    <th>基本保额</th>
+                                    <th>费用合计</th>
+                                </tr>
+                                <tr>
+                                    <td id="ensureDate">从&nbsp;&nbsp;&nbsp;2019-08-13&nbsp;&nbsp;&nbsp;00时起到&nbsp;&nbsp;&nbsp;2071-08-12&nbsp;&nbsp;&nbsp;24时为止</td>
+                                    <td><font id="insNum" th:text="${map.deadline}"></font></td>
+                                    <td id="insMult">[[${#strings.substring(map.insuranceSum,0,2)}]]万</td>
+                                    <td colspan="2"><font class="up_font_s">￥ <span id="priceTotle" th:text="${map.totolPrice}"></span>
+                                    </font></td>
+
+                                </tr>
+                                </tbody></table>
+                        </div>
+
+                        <div class="syr2 syr33">
+                            <input type="button" id="confirm" value="下一步" class="next_btn dev_submitButton"
+                                   style="heigh=20px;width=100px;">
+                            <font id="order_err" style="displan:none" class="order-error" color="red"></font>
+                            <div class="clear"></div>
+                            <div id="msg_1" class="londing_mes" style="display:none"><img
+                                    src="static/picture/nloading.gif" width="20px" height="20px" alt="">正在缓存，请稍等
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        if ((document.getElementById("showOutGoingParpose") != null) && (typeof(document.getElementById("showOutGoingParpose")) != "undefined")) {
+            document.getElementById("showOutGoingParpose").innerHTML = "";
+            document.getElementById("checkOutPice").value = "";
+        }
+
+    </script>
+
+    <!--底部和工具条-->
+    <div class="g-main-con">
+        <div class="clear h20"></div>
+        <!-- foot -->
+        <div class="g-weaper">
+            <div class="g-footer">
+                <dl class="m-footer-dl">
+                    <dt class="f_mi"><em class="i-f-icon i-f-icon1 "></em>正品保险</dt>
+                    <dd>中国保监会监制</dd>
+                    <dd>保险公司授权</dd>
+                    <dd>高性价比产品</dd>
+                </dl>
+                <dl class="m-footer-dl">
+                    <dt class="f_mi"><em class="i-f-icon i-f-icon2 "></em>快捷投保</dt>
+                    <dd>全方位一键对比</dd>
+                    <dd>1对1保险顾问指导</dd>
+                </dl>
+                <dl class="m-footer-dl">
+                    <dt class="f_mi"><em class="i-f-icon i-f-icon3 "></em>省心服务</dt>
+                    <dd>电子保单快捷变更</dd>
+                    <dd>满200元发票包邮</dd>
+                    <dd>免费协助理赔无差异</dd>
+                </dl>
+                <dl class="m-footer-dl">
+                    <dt class="f_mi"><em class="i-f-icon i-f-icon4 "></em>安全可靠</dt>
+                    <dd>7x24小时客服不间断</dd>
+                    <dd>风险提示保障安全</dd>
+                </dl>
+                <dl class="m-footer-dl">
+                    <dt class="f_mi"><em class="i-f-icon i-f-icon5 "></em>品牌实力</dt>
+                    <dd>7年800万用户选择</dd>
+                    <dd>2013年最佳保险中介</dd>
+                    <dd>30+知名保险合作伙伴</dd>
+                </dl>
+
+                <div class="clear h20"></div>
+            </div>
+        </div>
+        <div class="clear h20"></div>
+        <div class="g-footer-bg">
+            <div class="g-weaper">
+                <div class="g-footer2">
+                    <dl class="m-footer-dl">
+                        <dt><em class="i-f-icon i-f-icon6 "></em>新手指南</dt>
+                        <dd><a href="http://www.kaixinbao.com/about/xszn/index.shtml#xszn1" target="_blank"
+                               rel="nofollow">如何注册</a>
+                            <a href="http://www.kaixinbao.com/about//xszn/index.shtml#xszn4" target="_blank"
+                               rel="nofollow">如何投保</a>
+                            <a href="http://www.kaixinbao.com/about/xszn/index.shtml#xszn3" target="_blank"
+                               rel="nofollow">找回密码</a></dd>
+                    </dl>
+                    <dl class="m-footer-dl">
+                        <dt><em class="i-f-icon i-f-icon7 "></em>支付帮助</dt>
+                        <dd><a href="http://www.kaixinbao.com/about/4/index.shtml#zfbz2" target="_blank" rel="nofollow">支付方式</a><a
+                                href="http://www.kaixinbao.com/about/4/index.shtml#zfbz1" target="_blank"
+                                rel="nofollow">支付说明</a></dd>
+                    </dl>
+                    <dl class="m-footer-dl">
+                        <dt><em class="i-f-icon i-f-icon8 "></em>保单服务</dt>
+                        <dd><a href="http://www.kaixinbao.com/ddkscx/" target="_blank" rel="nofollow">保单查询</a>
+                            <a href="http://www.kaixinbao.com/ddkscx/" target="_blank" rel="nofollow">保单验真</a>
+                            <a href="http://www.kaixinbao.com/about/1/index.shtml#yxxg2" target="_blank" rel="nofollow">变更与取消</a>
+                            <a href="http://www.kaixinbao.com/about/1/index.shtml#yxxg1" target="_blank" rel="nofollow">保单寄送</a>
+                        </dd>
+                    </dl>
+                    <dl class="m-footer-dl">
+                        <dt><em class="i-f-icon i-f-icon9 "></em>理赔服务</dt>
+                        <dd><a href="http://www.kaixinbao.com/about/2/index.shtml#lpbz1" target="_blank" rel="nofollow">理赔指南</a><a
+                                href="http://www.kaixinbao.com/lpzs/index.shtml" target="_blank" rel="nofollow">理赔报案</a>
+                            <a href="http://www.kaixinbao.com/lpzs/index.shtml" target="_blank" rel="nofollow">理赔案例</a>
+                        </dd>
+                    </dl>
+                    <dl class="m-footer-dl">
+                        <dt><em class="i-f-icon i-f-icon10 "></em>服务中心</dt>
+                        <dd><a href="http://www.kaixinbao.com/about/3/dayizonghui/253398.shtml" target="_blank"
+                               rel="nofollow">发票索取</a>
+                            <a href="http://www.kaixinbao.com/about/3/dayizonghui/index.shtml" target="_blank"
+                               rel="nofollow">常见问题</a>
+                        </dd>
+                    </dl>
+                    <div class="m-WeChatImg">
+                        <p><em class="icon_01"></em><span><img
+                                src="https://resource.kaixinbao.com/images/redesign/wechart.gif" alt="">关注微信了解新资讯</span>
+                        </p>
+                        <p><em class="icon_02"></em><span><img
+                                src="https://resource.kaixinbao.com/images/redesign/app.png" alt="">下载APP投保快捷省心</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="clear h20"></div>
+                <div class="clear h20"></div>
+                <!-- 热门专题 -->
+            </div>
+        </div>
+        <!-- 底部 -->
+        <div class="g-btn-footer">
+            <div class="g-weaper">
+                <div class="g-f-left">
+                    <div class="botlink02">
+                        <ul class="clearfix">
+                            <li><a href="http://www.kaixinbao.com/other/about/" rel="nofollow">关于开心保</a></li>
+                            <li>|</li>
+                            <li><a href="http://www.kaixinbao.com/other/news/" rel="nofollow">开心保要闻</a></li>
+                            <li>|</li>
+                            <!--<li><a href="http://www.kaixinbao.com/other/jobs/" rel="nofollow">加入开心保</a></li>
+                            <li>|</li>-->
+                            <li><a href="http://www.kaixinbao.com/other/sitemap/">网站地图</a></li>
+                            <li>|</li>
+                            <li><a href="http://www.kaixinbao.com/other/legal/" rel="nofollow">法律声明</a></li>
+                            <li>|</li>
+                            <li><a href="http://www.kaixinbao.com/other/contact/" rel="nofollow">联系我们</a></li>
+                            <li>|</li>
+                            <!-- 				<li><a href="http://u.kaixinbao.com/" target="_blank" rel="nofollow">分销联盟</a></li>
+                                                <li>|</li> -->
+                            <!-- <li><a href="http://kaixinbao.tmall.com/" target="_blank" rel="nofollow">开心保天猫店</a></li>
+                            <li>|</li>
+                            <li><a href="http://temai.kaixinbao.com/" target="_blank" rel="nofollow">特价机票</a></li>
+                            <li><a href="http://wap.kaixinbao.com/" target="_blank" >移动版</a></li> -->
+                            <li><a href="http://www.kaixinbao.com/yxhd/isl-tra/" target="_blank" rel="nofollow">微信版</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="copyright">
+                        <div class="copyrightright"><a href="https://resource.kaixinbao.com/images/bxdlywxkz.jpg"
+                                                       target="_blank" rel="nofollow">保险代理业务许可证</a>&nbsp;&nbsp;<a
+                                href="http://www.miitbeian.gov.cn" target="_blank" rel="nofollow">辽ICP备12007009号-1</a>&nbsp;&nbsp;<a
+                                href="https://resource.kaixinbao.com/images/qyfryyzz.jpg" target="_blank"
+                                rel="nofollow">企业营业执照</a>&nbsp;&nbsp;<a
+                                href="https://resource.kaixinbao.com/images/icp.jpg" target="_blank" rel="nofollow">ICP经营许可证(辽B2-20120076)</a>
+                        </div>
+                        <div class="copyrightleft">Copyright 2012-2019 版权所有 网金保险销售服务有限公司</div>
+                    </div>
+                </div>
+                <div class="g-f-right">
+                    <ul class="sl-floatcenter">
+                        <li class="sl-floatcenter-item">
+                            <a href="https://v.pinpaibao.com.cn/cert/site/?site=www.kaixinbao.com&amp;at=business"
+                               target="_blank" rel="nofollow"><img
+                                    src="http://resource.kaixinbao.com/upload/Image/xrwz/2012/12/gw.png" width="83"
+                                    height="30">
+                            </a>
+                        </li>
+
+                        <li class="sl-floatcenter-item"><a
+                                href="http://www.circ.gov.cn/tabid/5171/InfoID/210753/frtid/4491/Default.aspx"
+                                target="_blank" rel="nofollow"><img
+                                src="http://resource.kaixinbao.com/upload/Image/xrwz/2012/12/2582921308.png" width="90"
+                                height="37"></a></li>
+
+                        <!-- <li class="sl-floatcenter-item"><a href="http://www.itrust.org.cn/yz/pjwx.asp?wm=1594416088"
+                                                                               target="_blank" rel="nofollow"><img
+                                                    src="http://resource.kaixinbao.com/upload/Image/xrwz/2012/12/2582937061.png" width="37"
+                                                    height="37"/></a></li> -->
+
+                        <li class="sl-floatcenter-item"><a
+                                href="http://wljg.lngs.gov.cn/iciaicweb/dzbscheck.do?method=change&amp;id=E2014111300054343"
+                                target="_blank" rel="nofollow"><img
+                                src="http://resource.kaixinbao.com/upload/Image/xrwz/2014/12/298851182.png" width="37"
+                                height="37"></a></li>
+
+                        <li class="sl-floatcenter-item"><a
+                                href="http://si.trustutn.org/info?sn=618161121025629572164&amp;certType=1"
+                                target="_blank" rel="nofollow"><img
+                                src="http://resource.kaixinbao.com/upload/Image/xrwz/2016/11/3061644601.png" width="90"
+                                height="37"></a></li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div id="fix_nav" class="fix_nav" style="right: 114.5px;">
+        <a class="fix-onlineqq " href="javascript:void(0);" vlpageid="xiaoneng" rel="nofollow"
+           exturl="http://www.kaixinbao.com/xiaoneng" id="qqwap1" onclick="return(VL_FileDL(this));return false;">
+            <img class="anim_fade_image" src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_01.jpg">
+            <img src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_01_on.jpg">
+        </a>
+        <span class="fix-RichScan">
+                    <img class="anim_fade_image" src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_02.jpg">
+                    <img src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_02_on.jpg">
+                    <div style="display: none;" class="weixinDiv tagshow"><img
+                            src="https://resource.kaixinbao.com/images/wxnew.png">绑微信送积分</div>
+                </span>
+        <span class="fix-top" id="gotop">
+                    <img class="anim_fade_image" src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_03.jpg">
+                    <img src="https://resource.kaixinbao.com/images/wj_kxb/icon_isp_03_on.jpg">
+                </span>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="https://resource.kaixinbao.com/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" rel="script" th:src="@{/js/CommonHeader.js}"></script>
+<!--弹出层及滑动-->
+<script type="text/javascript" src="https://resource.kaixinbao.com/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="https://resource.kaixinbao.com/js/artDialog.js"></script>
+<script type="text/javascript" src="https://resource.kaixinbao.com/js/iframeTools.js"></script>
+<script type="text/javascript" src="https://resource.kaixinbao.com/js/redesign/re_footer.js"></script>
+<script type="text/javascript" src="https://resource.kaixinbao.com/js/redesign/re_base.js?version=20160930"></script>
+<!--表单插件-->
+<script type="text/javascript"
+        src="http://resource.kaixinbao.com/js/template/shop/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="https://resource.kaixinbao.com/js/jquery.form.js"></script>
+<!--表单验证-->
+<script type="text/javascript" src="http://resource.kaixinbao.com/js/template/common/js/jquery.jqDnR.js"></script>
+<script type="text/javascript" src="http://resource.kaixinbao.com/js/template/common/js/jquery.jqModal.js"></script>
+<!--表单提交-->
+<script type="text/javascript" th:inline="javascript">
+
+    /**
+     * 校验证件号码
+     * @param idtype 类型
+     * @param idCode id
+     * @param birthdayId 生日
+     * @param sexId 性别
+     * @param cFlag
+     * @returns {Boolean}
+     */
+    function idcheck(idtype, idCode, birthdayId, sexId, cFlag) {
+        if (jQuery("#" + idCode).parent().children("font")) {
+            jQuery("#" + idCode).parent().children("font").hide();
+        }
+        str = document.getElementById(idCode).value;
+        var idType = document.getElementById(idtype);
+        var idType_index = idType.selectedIndex;
+        var idType_value = idType.options[idType_index].text;
+        var idType_id = idType.options[idType_index].id;
+        var flag = true;
+        str = jQuery.trim(str);
+        var StrLast = str.substring(str.length - 1);
+        if (jQuery("#" + idCode).parent().children("i")) {
+            jQuery("#" + idCode).parent().children("i").remove();
+        }
+        if (idType_value.indexOf("身份证") != -1) {
+
+            if (str.length == 18) {
+
+                    if (StrLast == 'x') {
+                        if (!jQuery("#" + idCode).parent().children("label").next().is('i')) {
+                            jQuery("#" + idCode).parent().children("label").after(jQuery("<i class=\"yz_mes_error\">身份证有误,身份证号码最后一位请输入大写:X</i>"));
+                        }
+                        return false;
+                    } else {
+                        if (!jQuery("#" + idCode).parent().children("label").next().is('i')) {
+                            jQuery("#" + idCode).parent().children("label").after(jQuery("<i class=\"yz_mes_yes\">&nbsp;&nbsp;</i>"));
+                        }
+                    }
+                var sex = '';
+                var sexName = jQuery("#" + sexId).attr("name");
+                // 身份证对应性别
+                var strSex = "";
+                if (str.substring(16, 17) % 2 == 0 || str.substring(16, 17).toLowerCase() == 'x') {
+                    strSex = "女";
+
+                } else {
+                    strSex = "男";
+
+                }
+                var year = str.substring(6, 10);
+                var month = str.substring(10, 12);
+                var day = str.substring(12, 14);
+                var checkSex = jQuery("input[name=" + sexName + "] :checked");
+                sex = checkSex.val();
+
+
+            } else {
+                if (!jQuery("#" + idCode).parent().children("label").next().is('i')) {
+                    jQuery("#" + idCode).parent().children("label").after(jQuery("<i class=\"yz_mes_error\">一定要填写18位有效身份证号码哟，请仔细检查一下</i>"));
+                }
+                return false;
+            }
+
+        }
+        if (!flag) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    function applicantDate(){
+        WdatePicker({skin:'whyGreen',minDate:'1900-1-1',maxDate:'%y-%M-{%d-1}'});
+    }
+    //计算产品到期日期
+    function insuredDate() {
+
+        var section = [[${map.section}]];
+        section = section.split("-");
+        var min = section[0];
+        var max = parseInt(section[1].replace(/[^0-9]/ig, ""));
+
+        var mindate = new Date();
+        var maxdate = new Date();
+
+        mindate.setFullYear(new Date().getFullYear() - max);
+        maxdate.setFullYear(new Date().getFullYear() - min);
+
+        WdatePicker({skin: 'whyGreen', minDate: mindate.toLocaleDateString(), maxDate: maxdate.toLocaleDateString()});
+    }
+    function startAndEndDate() {
+
+        var ddd = new Date();
+        var mouth = ddd.getMonth()+1;
+        var day = ddd.getDate()+1
+
+        if (mouth < 10) {
+            var month = "0" + (mouth);
+        }
+
+        if (day < 10) {
+            var day = "0" + (day);
+        }
+        var start = ddd.getFullYear() + "-" + month + "-" + day;
+
+        var deadline = parseInt($("#deadline").text().replace(/[^0-9]/ig, ""));
+        var end = ddd.getFullYear() + deadline + "-" + month + "-" + day;
+
+
+        $("#effective").val(start);
+        $("#fail_").val(end);
+        $("#ensureDate_em").text("( 从" + start + " 00时起到" + end + " 24时为止 )");
+        $("#ensureDate").html("从&nbsp;&nbsp;&nbsp;" + start + "&nbsp;&nbsp;&nbsp;00时起到&nbsp;&nbsp;&nbsp;" + end + " &nbsp;&nbsp;&nbsp;24时为止");
+    }
+
+    /**
+     * 快速查询投保人信息
+     */
+    function quickQueryAppnt(obj) {
+
+    }
+
+    /*        var checkboxName = jQuery(obj).attr("name");
+        jQuery(':checkbox[name=' + checkboxName + ']').removeAttr('checked');
+        jQuery(obj).attr('checked', 'checked');
+
+
+        if (
+            jQuery("#zhm_name")) {
+            jQuery("#zhm_name").html(jQuery("#applicantName").val());
+        }*/
+
+    /**
+     * 快速查询被保人信息
+     */
+    function quickQueryInsured(obj){
+
+        var insuredId = obj.value;
+
+        var objList = [[${recognizee}]];
+
+        var element = ["recognizeeId", "recognizeeName_0", "recognizeeSex_0", "recognizeeId_0", "recognizeeMobile_0", "recognizeeBirthday_0", "recognizeeMail_0", "recognizeeUserId"];
+
+        $.each(objList,function(i,dom){
+
+            if(insuredId==dom.applicantId){
+
+                $("#" + element[0]).val(dom.applicantId);
+                $("#" + element[1]).val(dom.applicantName);
+                $("#" + element[2]).val(dom.applicantSex);
+                $("#" + element[3]).val(dom.applicantIdentity);
+                $("#" + element[4]).val(dom.applicantPhone);
+                $("#" + element[5]).val(dom.applicantBirthday);
+                $("#" + element[6]).val(dom.applicantEmail);
+                $("#" + element[7]).val(dom.applicantUserId);
+
+
+            }
+
+        })
+        //eachReadonly("#insurance_0",true);
+        validate();
+    }
+
+    function validate(){
+        verifyInput3();
+    }
+
+
+/*
+    function eachReadonly(id,flag){
+
+        $(id).find("input[type=text]").attr("readonly",flag);;
+
+    }
+*/
+
+
+    function clearText(id){
+        $(id).find("input[type=text]").val("");
+        validate();
+    }
+
+
+    /**
+     * 校验提示信息.
+     * @param cId
+     * @return
+     */
+    function errorMessage(idCode, msg) {
+        jQuery("#" + idCode).parent().children("label").after(jQuery("<i class=\"yz_mes_error\">" + msg + "</i>"));
+        return false;
+    }
+
+    /**
+     * 清除错误信息.
+     * @param idCode
+     * @return
+     */
+    function clearMessage(idCode) {
+        if (jQuery("#" + idCode).parent().children("i")) {
+            jQuery("#" + idCode).parent().children("i").remove();
+        }
+    }
+
+    /**
+     * 邮箱提示
+     * @param idCode
+     * @return
+     */
+    (function ($) {
+        $.fn.autoMail = function (options) {
+            var opts = $.extend({}, $.fn.autoMail.defaults, options);
+            return this.each(function () {
+                var $this = $(this);
+                var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+
+                var top = $this.offset().top + $this.height() + 6;
+                var left = $this.offset().left;
+                var $mailBox = $('<div id="mailBox" style="top:' + top + 'px;left:' + left + 'px;width:' + $this.width() + 'px"></div>');
+                $('body').append($mailBox);
+
+                //设置高亮li
+                function setEmailLi(index) {
+                    $('#mailBox li').removeClass('cmail').eq(index).addClass('cmail');
+                }
+
+                //初始化邮箱列表
+                var emails = o.emails;
+                var init = function (input) {
+                    //取消浏览器自动提示
+                    input.attr('autocomplete', 'off');
+                    //添加提示邮箱列表
+                    if (input.val() != "") {
+                        var emailList = '<p>请选择邮箱类型</p><ul>';
+                        for (var i = 0; i < emails.length; i++) {
+                            emailList += '<li>' + input.val() + '@' + emails[i] + '</li>';
+                        }
+                        emailList += '</ul>';
+                        $mailBox.html(emailList).show(0);
+                    } else {
+                        $mailBox.hide(0);
+                    }
+                    //添加鼠标事件
+                    $('#mailBox li').hover(function () {
+                        $('#mailBox li').removeClass('cmail');
+                        $(this).addClass('cmail');
+                    }, function () {
+                        $(this).removeClass('cmail');
+                    }).click(function () {
+                        input.val($(this).html());
+                        $mailBox.hide(0);
+                    });
+                }
+                //当前高亮下标
+                var eindex = -1;
+                //监听事件
+                $this.focus(function () {
+                    if ($this.val().indexOf('@') == -1) {
+                        init($this);
+                    } else {
+                        $mailBox.hide(0);
+                    }
+                }).blur(function () {
+                    setTimeout(function () {
+                        $mailBox.hide(0);
+                    }, 1000);//
+                }).keyup(function (event) {
+                    if ($this.val().indexOf('@') == -1) {
+                        //上键
+                        if (event.keyCode == 40) {
+                            eindex++;
+                            if (eindex >= $('#mailBox li').length) {
+                                eindex = 0;
+                            }
+                            setEmailLi(eindex);
+                            //下键
+                        } else if (event.keyCode == 38) {
+                            eindex--;
+                            if (eindex < 0) {
+                                eindex = $('#mailBox li').length - 1;
+                            }
+                            setEmailLi(eindex);
+                            //回车键
+                        } else if (event.keyCode == 13) {
+                            if (eindex >= 0) {
+                                $this.val($('#mailBox li').eq(eindex).html());
+                                $mailBox.hide(0);
+                            }
+                        } else {
+                            eindex = -1;
+                            init($this);
+                        }
+                    } else {
+                        $mailBox.hide(0);
+                    }
+                    //如果在表单中，防止回车提交
+                }).keydown(function (event) {
+                    if (event.keyCode == 13) {
+                        return false;
+                    }
+                });
+            });
+        }
+        $.fn.autoMail.defaults = {
+            emails: []
+        }
+    })(jQuery);
+    jQuery(document).ready(function () {
+        jQuery('#applicantMail,#recognizeeMail_0').autoMail({
+            emails: ['qq.com', '163.com', '126.com', 'hotmail.com', 'sina.com', '139.com', 'gmail.com', 'sohu.com']
+        });
+
+        // 详细页传购买份数时直接赋值
+        if (jQuery("#insMult").html() == "0" || jQuery("#insMult").html() == undefined || jQuery("#insMult").html() == "") {
+            jQuery("#insMult").html(jQuery("#recognizeeMul_0").val());
+        }
+
+        // 初始化判断有提示的文本框内是否有文字 有则去掉提示框
+        jQuery(".pos-tb-p input").each(function (index, el) {
+            if (jQuery(el).val() != "") {
+                jQuery(el).parent().siblings(".app_mobile").hide();
+            } else {
+                jQuery(el).parent().siblings(".app_mobile").show();
+            }
+        });
+    });
+
+    /**
+     * 点击邮件提示输入后 出发邮箱失去焦点以验证邮箱是否正确。
+     */
+    jQuery("#mailBox li").live('click', function () {
+        jQuery("#applicantMail,#recognizeeMail_0").blur();
+    });
+    jQuery(".pos-tb-p input").focus(
+        function () {
+            jQuery(this).parent().siblings(".app_mobile").hide();
+        })
+    jQuery(".pos-tb-p input").blur(function () {
+        if (jQuery(this).val() != "") {
+            jQuery(this).parent().siblings(".app_mobile").hide();
+        } else {
+            jQuery(this).parent().siblings(".app_mobile").show();
+
+        }
+    });
+    jQuery("#recognizeeRelation_0").change(function () {
+        var myself = $(this).val();
+        if (myself == 00) {
+            $(this).parent().siblings().hide();
+        } else {
+            $(this).parent().siblings().show();
+        }
+    })
+
+    jQuery(function () {
+
+        //头部显示用户信息
+        var happyuser=$("#aab").text();
+
+        if(happyuser.length>0){
+            $("#notLogin").css("display","none");
+            $("#yesLogin").css("display","block");
+        }
+
+        startAndEndDate();
+        var object = [[${applicant}]];
+        if (object) {
+            var element = ["applicant_Id", "applicantName", "applicantSex", "applicantId", "applicantMobile", "applicantBirthday", "applicantMail", "applicantUserId"]
+
+            $("#" + element[0]).val(object.applicantId);
+            $("#" + element[1]).val(object.applicantName);
+            $("#" + element[2]).val(object.applicantSex);
+            $("#" + element[3]).val(object.applicantIdentity);
+            $("#" + element[4]).val(object.applicantPhone);
+            $("#" + element[5]).val(object.applicantBirthday);
+            $("#" + element[6]).val(object.applicantEmail);
+            $("#" + element[7]).val(object.applicantUserId);
+
+        }
+
+        /**
+         * 提交Form表单
+         */
+        jQuery("#confirm").click(function () {
+
+            verifyInput();
+            verifyInput2();
+            verifyInput3();
+
+            var flag = true;
+            //非法验证
+            var reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");
+            var vilidate = $("p>i[class]");
+            $.each(vilidate, function (i, dom) {
+                if (reg.test($(dom).text())) {
+                    flag = false;
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+
+
+            //非空判断
+            var form = $("#sdinformationAppnt,#sdinformationinsured");
+            for (var i = 0; i < form.length; i++) {                               //form, function (i, dom)
+                var text = $(form[i]).find("input[type='text']");
+                text.each(function (i, dom) {
+                    var d = $(dom).val();
+                    if (!d) {
+                        flag = false;
+                        return false;
+                    }
+                })
+            }
+
+
+            //document:loginForm.submit()
+            if(flag){
+                $("#orderInfoForm").submit();
+            }
+        })
+
+
+    })
+
+
+
+
+
+</script>
+
+</html>

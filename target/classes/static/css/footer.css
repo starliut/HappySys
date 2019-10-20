@@ -1,0 +1,274 @@
+@charset "utf-8";
+
+/* ==== 优势介绍 ==== */
+#advantage-box {
+	padding: 40px 0;
+	background: #fff;
+	overflow: hidden;
+}
+.wearper-box {
+	width: 1200px;
+	margin: 0 auto;
+}
+.advantage-dl {
+	width: 200px;
+	float: left;
+	margin-left: 50px;
+}
+.advantage-dl:first-child {
+	margin-left: 0;
+}
+.advantage-dl dt {
+	float: left;
+	width: 60px;
+}
+.advantage-dl dt img {
+	width: 45px;
+}
+.advantage-dl dd.active {
+	width: 130px;
+	float: left;
+}
+.advantage-dl dd p {
+	font-size: 16px;
+	color: #fd8824;
+	line-height: 24px;
+}
+.advantage-dl dd span {
+	display: block;
+	padding-top: 2px;
+	font-size: 13px;
+	color: #666;
+}
+/* ==== /优势介绍 ==== */
+
+/* ==== 友情链接 ==== */
+#frined-box {
+	height: 184px;
+	background: #202020;
+}
+.frined-link-con {
+	width: 1200px;
+	height: 184px;
+	margin: 0 auto;
+	border-bottom: 1px solid #2f2f2f;
+}
+.frined-link-con .tab-title {
+	padding: 40px 0 20px;
+	border-bottom: 1px solid #2f2f2f;
+	overflow: hidden;
+}
+.frined-link-con .tab-title ul {
+	float: left;
+	overflow: hidden;
+}
+.frined-link-con .tab-title ul::after {
+	display: block;
+	content: '.';
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.frined-link-con .tab-title li {
+	float: left;
+	height: 13px;
+	padding: 0 15px;
+	border-left: 1px solid #4c4c4c;
+	line-height: 13px;
+}
+.frined-link-con .tab-title li:first-child {
+	padding: 0 15px 0 0;
+	border-left: 0;
+}
+.frined-link-con .tab-title li a {
+	font-size: 14px;
+	color: #fff;
+}
+.frined-link-con .tab-title li a:hover {
+	color: #ffa940;
+}
+.frined-link-con .tab-title p {
+	float: right;
+	color: #ffa940;
+}
+.frined-link-con .tab-list {
+	height: 108px;
+}
+.frined-link-con .tab-list ul {
+	padding: 30px 0 0;
+	overflow: hidden;
+}
+.frined-link-con .tab-list li {
+	float: left;
+	margin: 0 20px 10px 0;
+}
+.frined-link-con .tab-list li a {
+	height: 12px;
+	font-size: 12px;
+	color: #7c7c7c;
+}
+.frined-link-con .tab-list li a:hover {
+	color: #aaa;
+}
+/* ==== /友情链接 ==== */
+
+/* ==== 快速入口 ==== */
+#fastTrack-box {
+	padding: 50px 0;
+	background: #f8f8f8;
+}
+.track-con {
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.track-con dl {
+	float: left;
+	width: 80px;
+	margin-right: 78px;
+	font-size: 14px;
+}
+.track-con dt {
+	padding-bottom: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	position: relative;
+	color: #333;
+}
+.track-con dd {
+	line-height: 20px;
+}
+.track-con dd a {
+	display: block;
+	line-height: 30px;
+	color: #666;
+}
+.track-con dd a:hover {
+	color: #ef7f20;
+}
+.track-con-WeChatImg {
+	float: right;
+	width: 300px;
+	overflow: hidden;
+	text-align: center;
+}
+.track-con-WeChatImg p {
+	float: left;
+	width: 120px;
+	line-height: 18px;
+	color: #333;
+	margin-left: 30px;
+}
+.track-con-WeChatImg p img {
+	display: inline-block;
+	width: 120px;
+	height: 120px;
+}
+.track-con-WeChatImg p span {
+	display: block;
+	width: 120px;
+	margin-top: 2px;
+	text-align: center;
+	font-size: 13px;
+	color: #333;
+}
+.track-con-WeChatImg .icon1 {
+	display: inline-block;
+	width: 33px;
+	height: 33px;
+	margin-right: 15px;
+	background: url(../images/icon_footer_06.png) no-repeat left top;
+	vertical-align: top;
+}
+.track-con-WeChatImg .icon2 {
+	display: inline-block;
+	width: 33px;
+	height: 33px;
+	margin-right: 15px;
+	background: url(../images/icon_footer_07.png) no-repeat left top;
+	vertical-align: top;
+}
+.track-con .icons {
+	width: 20px;
+	height: 20px;
+	background: url(../images/icon_footer_01.png) no-repeat left top;
+	display: block;
+	position: absolute;
+	top: -2px;
+	left: -30px;
+}
+.track-con .icons1 {
+	background: url(../images/icon_footer_01.png) no-repeat left top;
+}
+
+.track-con .icons2 {
+	background: url(../images/icon_footer_02.png) no-repeat left top;
+}
+
+.track-con .icons3 {
+	background: url(../images/icon_footer_03.png) no-repeat left top;
+}
+
+.track-con .icons4 {
+	background: url(../images/icon_footer_04.png) no-repeat left top;
+}
+
+.track-con .icons5 {
+	background: url(../images/icon_footer_05.png) no-repeat left top;
+}
+/* ==== /快速入口 ==== */
+
+/* ==== 网站底部 ==== */
+#footer-box {
+	background: #202020;
+	padding: 35px 0 35px;
+	overflow: hidden;
+}
+.footer-con {
+	width: 1200px;
+	margin: 0 auto;
+}
+.footer-con ul {
+	float: left;
+	margin-bottom: 12px;
+}
+.footer-con ul::after {
+	display: block;
+	content: '.';
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.footer-con ul li {
+	float: left;
+	height: 10px;
+	padding: 0 10px;
+	border-left: 1px solid #4c4c4c;
+	line-height: 10px;
+	font-size: 11px;
+	color: #7c7c7c;
+}
+.footer-con ul li:first-child {
+	padding-left: 0;
+	border-left: none;
+}
+.footer-con ul li a {
+	position: relative;
+	font-size: 11px;
+	color: #7c7c7c;
+	vertical-align: top;
+}
+.footer-con ul li a:hover {
+	color: #aaa;
+}
+.footer-con ul:first-child li:first-child a {
+	padding-left: 20px;
+}
+.footer-con ul:first-child li:first-child img {
+	position: absolute;
+	top: -1px;
+	left: 0;
+	width: 16px;
+	height: 16px;
+}
+/* ==== /网站底部 ==== */

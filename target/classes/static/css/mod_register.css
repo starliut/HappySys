@@ -1,0 +1,268 @@
+@charset "utf-8";
+@import url(mod_login_common.css);
+#login-box{
+    height: 600px;
+    background: url("../images/loginbg_02.jpg") no-repeat top center;
+}
+.mod-login{
+    width: 1200px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+.mod-login-box{
+    width: 350px;
+    float: right;
+    background: #fff;
+}
+.mod-login-box .validate{
+    padding: 35px 25px 15px;
+}
+.mod-login-box .orther{
+    margin-top: 50px;
+    padding: 0;
+    overflow: hidden;
+}
+.mod-login-box .orther li{
+    width:70px;
+    height: 40px;
+    float: left;
+    position: relative;
+}
+.mod-login-box .validate .iconfont{
+    position: absolute;
+    top: 0;
+    left: 8px;
+    line-height: 40px;
+    font-weight: normal;
+    color: #dedede;
+    font-size: 26px;
+}
+.validate li{
+    margin-bottom: 22px;
+    position: relative;
+}
+.validate input{
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+    border: 1px solid #d5d5d5;
+    padding-left:10px;
+    color: #333;
+}
+.registerbtn{
+    display: block;
+    margin: 0 25px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    background: url("../images/btnbgs_11.png") repeat-y;
+    border-radius: 4px;
+}
+.registerbtn:hover{
+    opacity: 0.9;
+}
+.loginbox{
+    display: none;
+}
+.mod-login-box .nav .sel{
+    border-bottom: 2px solid #f7832f;
+    color: #f7832f;
+}
+.mod-login-box .orther .iconfont{
+    font-size: 26px;
+    margin-left: 14px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 48px;
+}
+.mod-login-box .orther{
+    padding-left: 32px;
+    background: #f8f8f8;
+    height: 50px;
+}
+
+.mod-login-box .orther .iconfont:first-child{
+    margin-left: 30px;
+}
+.mod-login-box .orther li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.mod-login-box .orther .iconfont:first-child{
+    margin-left: 30px;
+}
+.icon-weixin{
+    color: #3cb035;
+}
+.icon-QQ{
+    color: #f76863;
+}
+.icon-zhifubao{
+    color: #3f98ff;
+}
+.icon-weibo{
+    color: #ff8325;
+}
+.validate .error{
+    color: #ff5758;
+    position: absolute;
+    width: 300px;
+    height: 42px;
+    background: #fff;
+    top: 0;
+    left: 0;
+    padding-left: 35px;
+    line-height: 40px;
+    border: 1px solid #ff5758;
+}
+.validate .error .iconfont{
+    color: #ff5758;
+    font-size: 20px;
+}
+.validate .i-th:before{
+    content: "\e6d4";
+}
+.validate  .btn-send{
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: 1px solid #dddddd;
+    width: 116px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    background: #f8f8f8;
+/*    color: #666;
+    cursor: pointer;*/
+}
+.validate  .imgcode{
+    display: block;
+    position: absolute;
+    right:6px;
+    border-radius: 0 4px 4px 0;
+    top: 1px;
+    width: 116px;
+    height: 42px;
+    cursor: pointer;
+}
+.validate .imgcode img{
+    width: 120px;
+    height: 40px;
+}
+.validate .short input{
+    width: 170px;
+}
+.validate .short .error{
+    width: 170px;
+}
+.validate  .nagtive{
+    background: #b6b6b6;
+    color: #fff;
+    cursor: no-drop;
+}
+.validate  .nagtive:hover{
+    background: #b6b6b6;
+}
+.mod-login-box .loginlink{
+    margin: 0 25px;
+    height: 30px;
+    line-height: 30px;
+    text-align: right;
+}
+.mod-login-box .loginlink a{
+    color: #fd8824;
+}
+.mod-login-box .loginlink a:hover{
+    text-decoration: underline;
+}
+.mod-login-box .agreement{
+    margin: 0 25px;
+    position: relative;
+    top: -37px;
+    color: #888;
+    height: 30px;
+    line-height: 40px;
+    padding-left: 25px;
+}
+.mod-login-box .agreement a{
+    color: #ff6b00;
+}
+.mod-login-box .agreement a:hover{
+   color: #ff9142;
+}
+.mod-login-box .agreement input{
+    display: none;
+}
+.mod-login-box .agreement .iconfont{
+    font-size: 19px;
+    font-weight: normal;
+    position: absolute;
+    left:0px;
+    top: 0px;
+}
+.mod-login-box .sel .icon-kongxin:before{
+    content: "\e6a5";
+    font-size: 20px;
+    color: #ff852c;
+}
+.mod-login-box .agreement  span{
+    cursor: pointer;
+}
+.mod-login-box .orther li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.mod-login-box .orther li:hover{
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+.mod-login-box .validate .icon-suo{
+    font-size: 24px;
+}
+.mod-login-box .validate .icon-shoujihaoma,
+.mod-login-box .validate .icon-yuechi{
+    top: 2px;
+}
+.validate .error{
+    mso-ansi-font-weight: normal;
+}
+.validate .error .iconfont{
+    position: relative;
+    left: 0;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.__validate div[class^=error] strong{
+    font-weight: normal;
+}
+.orther span{
+    font-size: 14px;
+    vertical-align: middle;
+    color:#666;
+}
+.orther .iconfont:before{
+    vertical-align: middle;
+}
+.orther i{
+    display: block;
+    width: 1px;
+    height: 12px;
+    background:#ebebeb;
+    position: absolute;
+    left: 80px;
+    top: 20px;
+}
+.orther .iconfont:first-child i{
+    left: 74px;
+}
