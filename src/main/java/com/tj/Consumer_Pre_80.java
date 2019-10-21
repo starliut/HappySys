@@ -25,7 +25,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 public class Consumer_Pre_80 {
 
  public static void main(String[] args) {
-  SpringApplication.run(Consumer_Pre_80.class,args);
+     System.out.println("hello world");
+     SpringApplication.run(Consumer_Pre_80.class,args);
  }
 
 }
